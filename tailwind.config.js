@@ -5,7 +5,19 @@ module.exports = {
     './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        customGreen: '#0E6F1E',
+        customBlue: '#525B88',
+        customGrey: '#697696'
+      },
+      // screens: {
+      //   'sm': '640px',
+      //   'md': '768px',
+      //   'lg': '1024px',
+      //   'xl': '1280px',
+      // }
+    }
   },
   darkMode: 'class',
   plugins: [

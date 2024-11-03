@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { useStateContext } from '../Context/ContextProvider';
 import { MdOutlineKeyboardArrowDown, MdLogout } from 'react-icons/md';
-import icon from '../Images/logo.jpg'
+import bell from '../../assets/images/bell.svg';
+import settings from '../../assets/images/settings.svg';
+import profPic from '../../assets/images/profPic.svg';
 
 const Navbar = () => {
   const { activeMenu, setActiveMenu, setScreenSize, screenSize } = useStateContext();
@@ -35,7 +37,7 @@ const Navbar = () => {
 
   // getting current user
   const currentUser = window.localStorage.getItem('token');
-  const user = JSON.parse(currentUser).data.user_data;
+  const user = JSON.parse(currentUser).data;
 
   return (
     <div className='flex justify-between items-center p-1 bg-white shadow-md'>
@@ -43,22 +45,38 @@ const Navbar = () => {
         <button className='text-[#007CFF]' onClick={handleActiveMenu}><AiOutlineMenu /></button>
       </div>
       <div>
-        <div className='flex items-center space-x-2 px-3 divide-x-2 divide-[#007CFF]'>
-          <img className='rounded-full w-12 h-12' src={icon} alt='user-profile' />
+        <div className='flex items-center space-x-2 px-3'>
+          <div className="flex items-center space-x-4">
+            <button className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <img src={settings} alt='settings' className='h-6 w-6' />
+            </button>
+            <button className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <img src={bell} alt='bell' className='h-6 w-6' />
+              <span className="sr-only">View notifications</span>
+            </button>
+            <div className="relative">
+              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-white" />
+              <img
+                className="h-8 w-8 rounded-full"
+                src={profPic}
+                alt="User Avatar"
+              />
+            </div>
+          </div>
           <div className='dropdown'>
             <a className='dropdown-toggle px-4 py-1  text-black font-medium transition duration-150 ease-in-out flex items -center whitespace-nowrap ' href='/#' type='button' id='dropdownMenuButton2' data-bs-toggle='dropdown' aria-expanded='false'>
               <div className='grid'>
-                <span className='font-bold text-[#007CFF]'>{user.firstName} {user.lastName}</span>
+                <span className='font-bold text-[#007CFF]'>{user.username}</span>
                 <span className='text-green-700 font-bold'>{user.role}</span>
               </div>
               <span className='w-4 h-4 ml-auto mb-6 text-xl text-[#007CFF]'><MdOutlineKeyboardArrowDown /></span>
             </a>
             <ul className='dropdown-menu w-48 absolute  bg-white text-base z-50 float-left  py-2 list-nonetext-left  rounded-lg  shadow-lg  mt-1 hidden m-0 bg-clip-padding border-none' aria-labelledby='dropdownMenuButton2'>
               <div className='flex items-center justify-center'>
-                <img className='rounded-full w-14 h-14' src={icon} alt='user-profile' />
+                <img className='rounded-full w-14 h-14' src={profPic} alt='user-profile' />
               </div>
               <div className='grid text-center my-2'>
-                <span className='font-bold'>{user.firstName} {user.lastName}</span>
+                <span className='font-bold'>{user.username}</span>
                 <p>{user.role}</p>
               </div>
               <hr />

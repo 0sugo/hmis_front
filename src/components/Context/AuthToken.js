@@ -9,9 +9,9 @@ export default function AuthToken () {
 
     // Check if the token exists and is not expired
     if (userToken && userToken.expiresAt > new Date().getTime()) {
-      axios.defaults.headers.common.Authorization = `Bearer ${userToken.data.access_token}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${userToken.data.accessToken}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
-      return userToken?.data.access_token;
+      return userToken?.data.accessToken;
     } else {
       // Remove the token if it is expired or not present
       window.localStorage.removeItem('token');

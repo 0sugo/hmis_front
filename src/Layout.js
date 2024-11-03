@@ -5,32 +5,13 @@ import AuthToken from './components/Context/AuthToken';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
-
 import Login from './pages/Login';
+
 import Unauthorised from './pages/Unauthorised';
 import Missing from './pages/Missing';
 
 import Home from './pages/Home';
-import Users from './pages/Users/Users'
-import AddUser from './pages/Users/AddUser'
-import UpdateUser from './pages/Users/UpdateUser'
-import Appointment from './pages/Appointments/Appointment'
-import AddAppointment from './pages/Appointments/AddAppointment'
-import Patient from './pages/Patients/Patient'
-import AddPatient from './pages/Patients/AddPatient'
-import ViewPatient from './pages/Patients/ViewPatient'
-import UpdatePatient from './pages/Patients/UpdatePatient'
-import Doctor from './pages/Doctors/Doctor'
-import AddDoctor from './pages/Doctors/AddDoctor'
-import ViewDocAppointments from './pages/Doctors/ViewDocAppointments'
-import Prescription from './pages/Prescriptions/Prescription'
-import AddPrescription from './pages/Prescriptions/AddPrescription'
-import UpdatePrescription from './pages/Prescriptions/UpdatePrescription'
-import Medication from './pages/Medications/Medication'
-import PatientMedication from './pages/Medications/PatientMediacation'
-import Billing from './pages/Billing/Billing'
-import CreateBill from './pages/Billing/CreateBill'
-import Payment from './pages/Payments/Payment'
+
 
 
 const Layout = () => {
@@ -68,26 +49,7 @@ const Layout = () => {
             <Toaster position='top-center' richColors />
             <Routes>
               <Route path='/dashboard' element={<Home />} />
-              <Route path='/users' element={<Users />} />
-              <Route path='/adduser' element={<AddUser />} />
-              <Route path='/updateuser/:id' element={<UpdateUser />} />
-              <Route path='/appointments' element={<Appointment />} />
-              <Route path='/addappointment/:id' element={<AddAppointment />} />
-              <Route path='/patients' element={<Patient />} />
-              <Route path='/addpatient' element={<AddPatient />} />
-              <Route path='/viewpatient/:id' element={<ViewPatient />} />
-              <Route path='/updatepatient/:id' element={<UpdatePatient />} />
-              <Route path='/doctors' element={<Doctor />} />
-              <Route path='/adddoctor' element={<AddDoctor />} />
-              <Route path='/viewappointments/:id' element={<ViewDocAppointments />} />
-              <Route path='/prescriptions' element={<Prescription />} />
-              <Route path='/addprescription' element={<AddPrescription />} />
-              <Route path='/updateprescription/:id' element={<UpdatePrescription />} />
-              <Route path='/medications' element={<Medication />} />
-              <Route path='/addmedication/:id' element={<PatientMedication />} />
-              <Route path='/billings' element={<Billing />} />
-              <Route path='/createbill/:id' element={<CreateBill />} />
-              <Route path='/payments' element={<Payment />} />
+
               <Route path='/unauthorised' element={<Unauthorised />} />
               <Route path='*' element={<Missing />} />
             </Routes>

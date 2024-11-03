@@ -23,20 +23,26 @@
   }
 }
 
+*,
 body {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #eef1ff;
+  /* overflow-x: hidden; */
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  /* background-color: #f1f5f9; */
 }
-
-th,
-tr:nth-child(even) {
-  background-color: #eef1ff;
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 452px;
+  display: inline-block;
+  vertical-align: bottom;
 }
-
-tr:hover {
-  background-color: #eef1ff;
+.show-more {
+  cursor: pointer;
+  font-size: 10px;
+  margin-left: 5px;
 }
