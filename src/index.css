@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   h1 {
     @apply text-4xl;
     @apply font-bold;
@@ -21,9 +21,8 @@
   p {
     @apply font-light;
   }
-}
+} */
 
-*,
 body {
   padding: 0;
   margin: 0;
@@ -31,7 +30,7 @@ body {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   font-weight: 400;
-  /* background-color: #f1f5f9; */
+  background-color: #f1f5f9;
 }
 .truncated {
   white-space: nowrap;

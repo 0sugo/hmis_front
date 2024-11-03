@@ -1,7 +1,7 @@
   import React, { useState } from 'react';
   import hosp from '../../assets/images/hosp.png';
   import mainLogo from '../../assets/images/Logo.svg';
-  import { toast } from 'sonner';
+  import {toast} from 'sonner';
   import { useNavigate } from 'react-router-dom';
   import theatre from '../../assets/images/theatre.svg';
 

@@ -11,7 +11,10 @@ import Unauthorised from './pages/Unauthorised';
 import Missing from './pages/Missing';
 
 import Home from './pages/Home';
-
+import DashBoard from './pages/Doctor/Dashboard'
+import DashboardIP from './pages/Doctor/DashboardIP'
+import PatientList from './pages/Doctor/PatientList'
+import PatientInfo from './pages/doctors/DoctorsPatientView.jsx'
 
 
 const Layout = () => {
@@ -49,6 +52,10 @@ const Layout = () => {
             <Toaster position='top-center' richColors />
             <Routes>
               <Route path='/dashboard' element={<Home />} />
+              <Route path='/OPDashboard' element={<DashBoard />} />
+              <Route path='/IPDashboard' element={<DashboardIP />} />
+              <Route path='/PatientList' element={<PatientList />} />
+              <Route path='/PatientInfo' element={<PatientInfo />} />
 
               <Route path='/unauthorised' element={<Unauthorised />} />
               <Route path='*' element={<Missing />} />

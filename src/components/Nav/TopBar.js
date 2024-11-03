@@ -42,7 +42,7 @@ const Navbar = () => {
   return (
     <div className='flex justify-between items-center p-1 bg-white shadow-md'>
       <div className='text-xl rounded-full p-3'>
-        <button className='text-[#007CFF]' onClick={handleActiveMenu}><AiOutlineMenu /></button>
+        <button className='text-[#0E6F1E]' onClick={handleActiveMenu}><AiOutlineMenu /></button>
       </div>
       <div>
         <div className='flex items-center space-x-2 px-3'>
