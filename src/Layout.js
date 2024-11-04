@@ -9,12 +9,96 @@ import Login from './pages/Login';
 
 import Unauthorised from './pages/Unauthorised';
 import Missing from './pages/Missing';
-
 import Home from './pages/Home';
+
+import Departments from './pages/Admin/Departments'
+import Schemes from './pages/Admin/Schemes'
+import Vendors from './pages/Admin/Vendors'
+import Accounts from './pages/Admin/Accounts'
+import HospitalData from './pages/Admin/HospitalData'
+import ProductPriceList from './pages/Admin/ProductPriceList'
+import ToDoList from './pages/Admin/ToDoList'
+
 import DashBoard from './pages/Doctor/Dashboard'
 import DashboardIP from './pages/Doctor/DashboardIP'
 import PatientList from './pages/Doctor/PatientList'
-import PatientInfo from './pages/doctors/DoctorsPatientView.jsx'
+import PatientInfo from './pages/Doctor/PatientsInfo'
+import DoctorPatientView from './pages/Doctor/DoctorsPatientView'
+import MaternityDashboard from './pages/Doctor/MaternityDashboard'
+import DoctorDaycare from './pages/Doctor/DoctorDaycare'
+import Calculators from './pages/Doctor/Calculators'
+import PatientEducation from './pages/Doctor/PatientEducation'
+import Guidelines from './pages/Doctor/Guidelines'
+
+import NurseOpDashboard from './pages/Nurse/NurseOpDashboard'
+import OpNurseOrders from './pages/Nurse/OpNurseOrders'
+import NurseIpDashboard from './pages/Nurse/NurseIpDashboard'
+import WardTransfer from './pages/Nurse/WardTransfer'
+import DayCare from './pages/Nurse/Daycare'
+import NurseReports from './pages/Nurse/NurseReports'
+
+import Phleobotomy from './pages/Labaratory/Phleobotomy'
+import Samples from './pages/Labaratory/Samples'
+import Storage from './pages/Labaratory/Storage'
+import WorkList from './pages/Labaratory/WorkList'
+import LabInventory from './pages/Labaratory/LabInventory'
+import Reagents from './pages/Labaratory/Reagents'
+import InstrumentCalling from './pages/Labaratory/InstrumentCalin'
+import PackageShipment from './pages/Labaratory/PackageShipment'
+import Documents from './pages/Labaratory/Documents'
+import Reports from './pages/Labaratory/Reports'
+import LabManagement from './pages/Labaratory/LabManagement'
+
+import Requests from './pages/Imaging/Requests'
+import Patient from './pages/Imaging/Patient'
+import ImagingProcess from './pages/Imaging/ImagingProcess'
+import ImagingReports from './pages/Imaging/ImagingReports'
+import StoreManagement from './pages/Imaging/StoreManagement'
+
+import WalkinPrescription from './pages/Pharmacy/WalkinPrescription'
+import OpPrescription from './pages/Pharmacy/OpPrescription'
+import IpPrescription from './pages/Pharmacy/IpPrescription'
+import PhamarcyStoreManagement from './pages/Pharmacy/PhamarcyStoreManagement'
+
+import FoDashboard from './pages/FrontOffice/FoDashboard'
+import AddPatient from './pages/FrontOffice/AddPatient'
+import PatientRegistration from './pages/FrontOffice/PatientRegistration'
+import SearchPatient from './pages/FrontOffice/SearchPatient'
+
+import Request from './pages/Procurement/Request'
+import PurchaseOrder from './pages/Procurement/PurchaseOrder'
+import PriceList from './pages/Procurement/PriceList'
+import VendorList from './pages/Procurement/VendorList'
+import ProcumentAnalysis from './pages/Procurement/ProcurementAnalysis'
+import AddNewProduct from './pages/Procurement/AddNewProduct'
+import Supplier from './pages/Procurement/Supplier'
+import Notes from './pages/Procurement/Notes'
+
+import ShiftManagement from './pages/Hr/ShiftManagement'
+import Payroll from './pages/Hr/Payroll'
+import LeaveManagement from './pages/Hr/LeaveManagement'
+import EmployeeManagement from './pages/Hr/EmployeeManagement'
+import IncidentReporting from './pages/Hr/IncidentReporting'
+import AdvanceSalary from './pages/Hr/AdvanceSalary'
+import TimeAttendance from './pages/Hr/TimeAttendance'
+import Recruitment from './pages//Hr/Recruitment'
+import ReportingAnalysis from './pages/Hr/ReportingAnalysis'
+import Memos from './pages/Hr/Memos'
+import DepartmentalHeads from './pages/Hr/DepartmentHeads'
+
+import Procurement from './pages/Inventory/Procurement'
+import SupplierManagement from './pages/Inventory/SupplierManagement'
+import ProcurementAnalysis from './pages/Inventory/ProcurementAnalysis'
+import StrategicPurchasing from './pages/Inventory/StrategicPurchasing'
+
+import BillingDasboard from './pages/Billing/BillingDashboard'
+import CredirPatientBilling from './pages/Billing/CreditPatientBilling'
+import CashBilling from './pages/Billing/CashBilling'
+import ClaimManagement from './pages/Billing/ClaimManagement'
+import InpatientBilling from './pages/Billing/InpatientBilling'
+import ApprovalDesk from './pages/Billing/ApprovalDesk'
+import BillingReports from './pages/Billing/BillingReports'
+import BillQuote from './pages/Billing/BillQuote'
 
 
 const Layout = () => {
@@ -52,10 +136,106 @@ const Layout = () => {
             <Toaster position='top-center' richColors />
             <Routes>
               <Route path='/dashboard' element={<Home />} />
+
+              {/* Admin routes */}
+              <Route path='/departments' element={<Departments />} />
+              <Route path='/schemes' element={<Schemes />} />
+              <Route path='/vendors' element={<Vendors />} />
+              <Route path='/accounts' element={<Accounts />} />
+              <Route path='/hospitaldata' element={<HospitalData />} />
+              <Route path='/productpricelist' element={<ProductPriceList />} />
+              <Route path='/todolist' element={<ToDoList />} />
+
+              {/* Doctors routes */}
               <Route path='/OPDashboard' element={<DashBoard />} />
               <Route path='/IPDashboard' element={<DashboardIP />} />
               <Route path='/PatientList' element={<PatientList />} />
-              <Route path='/PatientInfo' element={<PatientInfo />} />
+              <Route path='/patientinfo' element={<PatientInfo />} />
+              <Route path='/patientview' element={<DoctorPatientView />} />
+              <Route path='/maternity-dashboard' element={<MaternityDashboard />} />
+              <Route path='/doctors-daycare' element={<DoctorDaycare />} />
+              <Route path='/calculators' element={<Calculators />} />
+              <Route path='/patienteducation' element={<PatientEducation />} />
+              <Route path='/guidelines' element={<Guidelines />} />
+
+              {/* nurse routes */}
+              <Route path='/nurse-opdashboard' element={<NurseOpDashboard />} />
+              <Route path='/opnurseorders' element={<OpNurseOrders />} />
+              <Route path='/nurse-ipdashboard' element={<NurseIpDashboard />} />
+              <Route path='/wardtransfer' element={<WardTransfer />} />
+              <Route path='/daycare' element={<DayCare />} />
+              <Route path='/nursereports' element={<NurseReports />} />
+
+              {/* Labaratory routes */}
+              <Route path='/phleobotomy' element={<Phleobotomy />} />
+              <Route path='/samples' element={<Samples />} />
+              <Route path='/storage' element={<Storage />} />
+              <Route path='/worklist' element={<WorkList />} />
+              <Route path='/labinventory' element={<LabInventory />} />
+              <Route path='/reagents' element={<Reagents />} />
+              <Route path='/instrumentcalling' element={<InstrumentCalling />} />
+              <Route path='/packageshipment' element={<PackageShipment />} />
+              <Route path='/documents' element={<Documents />} />
+              <Route path='/reports' element={<Reports />} />
+              <Route path='/labmanagement' element={<LabManagement />} />
+
+              {/* Imaging routes */}
+              <Route path='/requests' element={<Requests />} />
+              <Route path='/patient' element={<Patient />} />
+              <Route path='/imagingprocess' element={<ImagingProcess />} />
+              <Route path='/imagingreports' element={<ImagingReports />} />
+              <Route path='/storemanagement' element={<StoreManagement />} />
+
+              {/* Pharmacy routes */}
+              <Route path='/walkin-prescription' element={<WalkinPrescription />} />
+              <Route path='/op-prescription' element={<OpPrescription />} />
+              <Route path='/ip-prescription' element={<IpPrescription />} />
+              <Route path='/pharmacystoremanagemet' element={<PhamarcyStoreManagement />} />
+
+              {/* FrontOffice routes */}
+              <Route path='/fo-dashboard' element={<FoDashboard />} />
+              <Route path='/addpatient' element={<AddPatient />} />
+              <Route path='/patientregistration' element={<PatientRegistration />} />
+              <Route path='/searchpatient' element={<SearchPatient />} />
+
+              {/* Procurement routes */}
+              <Route path='/requests' element={<Request />} />
+              <Route path='/purchaseorder' element={<PurchaseOrder />} />
+              <Route path='/pricelist' element={<PriceList />} />
+              <Route path='/vendorlist' element={<VendorList />} />
+              <Route path='/procurementanalysis' element={<ProcumentAnalysis />} />
+              <Route path='/addnewproduct' element={<AddNewProduct />} />
+              <Route path='/supplier' element={<Supplier />} />
+              <Route path='/notes' element={<Notes />} />
+
+              {/* Hr routes */}
+              <Route path='/shiftmanagement' element={<ShiftManagement />} />
+              <Route path='/payroll' element={<Payroll />} />
+              <Route path='/leavemanagement' element={<LeaveManagement />} />
+              <Route path='/employeemanagement' element={<EmployeeManagement />} />
+              <Route path='/incidentreporting' element={<IncidentReporting />} />
+              <Route path='/adavancesalary' element={<AdvanceSalary />} />
+              <Route path='/timeattendance' element={<TimeAttendance />} />
+              <Route path='/recruitment' element={<Recruitment />} />
+              <Route path='/reportinganalysis' element={<ReportingAnalysis />} />
+              <Route path='/memos' element={<Memos />} />
+              <Route path='/departmentalheads' element={<DepartmentalHeads />} />
+
+              {/* Inventory routes */}
+              <Route path='/procurement' element={<Procurement />} />
+              <Route path='/suppliermanagement' element={<SupplierManagement />} />
+              <Route path='/procurementanalysis' element={<ProcurementAnalysis />} />
+              <Route path='/strategicpurchasing' element={<StrategicPurchasing />} />
+
+              {/* Billing Routes */}
+              <Route path='/billing-dashboard' element={<BillingDasboard />} />
+              <Route path='/creditpatientbilling' element={<CredirPatientBilling />} />
+              <Route path='/cashbilling' element={<CashBilling />} />
+              <Route path='/claimmanagement' element={<ClaimManagement />} />
+              <Route path='/inpatientbilling' element={<InpatientBilling />} />
+              <Route path='/approvaldesk' element={<ApprovalDesk />} />
+              <Route path='/billingreports' element={<BillingReports />} />
+              <Route path='/billquote' element={<BillQuote />} />
 
               <Route path='/unauthorised' element={<Unauthorised />} />
               <Route path='*' element={<Missing />} />

@@ -12,7 +12,7 @@ const DashboardIP = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate('/app/PatientInfo', { replace: true });
+    navigate('/app/patientview', { replace: true });
 
   }
 
@@ -48,7 +48,7 @@ const DashboardIP = () => {
   ]
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col p-4'>
       {/* Summary */}
       <div className='flex justify-between items-center w-full'>
         <div className='flex flex-col p-2 min-h-fit'>

@@ -9,7 +9,7 @@ const Unauthorised = () => {
           <h1>403 Unauthorised</h1>
           <p>...Oops you are not authorised to view this page</p>
           <br />
-          <Link to='/' className='py-2 px-5 bg-blue-700 text-white text-center'>Go Back</Link>
+          <Link to='/app/dashboard' className='py-2 px-5 bg-blue-700 text-white text-center'>Go Back</Link>
         </div>
       </div>
     </main>

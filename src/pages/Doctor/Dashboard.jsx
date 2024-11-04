@@ -810,7 +810,7 @@ const Dashboard = () => {
   };
 
   const handleIndividualPatient = () => {
-    navigate('/app/PatientInfo');
+    navigate('/app/patientview');
   }
 
   return (

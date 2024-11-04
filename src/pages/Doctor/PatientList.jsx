@@ -123,7 +123,7 @@ const PatientList = () => {
 
 
   return (
-    <div className="w-full">
+    <div className="mx-auto p-4">
       <h2 className='text-[#192252] font-medium py-4 text-xl'>Patient List</h2>
       <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between py-2 space-y-4 sm:space-y-0'>
         <div className="w-full sm:w-auto relative">
