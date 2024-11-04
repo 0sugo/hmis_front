@@ -1,10 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MdOutlineCancel, MdSpaceDashboard, MdOutlineKeyboardArrowDown, MdMedication } from 'react-icons/md';
-import { FaUsers,FaMoneyCheck,FaPrescriptionBottle,FaUserInjured, FaUserMd, FaBook, FaMoneyBillWaveAlt } from 'react-icons/fa';
+import { MdOutlineCancel, MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { FaUser, FaUserMd } from 'react-icons/fa';
+import { RiHomeOfficeFill } from "react-icons/ri";
 import { useStateContext } from '../Context/ContextProvider';
 import 'tw-elements';
 import logo from '../../assets/images/Logo.svg';
+import dashboard from '../../assets/images/doctor.svg'
+import nurse from '../../assets/images/nurse.svg';
+import lab from '../../assets/images/lab.svg';
+import imaging from '../../assets/images/imaging.svg';
+import pharmacy from '../../assets/images/pharmacy.svg';
+import dental from '../../assets/images/dental.svg';
+import dialysis from '../../assets/images/dialysis.svg';
+import ophthalmology from '../../assets/images/ophthalmology.svg';
+import specialClinics from '../../assets/images/specialClinics.svg';
+import administration from '../../assets/images/administration.svg';
+import procurement from '../../assets/images/procurement.svg';
+import hr from '../../assets/images/hr.svg';
+import inventory from '../../assets/images/inventory.svg';
+import billing from '../../assets/images/billing.svg';
+import Settings from '../../assets/images/settings.svg';
 
 const SideBar = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
@@ -29,13 +45,13 @@ const SideBar = () => {
                 <ul className='relative px-1'>
                   <li className='relative'>
                     <Link to='/app/dashboard' className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>
-                      <span className='w-4 h-4 mr-3'><MdSpaceDashboard /></span>
+                      <span className='w-4 h-4 mr-3'><img src={dashboard} alt="dashboard-icon" /></span>
                       <span>DashBoard</span>
                     </Link>
                   </li>
                   <li className='relative' id='sidenavXxEx3'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx3' aria-expanded='false' aria-controls='collapseSidenavXxEx3'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><FaUser /></span>
                       <span>Admin</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -65,7 +81,7 @@ const SideBar = () => {
                   </li>
                     <li className='relative' id='sidenavXxEx1'>
                       <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx1' aria-expanded='false' aria-controls='collapseSidenavXxEx1'>
-                        <span className='w-4 h-4 mr-3'><FaUsers /></span>
+                        <span className='w-4 h-4 mr-3'><FaUserMd /></span>
                         <span>Doctors</span>
                         <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                       </span>
@@ -98,7 +114,7 @@ const SideBar = () => {
                     </li>
                   <li className='relative' id='sidenavXxEx2'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx2' aria-expanded='false' aria-controls='collapseSidenavXxEx2'>
-                      <span className='w-4 h-4 mr-3'><FaBook /></span>
+                      <span className='w-4 h-4 mr-3'><img src={nurse} alt="nurse-icon" /></span>
                       <span>Nurse</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -125,7 +141,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx4'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx4' aria-expanded='false' aria-controls='collapseSidenavXxEx4'>
-                      <span className='w-4 h-4 mr-3'><FaUserInjured /></span>
+                      <span className='w-4 h-4 mr-3'><img src={lab} alt="lab-icon" /></span>
                       <span>Labaratory</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -167,7 +183,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx5'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx5' aria-expanded='false' aria-controls='collapseSidenavXxEx5'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={imaging} alt="imaging-icon" /></span>
                       <span>Imaging</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -191,7 +207,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx6'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx6' aria-expanded='false' aria-controls='collapseSidenavXxEx6'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={pharmacy} alt="pharmacy-icon" /></span>
                       <span>Pharmacy</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -212,7 +228,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx7'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx7' aria-expanded='false' aria-controls='collapseSidenavXxEx7'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={dental} alt="dental-icon" /></span>
                       <span>Dental</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -224,7 +240,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx8'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx8' aria-expanded='false' aria-controls='collapseSidenavXxEx8'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={dialysis} alt="dialysis-icon" /></span>
                       <span>Dialysis</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -236,13 +252,13 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx9'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx9' aria-expanded='false' aria-controls='collapseSidenavXxEx9'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-5 h-5 mr-2'><RiHomeOfficeFill /></span>
                       <span>Front Office</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
                     <ul className='relative accordion-collapse collapse' id='collapseSidenavXxEx9' aria-labelledby='sidenavXxEx9' data-bs-parent='#sidenavSecExample'>
                       <li className='relative'>
-                        <Link to='/app/fo-dashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Fo DashBoard</Link>
+                        <Link to='/app/fo-dashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>DashBoard</Link>
                       </li>
                       <li className='relative'>
                         <Link to='/app/addpatient' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Add Patient</Link>
@@ -257,7 +273,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx10'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx10' aria-expanded='false' aria-controls='collapseSidenavXxEx10'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={ophthalmology} alt="ophthalomology-icon" /></span>
                       <span>Ophtalmology</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -269,7 +285,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx11'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx11' aria-expanded='false' aria-controls='collapseSidenavXxEx11'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={specialClinics} alt="specialclinic-icon" /></span>
                       <span>Special clinics</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -281,7 +297,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx12'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx12' aria-expanded='false' aria-controls='collapseSidenavXxEx12'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={administration} alt="administration-icon" /></span>
                       <span>Administration</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -293,7 +309,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx13'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx13' aria-expanded='false' aria-controls='collapseSidenavXxEx13'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={procurement} alt="procurement-icon" /></span>
                       <span>Procurement</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -326,7 +342,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx14'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx14' aria-expanded='false' aria-controls='collapseSidenavXxEx14'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={hr} alt="hr-icon" /></span>
                       <span>HR</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -368,7 +384,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx15'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx15' aria-expanded='false' aria-controls='collapseSidenavXxEx15'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={inventory} alt="inventory-icon" /></span>
                       <span>Inventory</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -389,7 +405,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative' id='sidenavXxEx16'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx16' aria-expanded='false' aria-controls='collapseSidenavXxEx16'>
-                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span className='w-4 h-4 mr-3'><img src={billing} alt="billing-icon" /></span>
                       <span>Billing/Acounting</span>
                       <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
                     </span>
@@ -422,7 +438,7 @@ const SideBar = () => {
                   </li>
                   <li className='relative'>
                     <Link to='#' className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>
-                      <span className='w-4 h-4 mr-3'><FaMoneyCheck /></span>
+                      <span className='w-4 h-4 mr-3'><img src={Settings} alt="settings-icon" /></span>
                       <span>Settings</span>
                     </Link>
                   </li>

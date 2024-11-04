@@ -1,12 +1,10 @@
-import React, { PureComponent, useState } from 'react';
+import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie, Cell } from 'recharts';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
-import { useNavigate } from 'react-router-dom'
 import search from '../assets/images/search.svg'
 import { FaBed, FaUser, FaCalendarAlt, FaClipboardList, FaHospitalUser, FaFlask, FaHeart, FaXRay } from 'react-icons/fa';
 import { MdLocalPharmacy } from 'react-icons/md';
-import { GoPlus } from 'react-icons/go';
 import download from '../assets/images/download.svg';
 
 const Home = () => {

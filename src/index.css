@@ -2,18 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @layer base {
+@layer base {
   h1 {
     @apply text-4xl;
-    @apply font-bold;
   }
   h2 {
     @apply text-3xl;
-    @apply font-bold;
   }
   h3 {
     @apply text-2xl;
-    @apply font-bold;
   }
   h4 {
     @apply text-lg;
@@ -21,7 +18,7 @@
   p {
     @apply font-light;
   }
-} */
+}
 
 body {
   padding: 0;
@@ -32,6 +29,28 @@ body {
   font-weight: 400;
   background-color: #f1f5f9;
 }
+
+th {
+  background-color: #f3f7ff;
+  color: #6d6b9f;
+  white-space: nowrap;
+}
+tr {
+  color: #6d6b9f;
+}
+td {
+  white-space: nowrap;
+  background-color: white;
+  color: #616161;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+/* .row::after {
+  content: "";
+  display: table;
+  clear: both;
+} */
+
 .truncated {
   white-space: nowrap;
   overflow: hidden;
