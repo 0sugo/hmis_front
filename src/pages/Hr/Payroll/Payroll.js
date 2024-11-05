@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { MdAdd } from "react-icons/md";
 import Swal from 'sweetalert2'
-import eye from '../../assets/images/eye.svg'
+import eye from '../../../assets/images/eye.svg'
 
-const ShiftManagement = () => {
+const Payroll = () => {
 
   const waitingReviewsData = [
     {
@@ -68,29 +69,13 @@ const ShiftManagement = () => {
 
   return (
     <div className='mx-auto p-4'>
-      <h4 className='font-semibold my-4'>Shift Management</h4>
-
       <section className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <span className='mr-2'>Show:</span>
-          <select
-            className='px-2 py-0.5 bg-white border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] focus:ring-1'
-            // value={recordsPerPage}
-            // onChange={(e) => {
-            //   setRecordsPerPage(parseInt(e.target.value, 10));
-            //   setCurrentPage(1);
-            // }}
-          >
-            <option value='20'>20</option>
-            <option value='50'>50</option>
-            <option value='75'>75</option>
-            <option value='100'>100</option>
-          </select>
-          <span className='ml-2'>Entries</span>
-        </div>
+        <h4 className='font-semibold my-4'>Payroll <span className='text-[#0E6F1E]'>> Member Salary</span></h4>
         <div className='flex items-center space-x-4'>
-          <Link to='/app/assignshift' className='text-[#0E6F1E] bg-[#E7F1E9] hover:bg-[#caebd1] px-5 py-3 rounded-md font-semibold'>Assign Shift</Link>
-          <Link to='/app/shifts' className='text-[#0E6F1E] bg-[#E7F1E9] hover:bg-[#caebd1] px-5 py-3 rounded-md font-semibold'>Shifts</Link>
+        <Link to='/app/addsalary' className='flex items-center font-semibold space-x-2 text-[#0E6F1E] bg-[#E7F1E9] hover:bg-[#caebd1] px-5 py-3 rounded-md'>
+          <span><MdAdd /></span>
+          <span>Add Salary</span>
+        </Link>
         </div>
       </section>
 
@@ -101,10 +86,11 @@ const ShiftManagement = () => {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-semibold">ID.</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Member Name</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Shift Type</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Timing</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Join date</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Salary</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Payslip</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Action</th>
               </tr>
             </thead>
@@ -117,11 +103,9 @@ const ShiftManagement = () => {
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
+                  <td className="px-6 py-3 text-sm"><button className='bg-[#3e36b0] text-white px-5 py-1 rounded-lg hover:bg-[#292474]'>Generate</button></td>
                   <td className='py-2 px-6 flex items-center space-x-2'>
-                    <Link to={`/app/viewshift/${data.No}`}>
-                      <span className='bg-[#FFF2DF] text-[#FFA620] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
-                    </Link>
-                    <Link to={`/app/updateshift/${data.No}`}>
+                    <Link to={`/app/updatesalary/${data.No}`}>
                       <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
                     </Link>
                     <button onClick={handleClick} className='bg-[#FFE5E9] text-[#ED021E] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></button>
@@ -136,4 +120,4 @@ const ShiftManagement = () => {
   )
 }
 
-export default ShiftManagement
+export default Payroll

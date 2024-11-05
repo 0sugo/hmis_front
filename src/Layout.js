@@ -75,11 +75,21 @@ import Supplier from './pages/Procurement/Supplier'
 import Notes from './pages/Procurement/Notes'
 
 import ShiftManagement from './pages/Hr/ShiftManagement'
-import Payroll from './pages/Hr/Payroll'
-import LeaveManagement from './pages/Hr/LeaveManagement'
-import EmployeeManagement from './pages/Hr/EmployeeManagement'
+import ViewShift from './pages/Hr/ViewShift'
+import UpdateShift from './pages/Hr/UpdateShift'
+import Shifts from './pages/Hr/Shifts'
+import AssignShift from './pages/Hr/AssignShift'
+import Payroll from './pages/Hr/Payroll/Payroll'
+import AddSalary from './pages/Hr/Payroll/AddSalary'
+import LeaveManagement from './pages/Hr/LeaveManagement/LeaveManagement'
+import ViewLeave from './pages/Hr/LeaveManagement/ViewLeave'
+import AddLeave from './pages/Hr/LeaveManagement/AddLeave'
+import EmployeeManagement from './pages/Hr/EmployeeManagement/EmployeeManagement'
+import AddEmployee from './pages/Hr/EmployeeManagement/AddEmployee'
+import ViewEmployee from './pages/Hr/EmployeeManagement/ViewEmployee'
 import IncidentReporting from './pages/Hr/IncidentReporting'
-import AdvanceSalary from './pages/Hr/AdvanceSalary'
+import AdvanceSalary from './pages/Hr/Salary/AdvanceSalary'
+import ViewAdvanceSalary from './pages/Hr/Salary/ViewAdvanceSalary'
 import TimeAttendance from './pages/Hr/TimeAttendance'
 import Recruitment from './pages//Hr/Recruitment'
 import ReportingAnalysis from './pages/Hr/ReportingAnalysis'
@@ -93,6 +103,8 @@ import StrategicPurchasing from './pages/Inventory/StrategicPurchasing'
 
 import BillingDasboard from './pages/Billing/BillingDashboard'
 import CredirPatientBilling from './pages/Billing/CreditPatientBilling'
+import ReceiptDetails from './pages/Billing/ReceiptDetails'
+import InvoiceDetails from './pages/Billing/InvoiceDetails'
 import CashBilling from './pages/Billing/CashBilling'
 import ClaimManagement from './pages/Billing/ClaimManagement'
 import InpatientBilling from './pages/Billing/InpatientBilling'
@@ -210,11 +222,21 @@ const Layout = () => {
 
               {/* Hr routes */}
               <Route path='/shiftmanagement' element={<ShiftManagement />} />
+              <Route path='/viewshift/:id' element={<ViewShift />} />
+              <Route path='/updateshift/:id' element={<UpdateShift />} />
+              <Route path='/shifts' element={<Shifts />} />
+              <Route path='/assignshift' element={<AssignShift />} />
               <Route path='/payroll' element={<Payroll />} />
+              <Route path='/addsalary' element={<AddSalary />} />
               <Route path='/leavemanagement' element={<LeaveManagement />} />
+              <Route path='/viewleave/:id' element={<ViewLeave />} />
+              <Route path='/addleave' element={<AddLeave />} />
               <Route path='/employeemanagement' element={<EmployeeManagement />} />
+              <Route path='/addemployee' element={<AddEmployee />} />
+              <Route path='/viewemployee/:id' element={<ViewEmployee />} />
               <Route path='/incidentreporting' element={<IncidentReporting />} />
               <Route path='/adavancesalary' element={<AdvanceSalary />} />
+              <Route path='/viewadavancesalary/:id' element={<ViewAdvanceSalary />} />
               <Route path='/timeattendance' element={<TimeAttendance />} />
               <Route path='/recruitment' element={<Recruitment />} />
               <Route path='/reportinganalysis' element={<ReportingAnalysis />} />
@@ -230,6 +252,8 @@ const Layout = () => {
               {/* Billing Routes */}
               <Route path='/billing-dashboard' element={<BillingDasboard />} />
               <Route path='/creditpatientbilling' element={<CredirPatientBilling />} />
+              <Route path='/receiptdetails/:id' element={<ReceiptDetails />} />
+              <Route path='/invoicedetails/:id' element={<InvoiceDetails />} />
               <Route path='/cashbilling' element={<CashBilling />} />
               <Route path='/claimmanagement' element={<ClaimManagement />} />
               <Route path='/inpatientbilling' element={<InpatientBilling />} />

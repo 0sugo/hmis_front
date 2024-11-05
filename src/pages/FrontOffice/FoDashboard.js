@@ -52,12 +52,12 @@ const FoDashboard = () => {
       <section className="bg-white p-4 rounded-lg mb-4">
         <h4><b>Welcome, Nambi</b></h4>
 
-        <div className="flex flex-wrap items-center justify-between my-4">
+        <div className="flex flex-wrap items-center gap-2 justify-between my-4">
           <div>
             <label htmlFor="searchpatient">
               <input 
                 type="search"
-                className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
+                className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
                 placeholder='Search for patient here...'
               />
             </label>
@@ -70,7 +70,7 @@ const FoDashboard = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div className='bg-[#F3E8FF] p-4 rounded-lg flex items-center gap-4'>
             <div className='bg-[#8D49D4] p-3 rounded-full'>
               <img src={newPatient} alt="patient" />
@@ -104,8 +104,8 @@ const FoDashboard = () => {
       <section className="bg-white p-4 rounded-lg mb-4">
         <span>New Visits</span>
 
-        <div className='mt-2'>
-          <table className="min-w-full leading-normal overflow-x-auto">
+        <div className='overflow-x-auto rounded-lg mt-2'>
+          <table className='w-full table-auto'>
             <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-semibold">No.</th>
@@ -144,7 +144,7 @@ const FoDashboard = () => {
         <span>Visits in Progress</span>
 
         <div className='mt-2'>
-          <table className="min-w-full leading-normal overflow-x-auto">
+          <table className='w-full table-auto'>
             <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-semibold">No.</th>
@@ -176,8 +176,8 @@ const FoDashboard = () => {
       <section className="bg-white p-4 rounded-lg mb-4">
         <span>Appointments</span>
 
-        <div className='mt-2'>
-          <table className="min-w-full leading-normal overflow-x-auto">
+        <div className='overflow-x-auto rounded-lg mt-2'>
+          <table className='w-full table-auto'>
             <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-semibold">No.</th>

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import eye from '../../assets/images/eye.svg'
+import AddShift from './AddShift'
 
-const ShiftManagement = () => {
+const Shifts = () => {
 
   const waitingReviewsData = [
     {
@@ -66,10 +67,17 @@ const ShiftManagement = () => {
     });
   }
 
+  // Modal to add shift
+  const openModal = () => {
+    const dialog = document.getElementById('my_modal_3');
+    if (dialog !== null) {
+      dialog.showModal();
+    }
+  };
+
   return (
     <div className='mx-auto p-4'>
-      <h4 className='font-semibold my-4'>Shift Management</h4>
-
+      <h4 className='font-semibold my-4'>All Shift</h4>
       <section className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <span className='mr-2'>Show:</span>
@@ -90,7 +98,20 @@ const ShiftManagement = () => {
         </div>
         <div className='flex items-center space-x-4'>
           <Link to='/app/assignshift' className='text-[#0E6F1E] bg-[#E7F1E9] hover:bg-[#caebd1] px-5 py-3 rounded-md font-semibold'>Assign Shift</Link>
-          <Link to='/app/shifts' className='text-[#0E6F1E] bg-[#E7F1E9] hover:bg-[#caebd1] px-5 py-3 rounded-md font-semibold'>Shifts</Link>
+          <button className='text-[#0E6F1E] bg-[#E7F1E9] hover:bg-[#caebd1] px-5 py-3 rounded-md font-semibold' onClick={() => openModal()}>Add Shift</button>
+          {/* add Shift modal */}
+          <dialog id="my_modal_3" className="modal">
+            <div className="modal-box">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              </form>
+              {/* add shift section */}
+              <section>
+                <AddShift />
+              </section>
+            </div>
+          </dialog>
         </div>
       </section>
 
@@ -99,11 +120,11 @@ const ShiftManagement = () => {
           <table className='w-full table-auto'>
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold">ID.</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Member Name</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Shift Type</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Timing</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">S.No.</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Shift Name</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Start Time</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">End Time</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Break Time</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Action</th>
               </tr>
@@ -116,11 +137,8 @@ const ShiftManagement = () => {
                   <td className="px-6 py-3 text-sm">{data.patientName}</td>
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
-                  <td className="px-6 py-3 text-sm">{data.createdBy}</td>
+                  <td className="px-6 py-3 text-sm">{data.time}</td>
                   <td className='py-2 px-6 flex items-center space-x-2'>
-                    <Link to={`/app/viewshift/${data.No}`}>
-                      <span className='bg-[#FFF2DF] text-[#FFA620] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
-                    </Link>
                     <Link to={`/app/updateshift/${data.No}`}>
                       <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
                     </Link>
@@ -136,4 +154,4 @@ const ShiftManagement = () => {
   )
 }
 
-export default ShiftManagement
+export default Shifts

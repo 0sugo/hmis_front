@@ -45,12 +45,6 @@ td {
   border-bottom: 1px solid #d8d8d8;
 }
 
-/* .row::after {
-  content: "";
-  display: table;
-  clear: both;
-} */
-
 .truncated {
   white-space: nowrap;
   overflow: hidden;

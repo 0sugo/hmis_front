@@ -134,7 +134,7 @@ const AddPatient = () => {
                   />
                 </div>
               </div>
-              <div className='mx-0 lg:mx-48 py-4'>
+              <div className='mx-0 lg:mx-48 py-4 '>
                 <span>Contact Information:</span>
               </div>
               <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
