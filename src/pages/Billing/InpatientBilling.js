@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { MdAdd } from "react-icons/md";
-import Swal from 'sweetalert2'
 import newPatient from '../../assets/images/newPatient.svg'
 import eye from '../../assets/images/eye.svg'
 
@@ -48,29 +46,10 @@ const InpatientBilling = () => {
 
   const [list, setList] = useState(waitingReviewsData);
 
-  const handleClick  = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success"
-        });
-      }
-    });
-  }
 
   return (
     <div className='mx-auto p-4'>
-      <h3 className='font-semibold text-[#192252]'>Inpatient Billing</h3>
+      <h3 className='font-semibold text-[#192252] my-4'>Inpatient Billing</h3>
 
       <section className="bg-white p-4 rounded-lg">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -113,9 +92,24 @@ const InpatientBilling = () => {
         </div>
       </section>
 
-      <div className='flex items-center justify-between my-4'>
-        <h3 className='text-xl text-center font-semibold text-[#192252]'>Bill Listing</h3>
+      <div className='flex items-center justify-between my-2'>
+        <div className='flex items-center gap-4'>
+          <h3 className='text-xl text-center font-semibold text-[#192252]'>Bill Listing</h3>
+          <div className='flex flex-wrap items-center gap-4 my-8'>
+            <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Receive Deposit</span></Link>
+            <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Refund Deposit</span></Link>
+          </div>
+        </div>
         <Link to='#' className='text-[#0E6F1E] font-semibold'>See all</Link>
+      </div>
+
+      <div className='flex flex-wrap items-center gap-4'>
+        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Finalize</span></Link>
+        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Unfinalze</span></Link>
+        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Edit Invoice</span></Link>
+        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Split Payment</span></Link>
+        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Cancel Invoice</span></Link>
+        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Add Discout</span></Link>
       </div>
 
       <section className='bg-white p-4 my-4 rounded-lg'>
@@ -145,11 +139,10 @@ const InpatientBilling = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                  <td className='py-2 px-6 flex items-center space-x-2'>
-                    <Link to={`/app/viewleave/${data.No}`}>
+                  <td className='py-2 px-6'>
+                    <Link to={`/app/viewbill/${data.No}`}>
                       <span className='bg-[#FFF2DF] text-[#FFA620] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
                     </Link>
-                    <button onClick={handleClick} className='bg-[#FFE5E9] text-[#ED021E] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></button>
                   </td>
                 </tr>
               ))}

@@ -49,17 +49,17 @@ const CashBilling = () => {
   return (
     <div className='mx-auto p-4'>
       <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-          <h3><b>Cash Billing</b></h3>
-          <div>
-            <label htmlFor="searchpatient">
-              <input 
-                type="search"
-                className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                placeholder='Search here...'
-              />
-            </label>
-          </div>
+        <h3><b>Cash Billing</b></h3>
+        <div>
+          <label htmlFor="searchpatient">
+            <input 
+              type="search"
+              className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
+              placeholder='Search here...'
+            />
+          </label>
         </div>
+      </div>
 
       <section className="bg-white p-4 rounded-lg mb-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

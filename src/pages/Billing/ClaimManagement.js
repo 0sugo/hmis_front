@@ -49,7 +49,7 @@ const ClaimManagement = () => {
   return (
     <div className='mx-auto p-4'>
       <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-        <h3><b>Credit Patient Billing</b></h3>
+        <h3><b>Claim Management</b></h3>
         <div>
           <label htmlFor="searchpatient">
             <input 
@@ -118,8 +118,11 @@ const ClaimManagement = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                  <td className='py-2 px-6'>
-                    <Link to={`/app/invoicedetails/${data.No}`}>
+                  <td className='py-2 px-6 flex items-center space-x-2'>
+                    <Link to={`/app/generateclaim/${data.No}`}>
+                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
+                    </Link>
+                    <Link to={`/app/generateclaim/${data.No}`}>
                       <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
                     </Link>
                   </td>

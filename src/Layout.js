@@ -47,6 +47,7 @@ import InstrumentCalling from './pages/Labaratory/InstrumentCalin'
 import PackageShipment from './pages/Labaratory/PackageShipment'
 import Documents from './pages/Labaratory/Documents'
 import Reports from './pages/Labaratory/Reports'
+import AddLabResult from './pages/Labaratory/AddLabResult'
 import LabManagement from './pages/Labaratory/LabManagement'
 
 import Requests from './pages/Imaging/Requests'
@@ -107,8 +108,12 @@ import ReceiptDetails from './pages/Billing/ReceiptDetails'
 import InvoiceDetails from './pages/Billing/InvoiceDetails'
 import CashBilling from './pages/Billing/CashBilling'
 import ClaimManagement from './pages/Billing/ClaimManagement'
+import GenerateClaim from './pages/Billing/GenerateClaim'
 import InpatientBilling from './pages/Billing/InpatientBilling'
+import ViewInpatientBill from './pages/Billing/ViewInpatientBill'
+import AddBill from './pages/Billing/AddBill'
 import ApprovalDesk from './pages/Billing/ApprovalDesk'
+import ViewApproval from './pages/Billing/ViewApproval'
 import BillingReports from './pages/Billing/BillingReports'
 import BillQuote from './pages/Billing/BillQuote'
 
@@ -189,6 +194,7 @@ const Layout = () => {
               <Route path='/packageshipment' element={<PackageShipment />} />
               <Route path='/documents' element={<Documents />} />
               <Route path='/reports' element={<Reports />} />
+              <Route path='/addlabresult' element={<AddLabResult />} />
               <Route path='/labmanagement' element={<LabManagement />} />
 
               {/* Imaging routes */}
@@ -256,8 +262,12 @@ const Layout = () => {
               <Route path='/invoicedetails/:id' element={<InvoiceDetails />} />
               <Route path='/cashbilling' element={<CashBilling />} />
               <Route path='/claimmanagement' element={<ClaimManagement />} />
+              <Route path='/generateclaim/:id' element={<GenerateClaim />} />
               <Route path='/inpatientbilling' element={<InpatientBilling />} />
+              <Route path='/viewbill/:id' element={<ViewInpatientBill />} />
+              <Route path='/addbill' element={<AddBill />} />
               <Route path='/approvaldesk' element={<ApprovalDesk />} />
+              <Route path='/viewapproval/:id' element={<ViewApproval />} />
               <Route path='/billingreports' element={<BillingReports />} />
               <Route path='/billquote' element={<BillQuote />} />
 

@@ -115,7 +115,7 @@ const ApprovalDesk = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className='py-2 px-6'>
-                    <Link to={`/app/invoicedetails/${data.No}`}>
+                    <Link to={`/app/viewapproval/${data.No}`}>
                       <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
                     </Link>
                   </td>
