@@ -69,7 +69,7 @@ const Storage = () => {
             </div>
             <div>
               <h5 className='font-bold text-[#2E8BBF]'>24</h5>
-              <p>Pending Storage</p>
+              <p>Stored Samples</p>
             </div>
           </div>
           <div className='bg-[#DBFFDE] p-4 rounded-lg flex items-center gap-4'>
@@ -77,8 +77,8 @@ const Storage = () => {
               <img src={newPatient} alt="patient" />
             </div>
             <div>
-              <h5 className='font-bold text-[#0E6F1E]'>1623</h5>
-              <p>Collected Storage</p>
+              <h5 className='font-bold text-[#0E6F1E]'>24</h5>
+              <p>Dissociated Samples</p>
             </div>
           </div>
         </div>

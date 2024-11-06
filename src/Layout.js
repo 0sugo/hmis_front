@@ -47,6 +47,7 @@ import InstrumentCalling from './pages/Labaratory/InstrumentCalin'
 import PackageShipment from './pages/Labaratory/PackageShipment'
 import Documents from './pages/Labaratory/Documents'
 import Reports from './pages/Labaratory/Reports'
+import ViewLabReport from './pages/Labaratory/ViewLabReport'
 import AddLabResult from './pages/Labaratory/AddLabResult'
 import LabManagement from './pages/Labaratory/LabManagement'
 
@@ -56,10 +57,41 @@ import ImagingProcess from './pages/Imaging/ImagingProcess'
 import ImagingReports from './pages/Imaging/ImagingReports'
 import StoreManagement from './pages/Imaging/StoreManagement'
 
+import OpVisit from './pages/Pharmacy/OpVisit/OpVisit'
+import PharmacyApproval from './pages/Pharmacy/OpVisit/PharmacyApproval'
+import OpPrescription from './pages/Pharmacy/OpVisit/OpPrescription'
+import OpPrintLabels from './pages/Pharmacy/OpVisit/OpPrintLabels'
+import IpMedicineIssue from './pages/Pharmacy/OpVisit/IpMedicineIssue'
+import IpPrintLabels from './pages/Pharmacy/OpVisit/IpPrintLabels'
+import IpMedicineRequest from './pages/Pharmacy/OpVisit/IpMedicineRequest'
+import ProcessPackage from './pages/Pharmacy/OpVisit/ProcessPackage'
+import IpDrugStatement from './pages/Pharmacy/OpVisit/IpDrugStatement'
+import AmendIpPrescription from './pages/Pharmacy/OpVisit/AmendIpPrescription'
+import DischargeMedReturn from './pages/Pharmacy/OpVisit/DischargeMedReturn'
+import OpDrugHistory from './pages/Pharmacy/OpVisit/OpDrugHistory'
+import RefundPendingDrug from './pages/Pharmacy/OpVisit/RefundPendingDrug'
+
 import WalkinPrescription from './pages/Pharmacy/WalkinPrescription'
-import OpPrescription from './pages/Pharmacy/OpPrescription'
+import OpPrescriptions from './pages/Pharmacy/OpPrescriptions'
+import ViewOpPrescription from './pages/Pharmacy/ViewOpPrescription'
 import IpPrescription from './pages/Pharmacy/IpPrescription'
-import PhamarcyStoreManagement from './pages/Pharmacy/PhamarcyStoreManagement'
+import ViewIpPrescription from './pages/Pharmacy/ViewIpPrescription'
+import PhamarcyStoreManagement from './pages/Pharmacy/StoreManagement/PhamarcyStoreManagement'
+import NewRequisition from './pages/Pharmacy/StoreManagement/NewRequisition'
+import ViewRequisition from './pages/Pharmacy/StoreManagement/ViewRequisition'
+import MinReorderLevels from './pages/Pharmacy/StoreManagement/MinReorderLevels'
+import DrugExpiryReport from './pages/Pharmacy/StoreManagement/DrugExpiryReport'
+import DdrReport from './pages/Pharmacy/StoreManagement/DdrReport'
+import StockTake from './pages/Pharmacy/StoreManagement/StockTake'
+import StockMovementReport from './pages/Pharmacy/StoreManagement/StockMovementReport'
+import OpeningStockEntry from './pages/Pharmacy/StoreManagement/OpeningStockEntry'
+import ClosingStockReport from './pages/Pharmacy/StoreManagement/ClosingStockReport'
+import ConsumptionReport from './pages/Pharmacy/StoreManagement/ConsumptionReport'
+import NonMovingStockReport from './pages/Pharmacy/StoreManagement/NonmovingStockReport'
+import CompanyPriceList from './pages/Pharmacy/StoreManagement/CompanyPriceList'
+import StockVarianceReport from './pages/Pharmacy/StoreManagement/StockVarianceReport'
+import ViewOpeningStock from './pages/Pharmacy/StoreManagement/ViewOpeningStock'
+import PatientDetails from './pages/Pharmacy/StoreManagement/PatientDetails'
 
 import FoDashboard from './pages/FrontOffice/FoDashboard'
 import AddPatient from './pages/FrontOffice/AddPatient'
@@ -194,6 +226,7 @@ const Layout = () => {
               <Route path='/packageshipment' element={<PackageShipment />} />
               <Route path='/documents' element={<Documents />} />
               <Route path='/reports' element={<Reports />} />
+              <Route path='/viewlabreports/:id' element={<ViewLabReport />} />
               <Route path='/addlabresult' element={<AddLabResult />} />
               <Route path='/labmanagement' element={<LabManagement />} />
 
@@ -205,10 +238,41 @@ const Layout = () => {
               <Route path='/storemanagement' element={<StoreManagement />} />
 
               {/* Pharmacy routes */}
+              <Route path='/opvisit' element={<OpVisit />} />
+              <Route path='/pharmacyapproval' element={<PharmacyApproval />} />
+              <Route path='/opprescription' element={<OpPrescription />} />
+              <Route path='/opprintlabels' element={<OpPrintLabels />} />
+              <Route path='/ipmedicineissue' element={<IpMedicineIssue />} />
+              <Route path='/ipprintlabels' element={<IpPrintLabels />} />
+              <Route path='/ipmedicinerequest' element={<IpMedicineRequest />} />
+              <Route path='/processpackage' element={<ProcessPackage />} />
+              <Route path='/ipdrugstatement' element={<IpDrugStatement />} />
+              <Route path='/amendipprescription' element={<AmendIpPrescription />} />
+              <Route path='/dischargemedreturn' element={<DischargeMedReturn />} />
+              <Route path='/opdrughistory' element={<OpDrugHistory />} />
+              <Route path='/refundpendingdrug' element={<RefundPendingDrug />} />
+              
               <Route path='/walkin-prescription' element={<WalkinPrescription />} />
-              <Route path='/op-prescription' element={<OpPrescription />} />
+              <Route path='/op-prescription' element={<OpPrescriptions />} />
+              <Route path='/viewopprescription/:id' element={<ViewOpPrescription />} />
               <Route path='/ip-prescription' element={<IpPrescription />} />
+              <Route path='/viewipprescription/:id' element={<ViewIpPrescription />} />
               <Route path='/pharmacystoremanagemet' element={<PhamarcyStoreManagement />} />
+              <Route path='/newrequisition' element={<NewRequisition />} />
+              <Route path='/viewrequisition' element={<ViewRequisition />} />
+              <Route path='/patientdetails/:id' element={<PatientDetails />} />
+              <Route path='/minreorderlevels' element={<MinReorderLevels />} />
+              <Route path='/drugexpiryreport' element={<DrugExpiryReport />} />
+              <Route path='/ddr-report' element={<DdrReport />} />
+              <Route path='/stocktake' element={<StockTake />} />
+              <Route path='/stockmovementreport' element={<StockMovementReport />} />
+              <Route path='/openingstockentry' element={<OpeningStockEntry />} />
+              <Route path='/viewopeningstock/:id' element={<ViewOpeningStock />} />
+              <Route path='/closingstockreport' element={<ClosingStockReport />} />
+              <Route path='/consumptionreport' element={<ConsumptionReport />} />
+              <Route path='/nonmovingstockreport' element={<NonMovingStockReport />} />
+              <Route path='/companypricelist' element={<CompanyPriceList />} />
+              <Route path='/stockvariancereport' element={<StockVarianceReport />} />
 
               {/* FrontOffice routes */}
               <Route path='/fo-dashboard' element={<FoDashboard />} />

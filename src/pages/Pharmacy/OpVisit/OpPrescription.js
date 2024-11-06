@@ -2,7 +2,7 @@ import React from 'react'
 
 const OpPrescription = () => {
   return (
-    <div className='mx-auto p-4'>
+    <div>
       OpPrescription
     </div>
   )

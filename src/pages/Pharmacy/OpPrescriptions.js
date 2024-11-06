@@ -4,7 +4,7 @@ import newPatient from '../../assets/images/newPatient.svg'
 import { MdDateRange, MdRemoveRedEye } from "react-icons/md";
 
 
-const IpPrescription = () => {
+const OpPrescriptions = () => {
 
   const waitingReviewsData = [
     {
@@ -74,7 +74,7 @@ const IpPrescription = () => {
       </section>
 
       <div className='flex items-center justify-between'>
-        <h3 className='text-xl text-center font-semibold text-[#192252]'>Inpatient PRESCRIPTION</h3>
+        <h3 className='text-xl text-center font-semibold text-[#192252]'>OP PRESCRIPTION</h3>
         <Link to='#' className='bg-[#0E6F1E] text-white font-semibold p-2 rounded-lg text-xl'><MdDateRange /></Link>
       </div>
 
@@ -83,33 +83,29 @@ const IpPrescription = () => {
           <table className='w-full table-auto'>
             <thead>
               <tr>
+                <th className="px-6 py-3 text-left text-xs font-semibold">ID.</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">IP No</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Visit Code</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Prescription No</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Patient Name</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Diagnosis</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Doctor Incharge</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Ward</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Bed No</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Sheme</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Prescribed By</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">View</th>
               </tr>
             </thead>
             <tbody>
               {list.map((data, index) => (
                 <tr key={index}>
+                  <td className="px-6 py-3 text-sm">{data.No}</td>
                   <td className="px-6 py-3 text-sm">{data.date}</td>
                   <td className="px-6 py-3 text-sm">{data.patientName}</td>
-                  <td className="px-6 py-3 text-sm">{data.patientName}</td>
-                  <td className="px-6 py-3 text-sm">{data.insurance}</td>
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className='py-3 px-6'>
-                  <div className='flex'>
-                    <Link to={`/app/viewipprescription/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
-                      <MdRemoveRedEye />
-                    </Link>
+                  <div className='flex space-x-3'>
+                    <span className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'><Link to={`/app/viewopprescription/${data.No}`}><MdRemoveRedEye /></Link></span>
                   </div>
                 </td>
                 </tr>
@@ -122,4 +118,4 @@ const IpPrescription = () => {
   )
 }
 
-export default IpPrescription
+export default OpPrescriptions

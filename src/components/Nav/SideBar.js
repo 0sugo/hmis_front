@@ -213,6 +213,9 @@ const SideBar = () => {
                     </span>
                     <ul className='relative accordion-collapse collapse' id='collapseSidenavXxEx6' aria-labelledby='sidenavXxEx6' data-bs-parent='#sidenavSecExample'>
                       <li className='relative'>
+                        <Link to='/app/opvisit' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Op Visit</Link>
+                      </li>
+                      <li className='relative'>
                         <Link to='/app/walkin-prescription' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Walk-In Prescription</Link>
                       </li>
                       <li className='relative'>
