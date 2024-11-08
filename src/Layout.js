@@ -56,6 +56,10 @@ import Patient from './pages/Imaging/Patient'
 import ImagingProcess from './pages/Imaging/ImagingProcess'
 import ImagingReports from './pages/Imaging/ImagingReports'
 import StoreManagement from './pages/Imaging/StoreManagement'
+import ViewStore from './pages/Imaging/ViewStore'
+import NewOrder from './pages/Imaging/NewOrder'
+import ViewImagingPatient from './pages/Imaging/ViewImagingPatient'
+import ImagingForm from './pages/Imaging/ImagingForm'
 
 import OpVisit from './pages/Pharmacy/OpVisit/OpVisit'
 import PharmacyApproval from './pages/Pharmacy/OpVisit/PharmacyApproval'
@@ -76,6 +80,7 @@ import OpPrescriptions from './pages/Pharmacy/OpPrescriptions'
 import ViewOpPrescription from './pages/Pharmacy/ViewOpPrescription'
 import IpPrescription from './pages/Pharmacy/IpPrescription'
 import ViewIpPrescription from './pages/Pharmacy/ViewIpPrescription'
+import PrescriptionDetail from './pages/Pharmacy/PrescriptionDetail'
 import PhamarcyStoreManagement from './pages/Pharmacy/StoreManagement/PhamarcyStoreManagement'
 import NewRequisition from './pages/Pharmacy/StoreManagement/NewRequisition'
 import ViewRequisition from './pages/Pharmacy/StoreManagement/ViewRequisition'
@@ -98,12 +103,19 @@ import AddPatient from './pages/FrontOffice/AddPatient'
 import PatientRegistration from './pages/FrontOffice/PatientRegistration'
 import SearchPatient from './pages/FrontOffice/SearchPatient'
 
-import Request from './pages/Procurement/Request'
+import ProcurementRequest from './pages/Procurement/ProcurementRequest'
+import ViewProcurementRequest from './pages/Procurement/ViewProcurementRequest'
 import PurchaseOrder from './pages/Procurement/PurchaseOrder'
+import ViewPurchasedOrder from './pages/Procurement/ViewPurchasedOrder'
+import PastOrder from './pages/Procurement/PastOrder'
 import PriceList from './pages/Procurement/PriceList'
+import ViewPriceList from './pages/Procurement/ViewPriceList'
+import AddNewPriceList from './pages/Procurement/AddNewPriceList'
 import VendorList from './pages/Procurement/VendorList'
+import ViewVendorList from './pages/Procurement/ViewVendorList'
 import ProcumentAnalysis from './pages/Procurement/ProcurementAnalysis'
 import AddNewProduct from './pages/Procurement/AddNewProduct'
+import AllProducts from './pages/Procurement/AllProducts'
 import Supplier from './pages/Procurement/Supplier'
 import Notes from './pages/Procurement/Notes'
 
@@ -236,6 +248,10 @@ const Layout = () => {
               <Route path='/imagingprocess' element={<ImagingProcess />} />
               <Route path='/imagingreports' element={<ImagingReports />} />
               <Route path='/storemanagement' element={<StoreManagement />} />
+              <Route path='/viewstore/:id' element={<ViewStore />} />
+              <Route path='/neworder' element={<NewOrder />} />
+              <Route path='/imagingform' element={<ImagingForm />} />
+              <Route path='/viewimagingpatient/:id' element={<ViewImagingPatient />} />
 
               {/* Pharmacy routes */}
               <Route path='/opvisit' element={<OpVisit />} />
@@ -257,6 +273,7 @@ const Layout = () => {
               <Route path='/viewopprescription/:id' element={<ViewOpPrescription />} />
               <Route path='/ip-prescription' element={<IpPrescription />} />
               <Route path='/viewipprescription/:id' element={<ViewIpPrescription />} />
+              <Route path='/prescriptiondetail/:id' element={<PrescriptionDetail />} />
               <Route path='/pharmacystoremanagemet' element={<PhamarcyStoreManagement />} />
               <Route path='/newrequisition' element={<NewRequisition />} />
               <Route path='/viewrequisition' element={<ViewRequisition />} />
@@ -281,12 +298,19 @@ const Layout = () => {
               <Route path='/searchpatient' element={<SearchPatient />} />
 
               {/* Procurement routes */}
-              <Route path='/requests' element={<Request />} />
+              <Route path='/procurementrequests' element={<ProcurementRequest />} />
+              <Route path='/viewprocurementrequests/:id' element={<ViewProcurementRequest />} />
               <Route path='/purchaseorder' element={<PurchaseOrder />} />
+              <Route path='/viewpurchasedorder/:id' element={<ViewPurchasedOrder />} />
+              <Route path='/pastorder' element={<PastOrder />} />
               <Route path='/pricelist' element={<PriceList />} />
+              <Route path='/viewpricelist/:id' element={<ViewPriceList />} />
+              <Route path='/addnewpricelist' element={<AddNewPriceList />} />
               <Route path='/vendorlist' element={<VendorList />} />
+              <Route path='/viewvendorlist/:id' element={<ViewVendorList />} />
               <Route path='/procurementanalysis' element={<ProcumentAnalysis />} />
               <Route path='/addnewproduct' element={<AddNewProduct />} />
+              <Route path='/allproducts' element={<AllProducts />} />
               <Route path='/supplier' element={<Supplier />} />
               <Route path='/notes' element={<Notes />} />
 

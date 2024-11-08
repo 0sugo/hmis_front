@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import newPatient from '../../assets/images/newPatient.svg'
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 
-const Requests = () => {
+const ProcurementRequest = () => {
 
   const waitingReviewsData = [
     {
@@ -48,19 +48,6 @@ const Requests = () => {
 
   return (
     <div className='mx-auto p-4'>
-      <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-        <h3><b>Welcome, Nambi</b></h3>
-        <div>
-          <label htmlFor="searchpatient">
-            <input 
-              type="search"
-              className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-              placeholder='Search here...'
-            />
-          </label>
-        </div>
-      </div>
-
       <section className="bg-white p-4 rounded-lg mb-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div className='bg-[#DEF3FF] p-4 rounded-lg flex items-center gap-4'>
@@ -69,7 +56,7 @@ const Requests = () => {
             </div>
             <div>
               <h5 className='font-bold text-[#2E8BBF]'>24</h5>
-              <p>New Request</p>
+              <p>Request Item</p>
             </div>
           </div>
           <div className='bg-[#DBFFDE] p-4 rounded-lg flex items-center gap-4'>
@@ -78,7 +65,7 @@ const Requests = () => {
             </div>
             <div>
               <h5 className='font-bold text-[#0E6F1E]'>1623</h5>
-              <p>Approved Request</p>
+              <p>Pending Order Request</p>
             </div>
           </div>
           <div className='bg-[#FFF0E2] p-4 rounded-lg flex items-center gap-4'>
@@ -87,13 +74,14 @@ const Requests = () => {
             </div>
             <div>
               <h5 className='font-bold text-[#EF8100]'>3423</h5>
-              <p>Rejected Request</p>
+              <p>Generate New Request</p>
             </div>
           </div>
         </div>
       </section>
 
       <section className="bg-white p-4 rounded-lg ">
+        <h4 className='font-semibold text-[#262e5c] my-4'>Request Items</h4>
         <div className='overflow-x-auto rounded-lg'>
           <table className='w-full table-auto'>
             <thead>
@@ -129,10 +117,7 @@ const Requests = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className='py-2 px-6 flex space-x-2'>
-                    <Link to={`/app/update/${data.No}`} className='text-[#3E36B0] bg-[#E4EDFE] p-2 rounded-lg text-xl'>
-                      <MdEdit />
-                    </Link>
-                    <Link to={`/app/viewimagingrequest/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
+                    <Link to={`/app/viewprocurementrequests/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
                       <MdRemoveRedEye />
                     </Link>
                   </td>
@@ -146,4 +131,4 @@ const Requests = () => {
   )
 }
 
-export default Requests
+export default ProcurementRequest

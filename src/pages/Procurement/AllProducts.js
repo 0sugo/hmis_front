@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import eye from '../../assets/images/eye.svg'
 
-const StoreManagement = () => {
+
+const AllProducts = () => {
 
   const waitingReviewsData = [
     {
@@ -47,36 +46,28 @@ const StoreManagement = () => {
 
   return (
     <div className='mx-auto p-4'>
-      <div className='flex items-center justify-between'>
-        <h4 className='font-semibold my-4'>Imaging <span className='text-[#0E6F1E]'>> StoreManagement</span></h4>
-        <Link to='/app/neworder' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>New Order</Link>
-      </div>
+      <h4 className='font-semibold my-4'>Procurement <span className='text-[#0E6F1E]'>> All Products</span></h4>
 
       <section className='bg-white p-4 my-4 rounded-lg'>
         <div className='overflow-x-auto rounded-lg'>
           <table className='w-full table-auto'>
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Date & Time</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Order Number</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Equipment's Name</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Action</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Product No</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Product Name</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Quantity</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Price</th>
               </tr>
             </thead>
             <tbody>
               {list.map((data, index) => (
                 <tr key={index}>
-                  <td className="px-6 py-3 text-sm">{data.date}</td>
+                  <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
                   <td className="px-6 py-3 text-sm">{data.patientName}</td>
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
-                  <td className='py-2 px-6 flex items-center space-x-2'>
-                    <Link to={`/app/viewstore/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
-                    </Link>
-                   
-                  </td>
+                  <td className="px-6 py-3 text-sm">{data.insurance}</td>
                 </tr>
               ))}
             </tbody>
@@ -87,4 +78,4 @@ const StoreManagement = () => {
   )
 }
 
-export default StoreManagement
+export default AllProducts
