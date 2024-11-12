@@ -53,7 +53,7 @@ const StoreManagement = () => {
       </div>
 
       <section className='bg-white p-4 my-4 rounded-lg'>
-        <div className='overflow-x-auto rounded-lg'>
+        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
           <table className='w-full table-auto'>
             <thead>
               <tr>

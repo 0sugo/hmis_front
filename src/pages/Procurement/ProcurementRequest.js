@@ -82,7 +82,7 @@ const ProcurementRequest = () => {
 
       <section className="bg-white p-4 rounded-lg ">
         <h4 className='font-semibold text-[#262e5c] my-4'>Request Items</h4>
-        <div className='overflow-x-auto rounded-lg'>
+        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
           <table className='w-full table-auto'>
             <thead>
               <tr>

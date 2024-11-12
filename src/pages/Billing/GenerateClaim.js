@@ -146,7 +146,7 @@ const GenerateClaim = () => {
 
       <section className='bg-white p-4 rounded-lg'>
         <h4 className='font-semibold my-4'>ICD 10 Diagnosis</h4>
-        <div className='overflow-x-auto rounded-lg'>
+        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
           <table className='w-full table-auto'>
             <thead>
               <tr>

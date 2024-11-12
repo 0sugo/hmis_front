@@ -36,6 +36,7 @@ import NurseIpDashboard from './pages/Nurse/NurseIpDashboard'
 import WardTransfer from './pages/Nurse/WardTransfer'
 import DayCare from './pages/Nurse/Daycare'
 import NurseReports from './pages/Nurse/NurseReports'
+import ViewNurseReports from './pages/Nurse/ViewNurseReports'
 
 import Phleobotomy from './pages/Labaratory/Phleobotomy'
 import Samples from './pages/Labaratory/Samples'
@@ -226,6 +227,7 @@ const Layout = () => {
               <Route path='/wardtransfer' element={<WardTransfer />} />
               <Route path='/daycare' element={<DayCare />} />
               <Route path='/nursereports' element={<NurseReports />} />
+              <Route path='/viewnursereports/:id' element={<ViewNurseReports />} />
 
               {/* Labaratory routes */}
               <Route path='/phleobotomy' element={<Phleobotomy />} />

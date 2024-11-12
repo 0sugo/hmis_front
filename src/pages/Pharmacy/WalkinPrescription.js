@@ -102,7 +102,7 @@ const WalkinPrescription = () => {
       <section className="bg-white p-4 rounded-lg ">
         <h4 className='font-semibold text-[#192252] mb-4'>Walk-in Prescription Waiting</h4>
 
-        <div className='overflow-x-auto rounded-lg'>
+        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
           <table className='w-full table-auto'>
             <thead>
               <tr>

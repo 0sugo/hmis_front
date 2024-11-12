@@ -50,7 +50,7 @@ const VendorList = () => {
       <h4 className='font-semibold my-4'>Procurement <span className='text-[#0E6F1E]'>> VendorList</span></h4>
 
       <section className='bg-white p-4 my-4 rounded-lg'>
-        <div className='overflow-x-auto rounded-lg'>
+        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
           <table className='w-full table-auto'>
             <thead>
               <tr>
