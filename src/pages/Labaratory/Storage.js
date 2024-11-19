@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import newPatient from '../../assets/images/newPatient.svg'
-import eye from '../../assets/images/eye.svg'
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 
 const Storage = () => {
 
@@ -126,9 +126,12 @@ const Storage = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                  <td className='py-2 px-6'>
-                    <Link to={`/app/view/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
+                  <td className='py-2 px-6 flex space-x-2'>
+                    <Link to={`/app/update/${data.No}`} className='text-[#3E36B0] bg-[#E4EDFE] p-2 rounded-lg text-xl'>
+                      <MdEdit />
+                    </Link>
+                    <Link to={`/app/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
+                      <MdRemoveRedEye />
                     </Link>
                   </td>
                 </tr>

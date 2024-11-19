@@ -119,6 +119,10 @@ import AddNewProduct from './pages/Procurement/AddNewProduct'
 import AllProducts from './pages/Procurement/AllProducts'
 import Supplier from './pages/Procurement/Supplier'
 import Notes from './pages/Procurement/Notes'
+import ViewGoodsReceiveNote from './pages/Procurement/ViewGoodsReceiveNote'
+import ViewGoodsReturnNote from './pages/Procurement/ViewGoodsReturnNote'
+import GenerateReceiveNote from './pages/Procurement/GenerateReceiveNote'
+import GenerateReturnNote from './pages/Procurement/GenerateReturnNote'
 
 import ShiftManagement from './pages/Hr/ShiftManagement'
 import ViewShift from './pages/Hr/ViewShift'
@@ -315,6 +319,10 @@ const Layout = () => {
               <Route path='/allproducts' element={<AllProducts />} />
               <Route path='/supplier' element={<Supplier />} />
               <Route path='/notes' element={<Notes />} />
+              <Route path='/viewgoodsreceivednote/:id' element={<ViewGoodsReceiveNote />} />
+              <Route path='/viewgoodsreturnnote/:id' element={<ViewGoodsReturnNote />} />
+              <Route path='/generatereceivenote' element={<GenerateReceiveNote />} />
+              <Route path='/geberatereturnnote' element={<GenerateReturnNote />} />
 
               {/* Hr routes */}
               <Route path='/shiftmanagement' element={<ShiftManagement />} />

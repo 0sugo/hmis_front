@@ -66,8 +66,8 @@ const Navbar = () => {
           <div className='dropdown'>
             <a className='dropdown-toggle px-4 py-1  text-black font-medium transition duration-150 ease-in-out flex items -center whitespace-nowrap ' href='/#' type='button' id='dropdownMenuButton2' data-bs-toggle='dropdown' aria-expanded='false'>
               <div className='grid'>
-                <span className='font-bold text-[#007CFF]'>{user.username}</span>
-                <span className='text-green-700 font-bold'>{user.role}</span>
+                <span className='font-bold text-[#007CFF]'>{user.email}</span>
+                <span className='text-green-700 font-bold'>{user.name}</span>
               </div>
               <span className='w-4 h-4 ml-auto mb-6 text-xl text-[#007CFF]'><MdOutlineKeyboardArrowDown /></span>
             </a>
@@ -76,8 +76,8 @@ const Navbar = () => {
                 <img className='rounded-full w-14 h-14' src={profPic} alt='user-profile' />
               </div>
               <div className='grid text-center my-2'>
-                <span className='font-bold'>{user.username}</span>
-                <p>{user.role}</p>
+                <span className='font-bold'>{user.email}</span>
+                <p>{user.name}</p>
               </div>
               <hr />
               <li>

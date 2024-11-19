@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import pic from '../../assets/images/pic.svg'
 import { Link } from 'react-router-dom'
-import eye from '../../assets/images/eye.svg'
+import { MdDelete } from "react-icons/md";
 
 const ViewInpatientBill = () => {
 
@@ -139,9 +139,7 @@ const ViewInpatientBill = () => {
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
                   <td className="px-6 py-3 text-sm">
-                    <Link to={`/app/invoicedetails/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
-                    </Link>
+                    <button className='text-[#0E6F1E] bg-[#DBFFDE] p-1.5 rounded-lg text-xl'><MdDelete /></button>
                   </td>
                 </tr>
               ))}

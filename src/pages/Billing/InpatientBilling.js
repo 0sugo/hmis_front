@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import newPatient from '../../assets/images/newPatient.svg'
-import eye from '../../assets/images/eye.svg'
+import { MdRemoveRedEye } from "react-icons/md";
 
 const InpatientBilling = () => {
 
@@ -139,9 +139,9 @@ const InpatientBilling = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                  <td className='py-2 px-6'>
-                    <Link to={`/app/viewbill/${data.No}`}>
-                      <span className='bg-[#FFF2DF] text-[#FFA620] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
+                  <td className='py-2 px-6 flex'>
+                    <Link to={`/app/viewbill/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
+                      <MdRemoveRedEye />
                     </Link>
                   </td>
                 </tr>

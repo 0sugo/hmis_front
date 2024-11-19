@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import eye from '../../assets/images/eye.svg'
+import { MdRemoveRedEye } from "react-icons/md";
 
 const PurchaseOrder = () => {
 
@@ -48,7 +48,7 @@ const PurchaseOrder = () => {
   return (
     <div className='mx-auto p-4'>
       <div className='flex items-center justify-between'>
-        <h4 className='font-semibold my-4'>Imaging <span className='text-[#0E6F1E]'>> Purchased Order</span></h4>
+        <h4 className='font-semibold my-4'>Procurement <span className='text-[#0E6F1E]'>> Purchased Order</span></h4>
         <Link to='/app/pastorder' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Past Order</Link>
       </div>
 
@@ -57,10 +57,12 @@ const PurchaseOrder = () => {
           <table className='w-full table-auto'>
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold">PurchaseOrder ID</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">PurchaseOrder Name</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Doctor Incharge</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Imaging Test</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Order ID</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Date & Time</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Total Items</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Vendor Name</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">LabName</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">Approved</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">Action</th>
               </tr>
             </thead>
@@ -71,12 +73,13 @@ const PurchaseOrder = () => {
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
                   <td className="px-6 py-3 text-sm">{data.patientName}</td>
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
-                  <td className='py-2 px-6 flex items-center space-x-2'>
-                    <Link to={`/app/viewpurchasedorder/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
-                    </Link>
-                   
-                  </td>
+                  <td className="px-6 py-3 text-sm">{data.insurance}</td>
+                  <td className="px-6 py-3 text-sm">{data.insurance}</td>
+                  <td className='py-2 px-6 flex space-x-2'>
+                      <Link to={`/app/viewpurchasedorder/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
+                        <MdRemoveRedEye />
+                      </Link>
+                    </td>
                 </tr>
               ))}
             </tbody>

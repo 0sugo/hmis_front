@@ -16,7 +16,7 @@ const App = () => {
       <Toaster position='top-center' richColors />
       <Routes>
         <Route path='/' element={<LoginDashboard />} />
-        <Route path='/login' element={<Login  />} />
+        <Route path='/login' element={<Login  setAccessToken={setAccessToken}/>} />
         <Route path='/app/*' element={<Layout />} />
         <Route path='/unauthorised' element={<Unauthorised />} />
         <Route path='*' element={<Missing />} />

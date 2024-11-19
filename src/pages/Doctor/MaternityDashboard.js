@@ -73,7 +73,7 @@ const MaternityDashboard = () => {
               </div>
               <div>
                 <h5 className='font-bold text-[#8D49D4]'>34</h5>
-                <p>Unfinalized Invoices</p>
+                <p>Ward Transfer</p>
               </div>
             </div>
             <div className='bg-[#DEF3FF] p-4 rounded-lg flex items-center gap-4'>
@@ -82,7 +82,7 @@ const MaternityDashboard = () => {
               </div>
               <div>
                 <h5 className='font-bold text-[#2E8BBF]'>24</h5>
-                <p>Finalized Invoice</p>
+                <p>Maternity Patients</p>
               </div>
             </div>
             <div className='bg-[#FFE2E5] p-4 rounded-lg flex items-center gap-4'>
@@ -91,7 +91,7 @@ const MaternityDashboard = () => {
               </div>
               <div>
                 <h5 className='font-bold text-[#DD3459]'>16</h5>
-                <p>Unreceipted Cash Bills</p>
+                <p>Pending Discharge/Referral</p>
               </div>
             </div>
             <div className='bg-[#E7F1E9] p-4 rounded-lg flex items-center gap-4'>
@@ -100,7 +100,7 @@ const MaternityDashboard = () => {
               </div>
               <div>
                 <h5 className='font-bold text-[#0E6F1E]'>16</h5>
-                <p>Receipted Cash Bills</p>
+                <p>Patients in casualty</p>
               </div>
             </div>
           </div>

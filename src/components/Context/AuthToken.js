@@ -9,9 +9,9 @@ export default function AuthToken () {
 
     // Check if the token exists and is not expired
     if (userToken && userToken.expiresAt > new Date().getTime()) {
-      axios.defaults.headers.common.Authorization = `Bearer ${userToken.data.accessToken}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${userToken.data.authorisation.token}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
-      return userToken?.data.accessToken;
+      return userToken?.data.authorisation.token;
     } else {
       // Remove the token if it is expired or not present
       window.localStorage.removeItem('token');
@@ -39,8 +39,8 @@ export default function AuthToken () {
       if (!token) {
         clearInterval(checkTokenInterval); // Stop checking once token is expired
         swal('Session has expired!', 'Please log in again.', 'info');
-        window.location.href = '/';
-        window.location.reload();
+        // window.location.href = '/';
+        // window.location.reload();
       }
     }, 1 * 60 * 60 * 1000); // Check every 1 hour
 

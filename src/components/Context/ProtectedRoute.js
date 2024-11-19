@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
   const token = window.localStorage.getItem('token');
-  const parsedItem = token ? JSON.parse(token).data.user : null;
+  const parsedItem = token ? JSON.parse(token).data.name : null;
 
   if (!parsedItem || parsedItem.role !== 'admin') {
     return <Navigate to='/unauthorised' replace />;

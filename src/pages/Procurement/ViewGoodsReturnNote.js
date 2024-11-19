@@ -1,22 +1,14 @@
 import React from 'react'
 
-const ViewPurchasedOrder = () => {
+const ViewGoodsReturnNote = () => {
   return (
     <div className='mx-auto p-4'>
-      <h4 className='font-semibold my-4'>Procurement <span className='text-[#0E6F1E]'>> Purchased Order</span></h4>
+      <h4 className='font-semibold my-4'>Procurement <span className='text-[#0E6F1E]'>> Notes</span></h4>
 
       <div className="bg-white p-4 my-4">
-        <div className="text-center space-y-4">
-          <h5><b>All requested items in this order is perfect and completed?</b></h5>
-          <div className="flex items-center justify-center gap-2">
-            <button className='px-5 py-1 rounded-lg text-white bg-green-600'>Yes</button>
-            <button className='px-5 py-1 rounded-lg text-white bg-red-600'>No</button>
-          </div>
-        </div>
-        <br />
-        <hr />
+        <h4 className='font-semibold text-[#192252]'>Generate Return Notes</h4>
 
-        <div className='flex items-center justify-around my-4'>
+        <div className='flex items-center gap-20 my-4'>
           <div className='space-y-4'>
             <div className='flex items-center space-x-6'>
               <h5 className='font-semibold text-[#192252]'>Order Number:</h5>
@@ -26,14 +18,22 @@ const ViewPurchasedOrder = () => {
               <h5 className='font-semibold text-[#192252]'>Vendor Name:</h5>
               <p className='float-left'>25</p>
             </div>
+            <div className='flex items-center space-x-6'>
+              <h5 className='font-semibold text-[#192252]'>Account Code:</h5>
+              <p className='float-left'>25</p>
+            </div>
           </div>
           <div className='space-y-4'>
             <div className='flex items-center space-x-6'>
-              <h5 className='font-semibold text-[#192252]'>Date and Time:</h5>
+              <h5 className='font-semibold text-[#192252]'>Received Dates:</h5>
               <p className='float-left'>Maimoon</p>
             </div>
             <div className='flex items-center space-x-6'>
-              <h5 className='font-semibold text-[#192252]'>Last Name:</h5>
+              <h5 className='font-semibold text-[#192252]'>Delivey Note Number:</h5>
+              <p className='float-left'>25</p>
+            </div>
+            <div className='flex items-center space-x-6'>
+              <h5 className='font-semibold text-[#192252]'>Const-Center:</h5>
               <p className='float-left'>25</p>
             </div>
           </div>
@@ -45,7 +45,7 @@ const ViewPurchasedOrder = () => {
 
 
         <div className="flex gap-4">
-          <h5>Description:</h5>
+          <h5>Reason of Returning:</h5>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus repudiandae hic ullam sunt at! 
             Sapiente officiis natus quia fuga quis, ipsum, sit, animi voluptate quaerat quasi doloribus 
             Sapiente officiis natus quia fuga quis, ipsum, sit, animi voluptate quaerat quasi doloribus 
@@ -58,4 +58,4 @@ const ViewPurchasedOrder = () => {
   )
 }
 
-export default ViewPurchasedOrder
+export default ViewGoodsReturnNote

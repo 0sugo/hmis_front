@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import newPatient from '../../assets/images/newPatient.svg'
-import eye from '../../assets/images/eye.svg'
+import { MdFileDownload, MdRemoveRedEye } from "react-icons/md";
 
 const ClaimManagement = () => {
 
@@ -119,11 +119,11 @@ const ClaimManagement = () => {
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className='py-2 px-6 flex items-center space-x-2'>
-                    <Link to={`/app/generateclaim/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
+                    <Link to={`/app/generateclaim/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
+                      <MdFileDownload />
                     </Link>
-                    <Link to={`/app/generateclaim/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
+                    <Link to={`/app/generateclaim/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
+                      <MdRemoveRedEye />
                     </Link>
                   </td>
                 </tr>
