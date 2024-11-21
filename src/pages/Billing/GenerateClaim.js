@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import pic from '../../assets/images/pic.svg'
 import { Link } from 'react-router-dom'
 import { MdFileDownload, MdRemoveRedEye } from "react-icons/md";
+import ProcedeToClaim from './ProcedeToClaim'
 
 const GenerateClaim = () => {
 
@@ -45,6 +46,14 @@ const GenerateClaim = () => {
   ];
 
   const [list, setList] = useState(waitingReviewsData);
+
+  // Modal to add claim submision
+  const openModal = () => {
+    const dialog = document.getElementById('my_modal_3');
+    if (dialog !== null) {
+      dialog.showModal();
+    }
+  };
 
   return (
     <div className='mx-auto p-4'>
@@ -184,7 +193,20 @@ const GenerateClaim = () => {
       <section className='my-4'>
         <div className='flex items-center float-right space-x-4 mt-4'>
           <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Push To Slade</button>
-          <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Proceed to Claim</button>
+          <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Procede To Claim</button>
+          {/* procede to claim modal */}
+          <dialog id="my_modal_3" className="modal">
+            <div className="modal-box">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              </form>
+              {/* procede to claim  section */}
+              <section>
+                <ProcedeToClaim />
+              </section>
+            </div>
+          </dialog>
         </div>
       </section>
     </div>

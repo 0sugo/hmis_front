@@ -181,7 +181,7 @@ const ViewApproval = () => {
       <section className='my-4'>
         <div className='flex items-center float-right space-x-4 mt-4'>
           <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Push To Slade</button>
-          <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Proceed to Claim</button>
+          <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Send Approval</button>
         </div>
       </section>
     </div>
