@@ -1,13 +1,13 @@
 import React from 'react'
 import pic from '../../assets/images/pic.svg'
 
-const ViewLabReport = () => {
+const ApprovedLabRequest = () => {
 
   return (
     <div className='mx-auto p-4'>
       <div className='flex items-center justify-between'>
-        <h4 className='font-semibold my-4'>Labaratory <span className='text-[#0E6F1E]'>> Report > View</span></h4>
-        <button type='submit' className='bg-[#0E6F1E] text-white px-8 py-2 rounded-lg hover:bg-[#0E6F1E]'>Move to Doctor</button>
+        <h4 className='font-semibold my-4'>Labaratory <span className='text-[#0E6F1E]'>> Approve Request</span></h4>
+        <button type='submit' className='bg-[#0E6F1E] text-white px-8 py-2 rounded-lg hover:bg-[#0E6F1E]'>Move to Test</button>
       </div>
 
       <section className="bg-white p-4 rounded-lg">
@@ -61,17 +61,10 @@ const ViewLabReport = () => {
             </div>
           </div>
         </div>
-
-        <hr />
-
-        <div className='p-4 border rounded-md mt-4'>
-          <h4>Today Report</h4>
-          <p>Result of Report</p>
-        </div>
       </section>
 
     </div>
   )
 }
 
-export default ViewLabReport
+export default ApprovedLabRequest

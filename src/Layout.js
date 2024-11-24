@@ -42,11 +42,14 @@ import Phleobotomy from './pages/Labaratory/Phleobotomy'
 import Samples from './pages/Labaratory/Samples'
 import Storage from './pages/Labaratory/Storage'
 import WorkList from './pages/Labaratory/WorkList'
-import LabInventory from './pages/Labaratory/LabInventory'
-import Reagents from './pages/Labaratory/Reagents'
+import LabTest from './pages/Labaratory/LabTest'
+import LabRequests from './pages/Labaratory/LabRequests'
+import GenerateRequest from './pages/Labaratory/GenerateRequest'
+import ApprovedLabRequest from './pages/Labaratory/ApprovedLabRequest'
 import InstrumentCalling from './pages/Labaratory/InstrumentCalin'
 import PackageShipment from './pages/Labaratory/PackageShipment'
-import Documents from './pages/Labaratory/Documents'
+import Orders from './pages/Labaratory/Orders'
+import ViewOrder from './pages/Labaratory/ViewOrder'
 import Reports from './pages/Labaratory/Reports'
 import ViewLabReport from './pages/Labaratory/ViewLabReport'
 import AddLabResult from './pages/Labaratory/AddLabResult'
@@ -238,11 +241,14 @@ const Layout = () => {
               <Route path='/samples' element={<Samples />} />
               <Route path='/storage' element={<Storage />} />
               <Route path='/worklist' element={<WorkList />} />
-              <Route path='/labinventory' element={<LabInventory />} />
-              <Route path='/reagents' element={<Reagents />} />
+              <Route path='/labtest' element={<LabTest />} />
+              <Route path='/labrequests' element={<LabRequests />} />
+              <Route path='/generaterequest' element={<GenerateRequest />} />
+              <Route path='/labapprovedrequests' element={<ApprovedLabRequest />} />
               <Route path='/instrumentcalling' element={<InstrumentCalling />} />
               <Route path='/packageshipment' element={<PackageShipment />} />
-              <Route path='/documents' element={<Documents />} />
+              <Route path='/orders' element={<Orders />} />
+              <Route path='/vieworder/:id' element={<ViewOrder />} />
               <Route path='/reports' element={<Reports />} />
               <Route path='/viewlabreports/:id' element={<ViewLabReport />} />
               <Route path='/addlabresult' element={<AddLabResult />} />

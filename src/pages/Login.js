@@ -28,8 +28,6 @@ const Login = ({ setAccessToken }) => {
     } catch (error) {
       if (!error?.response) {
         toast.error('Network error! Check your connection.');
-      } else if (error.response?.status === 400) {
-        toast.error(error.response.data.detail);
       } else {
         toast.error('An error occured while logging in');
       }
