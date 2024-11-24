@@ -198,7 +198,7 @@ const Layout = () => {
                 : 'w-full min-h-screen flex-2'
             }
         >
-          <div>
+          <div className="sticky top-0">
             <Topnav />
           </div>
           <div>

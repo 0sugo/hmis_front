@@ -41,7 +41,7 @@ const Navbar = () => {
 
   return (
     <div className='flex justify-between items-center p-1 bg-white shadow-md'>
-      <div className='text-xl rounded-full p-3'>
+      <div className='text-xl p-2 hover:cursor-pointer'>
         <button className='text-[#0E6F1E]' onClick={handleActiveMenu}><AiOutlineMenu /></button>
       </div>
       <div>
@@ -63,7 +63,7 @@ const Navbar = () => {
               />
             </div>
           </div>
-          <div className='dropdown'>
+          <div>
             <a className='dropdown-toggle px-4 py-1  text-black font-medium transition duration-150 ease-in-out flex items -center whitespace-nowrap ' href='/#' type='button' id='dropdownMenuButton2' data-bs-toggle='dropdown' aria-expanded='false'>
               <div className='grid'>
                 <span className='font-bold text-[#007CFF]'>{user.email}</span>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdOutlineCancel, MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { FaUser, FaUserMd } from 'react-icons/fa';
@@ -25,12 +25,48 @@ import Settings from '../../assets/images/settings.svg';
 const SideBar = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
 
+  const sidebarRef = useRef(null);
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Update screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Close sidebar when clicking outside of it on mobile
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setActiveMenu(false);
+      }
+    };
+
+    if (isMobile && activeMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeMenu, isMobile, setActiveMenu]);
+
   // getting current user
   // const currentUser = window.localStorage.getItem('token');
   // const user = JSON.parse(currentUser).data.user_data;
 
   return (
-    <main className='bg-white text-[#f1f5f9] h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-10'>
+    <main ref={sidebarRef} className='bg-white text-[#f1f5f9] h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-10 z-10'>
       {activeMenu && (
         <>
           <div className='flex justify-between items-center relative p-2 font-sans font-bold border-b-4 border-b-[#f1f5f9]'>
