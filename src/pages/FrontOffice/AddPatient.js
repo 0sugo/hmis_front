@@ -1,216 +1,570 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const AddPatient = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({
+    // Patient Details
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    address: '',
+
+    // Emergency Medical Information
+    emergencyContactName: '',
+    emergencyContactPhone: '',
+    allergies: '',
+
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleNext = () => {
+    setCurrentStep(prev => prev + 1);
+  };
+
+  const handlePrevious = () => {
+    setCurrentStep(prev => prev - 1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Handle form submission here
+  };
+
   return (
-    <div className='mx-auto p-4'>
-      <h4 className='my-4'>Add Patient</h4>
+    <div className='container mx-auto px-4 py-6'>
+      <h4 className='text-2xl font-semibold mb-6 '>Add Patient</h4>
 
-      <div className="bg-white p-4 rounded-lg">
-        <h5 className='mb-3'>Add Patient Detail</h5>
-        <hr />
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h5 className='text-xl font-medium mb-4 text-center'>STEP {currentStep}.</h5>
+        <hr className='mb-6' />
 
-        <div className='py-4'>
-          <form action="">
-            <div className='w-full lg:w-2/3'>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>First Name <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="text" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter first name'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Last Name <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="text" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter last name'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4'>
-                  <label htmlFor="Age" className='whitespace-nowrap'>Age <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-left w-full lg:w-3/6'>
-                  <input 
-                    type="date" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Date of Birth <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="date" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='dob'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Mobile Number <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="number" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter your mobile number'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Identification Type <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <select 
-                    name="id" id="identity"
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="">ID</option>
-                    <option value="">pASSPORT</option>
-                  </select>
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>National ID <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <select 
-                    name="id" id="identity"
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="">ID</option>
-                    <option value="">pASSPORT</option>
-                  </select>
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>ID No. <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="number" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter your ID number'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Upload ID photo <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="File" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Upload Photo'
-                  />
-                </div>
-              </div>
-              <div className='mx-0 lg:mx-48 py-4 '>
-                <span>Contact Information:</span>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Phone Number 1 <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="number" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter here...'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Phone Number 2 <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="number" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter here...'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Email <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="email" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter here...'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Address <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="text" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Enter here...'
-                  />
-                </div>
-              </div>
-              <div className='my-2 flex flex-wrap items-center justify-center space-x-2'>
-                <div className='text-right w-full lg:w-1/4 '>
-                  <label htmlFor="fname" className='whitespace-nowrap'>Residence <span className='text-red-600'>*</span></label>
-                </div>
-                <div className='float-right w-full lg:w-3/6'>
-                  <input 
-                    type="number" 
-                    className='px-3 py-3 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                    required
-                    placeholder='Town'
-                  />
-                </div>
-              </div>
-              <div className='flex items-center justify-center mt-6'>
-                <button className='px-5 py-2 bg-[#0E6F1E] text-white rounded-lg w-full lg:w-1/2'>Save & Next</button>
-              </div>
-            </div>
-          </form>
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          {currentStep === 1 && <PatientDetails handleInputChange={handleInputChange} />}
+          {currentStep === 2 && <EmergencyInformation handleInputChange={handleInputChange} />}
+
+          <div className="flex justify-center items-center space-x-4 mt-8">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="px-6 py-2 bg-[#0E6F1E] text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Previous
+              </button>
+            )}
+
+            {currentStep < 2 ? (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="px-6 py-2 bg-[#0E6F1E] text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Save & Next
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="px-6 py-2 bg-[#0E6F1E] text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+const PatientDetails = ({ handleInputChange }) => {
+  const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0E6F1E] focus:border-transparent';
+  const labelStyles = 'block text-sm font-medium text-gray-700 mb-1';
+
+  return (
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <div className='space-y-4'>
+        <div>
+          <label htmlFor="firstName" className={labelStyles}>
+            First Name <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            className={inputStyles}
+            required
+            placeholder='Enter first name'
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="lastName" className={labelStyles}>
+            Last Name <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            className={inputStyles}
+            required
+            placeholder='Enter last name'
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="age" className={labelStyles}>
+            Age <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            className={inputStyles}
+            required
+            placeholder='Enter age'
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="dateOfBirth" className={labelStyles}>
+            Date of Birth <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="date"
+            id="dateOfBirth"
+            name="dateOfBirth"
+            className={inputStyles}
+            required
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className='space-y-4'>
+        <div>
+          <label htmlFor="mobileNumber" className={labelStyles}>
+            Mobile Number <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="tel"
+            id="mobileNumber"
+            name="mobileNumber"
+            className={inputStyles}
+            required
+            placeholder='Enter mobile number'
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="identificationType" className={labelStyles}>
+            Identification Type <span className='text-red-600'>*</span>
+          </label>
+          <select
+            id="identificationType"
+            name="identificationType"
+            className={inputStyles}
+            required
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
+            <option value="ID">ID</option>
+            <option value="Passport">Passport</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="nationalId" className={labelStyles}>
+            National ID <span className='text-red-600'>*</span>
+          </label>
+          <select
+            id="nationalId"
+            name="nationalId"
+            className={inputStyles}
+            required
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
+            <option value="ID">ID</option>
+            <option value="Passport">Passport</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="idNumber" className={labelStyles}>
+            ID No. <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="text"
+            id="idNumber"
+            name="idNumber"
+            className={inputStyles}
+            required
+            placeholder='Enter ID number'
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className='md:col-span-2'>
+        <div>
+          <label htmlFor="idPhoto" className={labelStyles}>
+            Upload ID Photo <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="file"
+            id="idPhoto"
+            name="idPhoto"
+            className={inputStyles}
+            required
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className='md:col-span-2'>
+        <h6 className='text-lg font-semibold mb-4'>Contact Information</h6>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div>
+            <label htmlFor="phoneNumber1" className={labelStyles}>
+              Phone Number 1 <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="tel"
+              id="phoneNumber1"
+              name="phoneNumber1"
+              className={inputStyles}
+              required
+              placeholder='Enter phone number'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="phoneNumber2" className={labelStyles}>
+              Phone Number 2 <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="tel"
+              id="phoneNumber2"
+              name="phoneNumber2"
+              className={inputStyles}
+              required
+              placeholder='Enter phone number'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className={labelStyles}>
+              Email <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className={inputStyles}
+              required
+              placeholder='Enter email'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="address" className={labelStyles}>
+              Address <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              className={inputStyles}
+              required
+              placeholder='Enter address'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="residence" className={labelStyles}>
+              Residence <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="text"
+              id="residence"
+              name="residence"
+              className={inputStyles}
+              required
+              placeholder='Enter town'
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
       </div>
     </div>
   )
 }
+
+const EmergencyInformation = ({ handleInputChange }) => {
+  const [paymentMethods, setPaymentMethods] = useState({
+    cash: false,
+    insurance: false
+  });
+  const [principalMember, setPrincipalMember] = useState('');
+
+  const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0E6F1E] focus:border-transparent';
+  const labelStyles = 'block text-sm font-medium text-gray-700 mb-1';
+
+  const handlePaymentMethodChange = (method) => {
+    const updatedMethods = {
+      ...paymentMethods,
+      [method]: !paymentMethods[method]
+    };
+    setPaymentMethods(updatedMethods);
+    handleInputChange({
+      target: {
+        name: 'paymentMethods',
+        value: updatedMethods
+      }
+    });
+  };
+
+  const handlePrincipalMemberChange = (value) => {
+    setPrincipalMember(value);
+    handleInputChange({
+      target: {
+        name: 'principalMember',
+        value: value
+      }
+    });
+  };
+
+  return (
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <div className='space-y-4'>
+        <div>
+          <label htmlFor="nextOfKinName" className={labelStyles}>
+            Next of Kin Name <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="text"
+            id="nextOfKinName"
+            name="nextOfKinName"
+            className={inputStyles}
+            required
+            placeholder='Enter next of kin name'
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="nextOfKinMobile" className={labelStyles}>
+            Mobile Number <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="tel"
+            id="nextOfKinMobile"
+            name="nextOfKinMobile"
+            className={inputStyles}
+            required
+            placeholder='Enter next of kin mobile number'
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="relationship" className={labelStyles}>
+            Relationship <span className='text-red-600'>*</span>
+          </label>
+          <input
+            type="text"
+            id="relationship"
+            name="relationship"
+            className={inputStyles}
+            required
+            placeholder='e.g. father'
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className='space-y-4'>
+        <div>
+          <label className={labelStyles}>
+            Payer Details <span className='text-red-600'>*</span>
+          </label>
+          <div className='flex space-x-4'>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="paymentMethod"
+                value="cash"
+                checked={paymentMethods.cash}
+                onChange={() => handlePaymentMethodChange('cash')}
+                className="h-4 w-4 text-[#0E6F1E] border-gray-300 rounded focus:ring-[#0E6F1E]"
+              />
+              <span className="ml-2 text-gray-700">Cash</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="paymentMethod"
+                value="insurance"
+                checked={paymentMethods.insurance}
+                onChange={() => handlePaymentMethodChange('insurance')}
+                className="h-4 w-4 text-[#0E6F1E] border-gray-300 rounded focus:ring-[#0E6F1E]"
+              />
+              <span className="ml-2 text-gray-700">Insurance</span>
+            </label>
+          </div>
+          <p className='text-red-600 text-xs mt-1'>
+            Note: A payer can be both cash & Insurance. A patient can have multiple insurances.
+          </p>
+        </div>
+
+        <div>
+          <label className={labelStyles}>
+            Principal Member <span className='text-red-600'>*</span>
+          </label>
+          <div className='flex space-x-4'>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="principalMember"
+                required
+                value="Principal Member"
+                checked={principalMember === 'Principal Member'}
+                onChange={() => handlePrincipalMemberChange('Principal Member')}
+                className="h-4 w-4 text-[#0E6F1E] border-gray-300 focus:ring-[#0E6F1E]"
+              />
+              <span className="ml-2 text-gray-700">Principal Member</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="principalMember"
+                value="Dependent"
+                required
+                checked={principalMember === 'Dependent'}
+                onChange={() => handlePrincipalMemberChange('Dependent')}
+                className="h-4 w-4 text-[#0E6F1E] border-gray-300 focus:ring-[#0E6F1E]"
+              />
+              <span className="ml-2 text-gray-700">Dependent</span>
+            </label>
+          </div>
+          <p className='text-red-600 text-xs mt-1'>
+            Note: if dependent, then fill in the principal member's details.
+          </p>
+        </div>
+      </div>
+
+      <div className='md:col-span-2'>
+        <h6 className='text-lg font-semibold mb-4'>Primary Insurance Details</h6>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div>
+            <label htmlFor="insurer" className={labelStyles}>
+              Insurer <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="text"
+              id="insurer"
+              name="insurer"
+              className={inputStyles}
+              required
+              placeholder='Enter your Insurer'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="scheme" className={labelStyles}>
+              Scheme <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="text"
+              id="scheme"
+              name="scheme"
+              className={inputStyles}
+              required
+              placeholder='Enter your scheme'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="scanInsuaranceCard" className={labelStyles}>
+              Scan Insuarance Card <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="file"
+              id="idPhoto"
+              name="idPhoto"
+              className={inputStyles}
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="principalMemberName" className={labelStyles}>
+              Principal Member Name <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="text"
+              id="principalMemberName"
+              name="principalMemberName"
+              className={inputStyles}
+              required
+              placeholder='Enter principal member name'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="principalMemberNumber" className={labelStyles}>
+              Principal Member Number <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="text"
+              id="principalMemberNumber"
+              name="principalMemberNumber"
+              className={inputStyles}
+              required
+              placeholder='Enter principal member number'
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="memberValidity" className={labelStyles}>
+              Member Validity <span className='text-red-600'>*</span>
+            </label>
+            <input
+              type="date"
+              id="memberValidity"
+              name="memberValidity"
+              className={inputStyles}
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 
 export default AddPatient
