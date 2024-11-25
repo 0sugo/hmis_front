@@ -165,7 +165,10 @@ import ApprovalDesk from './pages/Billing/ApprovalDesk'
 import ViewApproval from './pages/Billing/ViewApproval'
 import BillingReports from './pages/Billing/BillingReports'
 import BillQuote from './pages/Billing/BillQuote'
-
+import EmergencyVisit from './pages/FrontOffice/EmergencyVisit';
+import NewVisit from './pages/FrontOffice/NewVisit';
+import CreatePersonalVisit from './pages/FrontOffice/CreatePersonalVisit';
+import Appointment from './pages/FrontOffice/Appointment';
 
 const Layout = () => {
   const { activeMenu } = useStateContext();
@@ -273,7 +276,7 @@ const Layout = () => {
               <Route path='/dischargemedreturn' element={<DischargeMedReturn />} />
               <Route path='/opdrughistory' element={<OpDrugHistory />} />
               <Route path='/refundpendingdrug' element={<RefundPendingDrug />} />
-              
+
               <Route path='/walkin-prescription' element={<WalkinPrescription />} />
               <Route path='/op-prescription' element={<OpPrescriptions />} />
               <Route path='/viewopprescription/:id' element={<ViewOpPrescription />} />
@@ -299,9 +302,13 @@ const Layout = () => {
 
               {/* FrontOffice routes */}
               <Route path='/fo-dashboard' element={<FoDashboard />} />
-              <Route path='/addpatient' element={<AddPatient />} />
+              <Route path='/addnewpatient' element={<AddPatient />} />
               <Route path='/patientregistration' element={<PatientRegistration />} />
               <Route path='/searchpatient' element={<SearchPatient />} />
+              <Route path ='/newvisit' element={<NewVisit />} />
+              <Route path ='/emergencyvisit' element={<EmergencyVisit />} />
+              <Route path ='/createPersonalVisit' element={<CreatePersonalVisit />} />
+              <Route path ='/appointments' element={<Appointment />} />
 
               {/* Procurement routes */}
               <Route path='/procurementrequests' element={<ProcurementRequest />} />
