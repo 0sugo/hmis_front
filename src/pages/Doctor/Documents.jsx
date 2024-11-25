@@ -26,9 +26,6 @@ const Documents = () => {
       <div className='flex justify-between items-center'>
         <p className='text-[#192252] font-medium text-xl flex items-center gap-2'>Ajay Sharma <span className='flex items-center text-customGreen text-sm'><IoIosArrowForward />Documents</span></p>
       </div>
-
-      
-
       <div className='flex flex-col gap-2'>
         {tableData.map((item, index) => (
           <div className='bg-white flex justify-between p-4 rounded-lg items-center'>
