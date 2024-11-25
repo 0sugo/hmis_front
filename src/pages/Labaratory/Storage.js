@@ -84,11 +84,11 @@ const Storage = () => {
         </div>
       </section>
 
-      <div className='flex flex-wrap items-center gap-2 my-8'>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Dissociate Sample</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Freeze Sample</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Thaw Sample</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Store Sample</span></Link>
+      <div className='grid grid-cols-2 lg:grid-cols-4 gap-2 my-4'>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Dissociate Sample</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Freeze Sample</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Thaw Sample</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Store Sample</span></Link>
       </div>
 
       <section className="bg-white p-4 rounded-lg ">

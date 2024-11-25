@@ -83,10 +83,10 @@ const ClaimManagement = () => {
         </div>
       </section>
 
-      <div className='flex flex-wrap items-center gap-4 my-8'>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Insurance Op Claim</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Insurance Ip Claim</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>NHIF Rebate</span></Link>
+      <div className='grid grid-cols-2 lg:grid-cols-3 gap-4 my-4'>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Insurance Op Claim</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Insurance Ip Claim</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>NHIF Rebate</span></Link>
       </div>
 
       <section className="bg-white p-4 rounded-lg ">

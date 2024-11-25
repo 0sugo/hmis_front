@@ -102,11 +102,11 @@ const Samples = () => {
         </div>
       </section>
 
-      <div className='flex flex-wrap items-center gap-4 my-8'>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Create Pool Samples</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Transfer Samples</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Create Sample Aliquot</span></Link>
-        <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Store Sample</span></Link>
+      <div className='grid grid-cols-2 lg:grid-cols-4 gap-2 my-4'>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Create Pool Samples</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Transfer Samples</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Create Sample Aliquot</span></Link>
+        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Store Sample</span></Link>
       </div>
 
       <section className="bg-white p-4 rounded-lg ">

@@ -92,10 +92,10 @@ const InpatientBilling = () => {
         </div>
       </section>
 
-      <div className='flex items-center justify-between my-2'>
-        <div className='flex items-center gap-4'>
+      <div className='flex flex-wrap items-center justify-between my-4'>
+        <div className='flex flex-wrap items-center gap-4'>
           <h3 className='text-xl text-center font-semibold text-[#192252]'>Bill Listing</h3>
-          <div className='flex flex-wrap items-center gap-4 my-8'>
+          <div className='flex flex-wrap items-center gap-2 my-2'>
             <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Receive Deposit</span></Link>
             <Link to='#'><span className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Refund Deposit</span></Link>
           </div>
@@ -103,13 +103,13 @@ const InpatientBilling = () => {
         <Link to='#' className='text-[#0E6F1E] font-semibold'>See all</Link>
       </div>
 
-      <div className='flex flex-wrap items-center gap-4'>
-        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Finalize</span></Link>
-        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Unfinalze</span></Link>
-        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Edit Invoice</span></Link>
-        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Split Payment</span></Link>
-        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Cancel Invoice</span></Link>
-        <Link to='#'><span className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg'>Add Discout</span></Link>
+      <div className='grid grid-cols-2 lg:grid-cols-6 gap-2'>
+        <Link to='#' className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Finalize</span></Link>
+        <Link to='#' className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Unfinalze</span></Link>
+        <Link to='#' className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Edit Invoice</span></Link>
+        <Link to='#' className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Split Payment</span></Link>
+        <Link to='#' className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Cancel Invoice</span></Link>
+        <Link to='#' className='bg-[#DBE8E4] text-[#0E6F1E] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Add Discout</span></Link>
       </div>
 
       <section className='bg-white p-4 my-4 rounded-lg'>
