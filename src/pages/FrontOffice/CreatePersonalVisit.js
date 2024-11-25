@@ -56,7 +56,7 @@ const CreatePersonalVisit = () => {
               <span className="text-[#413D80] font-semibold">Member Verification</span>
             </div>
 
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex flex-wrap items-center gap-4 mb-4">
               <div className="flex-grow">
                 <input
                   type="search"
@@ -297,7 +297,7 @@ const CreatePersonalVisit = () => {
                 { label: 'Occupation:', value: 'Medical Doctor' },
                 { label: 'Company:', value: 'Britam' }
               ].map(({ label, value }) => (
-                <p key={label} className="grid grid-cols-3 py-1">
+                <p key={label} className="grid grid-cols-3 gap-2 py-1">
                   <span>{label}</span>
                   <span className="text-[#616161] col-span-2">{value}</span>
                 </p>
@@ -311,7 +311,7 @@ const CreatePersonalVisit = () => {
                 { label: 'Address:', value: 'Ndovi Road, Malindi Kenya' },
                 { label: 'Prescribed By:', value: 'Dr. Yunus' }
               ].map(({ label, value }) => (
-                <p key={label} className="grid grid-cols-3 py-1">
+                <p key={label} className="grid grid-cols-3 gap-2 py-1">
                   <span>{label}</span>
                   <span className="text-[#616161] col-span-2">{value}</span>
                 </p>
@@ -322,7 +322,7 @@ const CreatePersonalVisit = () => {
       </section>
 
       {/* Navigation Indicators */}
-      <div className="w-full grid grid-cols-3 gap-4 mb-6">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {sections.map((section) => (
           <button
             key={section}
