@@ -115,7 +115,7 @@ const FoDashboard = () => {
         </div>
 
         <div>
-          <div className='items-center mt-4 justify-center rounded-lg grid grid-cols-5 gap-3'>
+          <div className='items-center mt-4 justify-center rounded-lg grid grid-cols-2 lg:grid-cols-5 gap-3'>
             {dashboardList.map((data, index) => (
               <div key={index}>
                 {data === 'Emergency Visit' ? (
@@ -185,7 +185,7 @@ const FoDashboard = () => {
       <section className="bg-white p-4 rounded-lg mb-4">
         <span>Visits in Progress</span>
 
-        <div className='mt-2'>
+        <div className='overflow-x-auto rounded-lg mt-2'>
           <table className='w-full table-auto'>
             <thead>
               <tr>
