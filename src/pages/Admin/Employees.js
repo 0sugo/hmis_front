@@ -80,7 +80,7 @@ const Employees = () => {
               </div>
             </div>
           ) : (
-            <div className='overflow-x-auto rounded-lg'>
+            <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
               {employees.length > 0 ? (
                 <table className='w-full text-justify table-auto'>
                   <thead>
