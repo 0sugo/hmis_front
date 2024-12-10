@@ -12,7 +12,14 @@ import Missing from './pages/Missing';
 import Home from './pages/Home';
 
 import Departments from './pages/Admin/Departments'
+import ViewDepartment from './pages/Admin/ViewDepartment'
+import UpdateDepartment from './pages/Admin/UpdateDepartment'
 import Schemes from './pages/Admin/Schemes'
+import ViewScheme from './pages/Admin/ViewScheme'
+import UpdateScheme from './pages/Admin/UpdateScheme'
+import Employee from './pages/Admin/Employees'
+import ViewAdminEmployee from './pages/Admin/ViewAdminEmployee'
+import UpdateEmployee from './pages/Admin/UpdateEmployee'
 import Vendors from './pages/Admin/Vendors'
 import Accounts from './pages/Admin/Accounts'
 import HospitalData from './pages/Admin/HospitalData'
@@ -211,7 +218,14 @@ const Layout = () => {
 
               {/* Admin routes */}
               <Route path='/departments' element={<Departments />} />
+              <Route path='/updatedepartment/:id' element={<UpdateDepartment />} />
+              <Route path='/viewdepartment/:id' element={<ViewDepartment />} />
               <Route path='/schemes' element={<Schemes />} />
+              <Route path='/updatescheme/:id' element={<UpdateScheme />} />
+              <Route path='/viewscheme/:id' element={<ViewScheme />} />
+              <Route path='/employees' element={<Employee />} />
+              <Route path='/viewemployee/:id' element={<ViewAdminEmployee />} />
+              <Route path='/updateemployee/:id' element={<UpdateEmployee />} />
               <Route path='/vendors' element={<Vendors />} />
               <Route path='/accounts' element={<Accounts />} />
               <Route path='/hospitaldata' element={<HospitalData />} />

@@ -5,22 +5,23 @@ import { MdOutlineBlock, MdModeEdit } from 'react-icons/md';
 import { FaRegEye } from 'react-icons/fa';
 import Loader from '../Loader';
 import Pagination from '../Pagination';
-import CreateDepartment from './CreateDepartment'
+import CreateEmployee from './CreateEmployee'
 
 
-const Department = () => {
+const Employees = () => {
 
-  const [department, setDepartment] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(20);
   const [count, setCount] = useState(0)
 
-  const getDepartments = async () => {
+  const getEmployees = async () => {
     try {
-      const response = await axios.get('/api/departments')
-      setDepartment(response.data)
+      const response = await axios.get('/api/employees')
+      setEmployees(response.data)
+      console.log(response.data)
       setLoading(false);
       setError(null);
     } catch (error) {
@@ -37,12 +38,10 @@ const Department = () => {
   }
 
   useEffect(() => {
-    getDepartments()
+    getEmployees()
   }, [])
 
-  
-
-  // Modal to create department
+  // Modal to create employees
   const openModal = () => {
     const dialog = document.getElementById('my_modal_3');
     if (dialog !== null) {
@@ -53,17 +52,17 @@ const Department = () => {
   return (
     <div className='mx-auto p-4'>
       <div className='flex items-center justify-between'>
-        <h4 className='font-semibold'>Admin <span className='text-[#0E6F1E]'>> Department</span></h4>
-        <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Create Department</button>
-        {/* create department modal */}
+        <h4 className='font-semibold'>Admin <span className='text-[#0E6F1E]'>> Employees</span></h4>
+        <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Create Employees</button>
+        {/* create employees modal */}
         <dialog id="my_modal_3" className="modal">
           <div className="modal-box">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
-            {/* create department section */}
-            <CreateDepartment/>
+            {/* create employees section */}
+            <CreateEmployee/>
           </div>
         </dialog>
       </div>
@@ -82,30 +81,32 @@ const Department = () => {
             </div>
           ) : (
             <div className='overflow-x-auto rounded-lg'>
-              {department.length > 0 ? (
+              {employees.length > 0 ? (
                 <table className='w-full text-justify table-auto'>
                   <thead>
                     <tr className='border-b border-slate-500'>
                       <th className='py-3 px-6'>No</th>
-                      <th className='py-3 px-6'>Name</th>
+                      <th className='py-3 px-6'>Employee Name</th>
+                      <th className='py-3 px-6'>Employee Code</th>
+                      <th className='py-3 px-6'>Ip Number</th>
                       <th className='py-3 px-6'>Created By</th>
-                      <th className='py-3 px-6'>Approved By</th>
                       <th className='py-3 px-6'>Created At</th>
                       <th className='py-3 px-6'>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {department.map((data) => (
+                    {employees.map((data) => (
                       <tr key={data.id}>
                         <td className='py-2 px-6'>{data.id}</td>
-                        <td className='py-2 px-6'>{data.name}</td>
+                        <td className='py-2 px-6'>{data.employee_name}</td>
+                        <td className='py-2 px-6'>{data.employee_code}</td>
+                        <td className='py-2 px-6'>{data.ipnumber}</td>
                         <td className='py-2 px-6'>{data.created_by}</td>
-                        <td className='py-2 px-6'>{data.approved_by}</td>
                         <td className='py-2 px-6'>{new Date(data.created_at).toISOString().replace('T', ' ').slice(0, 19)}</td>
                         <td className='py-2 px-6'>
                           <div className='flex space-x-3'>
-                            <span className='text-blue-600 text-xl'><Link to={`/app/viewdepartment/${data.id}`}><FaRegEye /></Link></span>
-                            <span className='text-green-600 text-xl'><Link to={`/app/updatedepartment/${data.id}`}><MdModeEdit /></Link></span>
+                            <span className='text-blue-600 text-xl'><Link to={`/app/viewemployee/${data.id}`}><FaRegEye /></Link></span>
+                            <span className='text-green-600 text-xl'><Link to={`/app/updateemployee/${data.id}`}><MdModeEdit /></Link></span>
                           </div>
                         </td>
                       </tr>
@@ -151,4 +152,4 @@ const Department = () => {
   )
 }
 
-export default Department
+export default Employees
