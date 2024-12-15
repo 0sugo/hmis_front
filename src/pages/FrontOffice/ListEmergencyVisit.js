@@ -18,7 +18,7 @@ const ListEmergencyVisit = () => {
 
   const getEmergencyVisit = async () => {
     try {
-      const response = await axios.get('/api/emergencyVisits/')
+      const response = await axios.get('/api/emergencyVisits')
       setEmergencyvisit(response.data)
       setLoading(false);
       setError(null);
