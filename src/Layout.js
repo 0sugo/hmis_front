@@ -110,9 +110,16 @@ import ViewOpeningStock from './pages/Pharmacy/StoreManagement/ViewOpeningStock'
 import PatientDetails from './pages/Pharmacy/StoreManagement/PatientDetails'
 
 import FoDashboard from './pages/FrontOffice/FoDashboard'
+import ListPatients from './pages/FrontOffice/ListPatients'
 import AddPatient from './pages/FrontOffice/AddPatient'
+import ViewPatient from './pages/FrontOffice/ViewPatient'
+import UpdatePatient from './pages/FrontOffice/UpdatePatient'
 import PatientRegistration from './pages/FrontOffice/PatientRegistration'
-import SearchPatient from './pages/FrontOffice/SearchPatient'
+import ListEmergencyVisit from './pages/FrontOffice/ListEmergencyVisit'
+import ViewEmergencyVisit from './pages/FrontOffice/ViewEmergencyVisit'
+import UpdateEmergencyVisit from './pages/FrontOffice/UpdateEmergencyVisit'
+import ViewNewVisit from './pages/FrontOffice/ViewNewVisit'
+import UpdateNewVisit from './pages/FrontOffice/UpdateNewVisit'
 
 import ProcurementRequest from './pages/Procurement/ProcurementRequest'
 import ViewProcurementRequest from './pages/Procurement/ViewProcurementRequest'
@@ -224,8 +231,8 @@ const Layout = () => {
               <Route path='/updatescheme/:id' element={<UpdateScheme />} />
               <Route path='/viewscheme/:id' element={<ViewScheme />} />
               <Route path='/employees' element={<Employee />} />
-              <Route path='/viewemployee/:id' element={<ViewAdminEmployee />} />
-              <Route path='/updateemployee/:id' element={<UpdateEmployee />} />
+              <Route path='/viewadminemployee/:id' element={<ViewAdminEmployee />} />
+              <Route path='/updateadminemployee/:id' element={<UpdateEmployee />} />
               <Route path='/vendors' element={<Vendors />} />
               <Route path='/accounts' element={<Accounts />} />
               <Route path='/hospitaldata' element={<HospitalData />} />
@@ -322,14 +329,21 @@ const Layout = () => {
 
               {/* FrontOffice routes */}
               <Route path='/fo-dashboard' element={<FoDashboard />} />
+              <Route path='/listpatients' element={<ListPatients />} />
               <Route path='/addnewpatient' element={<AddPatient />} />
+              <Route path='/viewpatient/:id' element={<ViewPatient />} />
+              <Route path='/updatepatient/:id' element={<UpdatePatient />} />
               <Route path='/patientregistration' element={<PatientRegistration />} />
-              <Route path='/searchpatient' element={<SearchPatient />} />
+              <Route path='/listemergencyvisit' element={<ListEmergencyVisit />} />
+              <Route path='/viewemergencyvisit/:id' element={<ViewEmergencyVisit />} />
+              <Route path='/updateemergencyvisit/:id' element={<UpdateEmergencyVisit />} />
               <Route path ='/newvisit' element={<NewVisit />} />
+              <Route path ='/viewnewvisit/:id' element={<ViewNewVisit />} />
+              <Route path ='/updatenewvisit/:id' element={<UpdateNewVisit />} />
               <Route path ='/emergencyvisit' element={<EmergencyVisit />} />
               <Route path ='/createPersonalVisit' element={<CreatePersonalVisit />} />
               <Route path ='/appointments' element={<Appointment />} />
-
+            
               {/* Procurement routes */}
               <Route path='/procurementrequests' element={<ProcurementRequest />} />
               <Route path='/viewprocurementrequests/:id' element={<ViewProcurementRequest />} />

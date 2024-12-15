@@ -1,171 +1,172 @@
-// import React from 'react'
-// import { Link, Navigate, useNavigate } from 'react-router-dom'
-// import { MdAdd, MdDelete } from "react-icons/md";
-
-// const NewVisit = () => {
-//   return (
-//     <div className='mx-auto p-4'>
-//       <section className="bg-white p-4 rounded-lg mb-4">
-
-//         <h4><b>New OP Visit</b></h4>
-//         <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-//           <div>
-//             <label htmlFor="searchpatient">
-//               <input
-//                 type="search"
-//                 className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-//                 placeholder='Search for patient here...'
-//               />
-//             </label>
-//           </div>
-
-//         </div>
-//       </section>
-//     </div>
-//   )
-// }
-
-// export default NewVisit
-import React, { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
+import React, { useState, useEffect, } from 'react'
+import { Link } from 'react-router-dom'
+import axios from '../../api/api'
+import { MdOutlineBlock, MdModeEdit, MdOutlineDeleteForever } from 'react-icons/md';
+import { FaRegEye } from 'react-icons/fa';
+import { toast } from 'sonner'
+import Loader from '../Loader';
+import Pagination from '../Pagination';
+import AddVisit from './AddVisit'
 
 const NewVisit = () => {
-  const navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState('');
-  // Sample data - replace with actual API call results
-  const [patients] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      age: 35,
-      gender: "Male",
-      number: "P001",
-      insurance: "NHIF",
-      scheme: "Standard",
-      createdBy: "Dr. Smith"
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      age: 28,
-      gender: "Female",
-      number: "P002",
-      insurance: "AAR",
-      scheme: "Premium",
-      createdBy: "Dr. Johnson"
+  const [newvisit, setNewVisit] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setRecordsPerPage] = useState(20);
+  const [count, setCount] = useState(0)
+
+  const getNewvisit = async () => {
+    try {
+      const response = await axios.get('/api/visits/get/12')
+      setNewVisit(response.data)
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+      if (!error.response) {
+        setError('Network error! Check your connection.');
+      } else if (error.response.status >= 500) {
+        setError('Server error! Please try again later.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
-  ]);
-
-  // Filter patients based on search term
-  const filteredPatients = patients.filter(patient =>
-    patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.number.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleClick = (data) => {
-    const formattedName = data.replace(/\s+/g, '').toLowerCase(); // Remove spaces and convert to lowercase
-    navigate(`/app/${formattedName}`);
-  };
-
-    return (
-      <div className='mx-auto p-4'>
-        <section className="bg-white p-4 rounded-lg mb-4">
-          <h4><b>New OP Visit</b></h4>
-          <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-            <div>
-              <label htmlFor="searchpatient">
-                <input
-                  type="search"
-                  className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                  placeholder='Search for patient here...'
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </label>
-            </div>
-          </div>
-
-          {/* Patient Results Table */}
-          <div className="mt-6 overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Patient Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Age
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Gender
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Number
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Insurance
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Scheme
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Created By
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filteredPatients.map((patient) => (
-                  <tr key={patient.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.age}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.gender}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.number}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.insurance}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.scheme}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {patient.createdBy}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex space-x-2">
-                        <button className="text-[#0E6F1E] hover:text-green-700" onClick={()=> handleClick('createpersonalvisit')}>
-                          <MdAdd size={20} />
-                        </button>
-                        <button className="text-blue-600 hover:text-blue-800">
-                          <MdEdit size={20} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {filteredPatients.length === 0 && (
-              <div className="text-center py-4 text-gray-500">
-                No patients found matching your search.
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
-    )
   }
 
-  export default NewVisit
+  useEffect(() => {
+    getNewvisit()
+  }, [])
+
+  // delete new visit
+  const deleteVisit = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this new visit');
+    if (confirmed) {
+      try {
+        await axios.delete(`/api/visits/permanentlyDelete/${id}`);
+        toast.success('New Visit Deleted');
+        getNewvisit();
+      } catch (error) {
+        toast.error('Failed to delete new visit');
+        console.log(error);
+      }
+    }
+  };
+
+  // Modal to create newvisit
+  const openModal = () => {
+    const dialog = document.getElementById('my_modal_3');
+    if (dialog !== null) {
+      dialog.showModal();
+    }
+  };
+
+  return (
+    <div className='mx-auto p-4'>
+      <div className='flex items-center justify-between'>
+        <h4 className='font-semibold'>Front Office <span className='text-[#0E6F1E]'>> NewVisit</span></h4>
+        <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Create new visit</button>
+        {/* create newvisit modal */}
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            {/* create newvisit section */}
+            <AddVisit/>
+          </div>
+        </dialog>
+      </div>
+
+      <section className='bg-white p-4 my-4 rounded-lg'>
+        {loading ? (
+          <div className='flex items-center justify-center bg-[#f2ecfc] h-[70vh]'>
+            <Loader />
+          </div>
+          ) : error ? (
+            <div className='bg-[#f2ecfc] grid place-items-center h-[70vh]'>
+              <div className='grid place-items-center text-red-600 p-4'>
+                <h3><MdOutlineBlock /></h3>
+                <span>{error}</span>
+              </div>
+            </div>
+          ) : (
+            <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
+              {newvisit.length > 0 ? (
+                <table className='w-full text-justify table-auto'>
+                  <thead>
+                    <tr className='border-b border-slate-500'>
+                      <th className='py-3 px-6'>No</th>
+                      <th className='py-3 px-6'>Patient ID</th>
+                      <th className='py-3 px-6'>Patient Code</th>
+                      <th className='py-3 px-6'>Claim Number</th>
+                      <th className='py-3 px-6'>Amount</th>
+                      <th className='py-3 px-6'>Created By</th>
+                      <th className='py-3 px-6'>Created At</th>
+                      <th className='py-3 px-6'>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newvisit.map((data) => (
+                      <tr key={data.id}>
+                        <td className='py-2 px-6'>{data.id}</td>
+                        <td className='py-2 px-6'>{data.patient_id}</td>
+                        <td className='py-2 px-6'>{data.patient_code}</td>
+                        <td className='py-2 px-6'>{data.claim_number}</td>
+                        <td className='py-2 px-6'>{data.amount}</td>
+                        <td className='py-2 px-6'>{data.created_by}</td>
+                        <td className='py-2 px-6'>{new Date(data.created_at).toISOString().replace('T', ' ').slice(0, 19)}</td>
+                        <td className='py-2 px-6'>
+                          <div className='flex space-x-3'>
+                            <span className='text-blue-600 text-xl'><Link to={`/app/viewnewvisit/${data.id}`}><FaRegEye /></Link></span>
+                            <span className='text-green-600 text-xl'><Link to={`/app/updatenewvisit/${data.id}`}><MdModeEdit /></Link></span>
+                            <button onClick={() => deleteVisit(data.id)} className='text-red-600 text-xl hover:text-red-500'><span><MdOutlineDeleteForever /></span></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                ) : (
+                <div className='bg-[#f2ecfc] text-[#8144E5] grid place-items-center h-[70vh]'>
+                  <div className='grid place-items-center p-4'>
+                    <h3><MdOutlineBlock /></h3>
+                    <h4>No Data</h4>
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        }
+        <div className='flex flex-wrap items-center justify-between mt-4 gap-4'>
+          <div>
+            <span className='mr-2'>Records per page:</span>
+            <select
+              className='px-3 py-1 border bg-[#f2ecfc] border-slate-300 rounded-md focus:outline-none focus:border-[#8144E5] focus:ring-[#8144E5] focus:ring-1'
+              value={recordsPerPage}
+              onChange={(e) => {
+                setRecordsPerPage(parseInt(e.target.value, 10));
+                setCurrentPage(1);
+              }}
+            >
+              <option value='20'>20</option>
+              <option value='50'>50</option>
+              <option value='75'>75</option>
+              <option value='100'>100</option>
+            </select>
+          </div>
+          <Pagination
+            nPages={Math.ceil(count / recordsPerPage)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export default NewVisit
