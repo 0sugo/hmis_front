@@ -1,125 +1,60 @@
-import React, { useState } from 'react'
-import eye from '../../assets/images/eye.svg'
+import React, { useState, useEffect, } from 'react'
+import { Link } from 'react-router-dom'
+import axios from '../../api/api'
+import { MdOutlineBlock, MdModeEdit, MdOutlineDeleteForever } from 'react-icons/md';
+import { FaRegEye } from 'react-icons/fa';
+import Loader from '../Loader';
+import Pagination from '../Pagination';
+import { toast } from 'sonner'
 import download from '../../assets/images/download.svg';
-import search from '../../assets/images/search.svg'
-import { LuPlus } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
 
 const PatientList = () => {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-  const tableData = [
-    {
-      visitCode: 'MM0001',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0002',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0003',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'V0004',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0005',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0006',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0007',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0008',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0009',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0010',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-  ];
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setRecordsPerPage] = useState(20);
+  const [count, setCount] = useState(0)
+
+  const getPatients = async () => {
+    try {
+      const response = await axios.get('/hmis/public/api/patients')
+      setPatients(response.data.data)
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+      if (!error.response) {
+        setError('Network error! Check your connection.');
+      } else if (error.response.status >= 500) {
+        setError('Server error! Please try again later.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    }
+  }
+
+  useEffect(() => {
+    getPatients()
+  }, [])
+
+  // delete patient
+  const deletePatient = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this patient');
+    if (confirmed) {
+      try {
+        await axios.put(`/api/patients/permanentlyDelete/${id}`);
+        toast.success('Patient Deleted');
+        getPatients();
+      } catch (error) {
+        toast.error('Failed to delete patient');
+        console.log(error);
+      }
+    }
+  };
 
 
   return (
@@ -152,38 +87,89 @@ const PatientList = () => {
           </button>
         </div>
       </div>
-      <div className="max-h-full overflow-x-auto overflow-y-auto scrollbar-w-1 scrollbar scrollbar-thumb-[#413D80] scrollbar-track-slate-300 p-4 bg-white">
-        <table className="min-w-full leading-normal">
-          <thead>
-            <tr>
-              <th className="sticky top-0 bg-[#F3F7FF] rounded-tl-xl px-5 py-3 border-b-2 border-gray-200 text-sm text-[#413D80] font-semibold text-left">Patient Name</th>
-              <th className="sticky top-0 bg-[#F3F7FF] px-5 py-3 border-b-2 border-gray-200 text-sm text-[#413D80] font-semibold text-center">Patient ID</th>
-              <th className="sticky top-0 bg-[#F3F7FF] px-5 py-3 border-b-2 border-gray-200 text-sm text-[#413D80] font-semibold text-center">Weight</th>
-              <th className="sticky top-0 bg-[#F3F7FF] px-5 py-3 border-b-2 border-gray-200 text-sm text-[#413D80] font-semibold text-center">Blood Pressure</th>
-              <th className="sticky top-0 bg-[#F3F7FF] px-5 py-3 border-b-2 border-gray-200 text-sm text-[#413D80] font-semibold text-center">Blood Glucose</th>
-              <th className="sticky top-0 bg-[#F3F7FF] rounded-tr-xl px-5 py-3 border-b-2 border-gray-200 text-sm text-[#413D80] font-semibold text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((data, index) => (
-              <tr key={index}>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm">{data.patientName}</td>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.visitCode}</td>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.age}</td>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.visitType}</td>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.waitTime}</td>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">
-                  <div className='flex justify-center gap-2'>
-                    <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8'>
-                      <img src={eye} alt='eye' />
-                    </span>
+     
+      <section className='bg-white p-4 my-4 rounded-lg'>
+        {loading ? (
+          <div className='flex items-center justify-center bg-[#f2ecfc] h-[70vh]'>
+            <Loader />
+          </div>
+          ) : error ? (
+            <div className='bg-[#f2ecfc] grid place-items-center h-[70vh]'>
+              <div className='grid place-items-center text-red-600 p-4'>
+                <h3><MdOutlineBlock /></h3>
+                <span>{error}</span>
+              </div>
+            </div>
+          ) : (
+            <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
+              {patients.length > 0 ? (
+                <table className='w-full text-justify table-auto'>
+                  <thead>
+                    <tr className='border-b border-slate-500'>
+                      <th className='py-3 px-6'>No</th>
+                      <th className='py-3 px-6'>First Name</th>
+                      <th className='py-3 px-6'>Last Name</th>
+                      <th className='py-3 px-6'>Patient Code</th>
+                      <th className='py-3 px-6'>Created By</th>
+                      <th className='py-3 px-6'>Created At</th>
+                      <th className='py-3 px-6'>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {patients.map((data) => (
+                      <tr key={data.id}>
+                        <td className='py-2 px-6'>{data.id}</td>
+                        <td className='py-2 px-6'>{data.patient_firstname}</td>
+                        <td className='py-2 px-6'>{data.patient_lastname}</td>
+                        <td className='py-2 px-6'>{data.patient_code}</td>
+                        <td className='py-2 px-6'>{data.created_by}</td>
+                        <td className='py-2 px-6'>{new Date(data.created_at).toISOString().replace('T', ' ').slice(0, 19)}</td>
+                        <td className='py-2 px-6'>
+                          <div className='flex space-x-3'>
+                            <span className='text-blue-600 text-xl'><Link to={`/app/viewpatient/${data.id}`}><FaRegEye /></Link></span>
+                            <span className='text-green-600 text-xl'><Link to={`/app/updatepatient/${data.id}`}><MdModeEdit /></Link></span>
+                            <button onClick={() => deletePatient(data.id)} className='text-red-600 text-xl hover:text-red-500'><span><MdOutlineDeleteForever /></span></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                ) : (
+                <div className='bg-[#f2ecfc] text-[#8144E5] grid place-items-center h-[70vh]'>
+                  <div className='grid place-items-center p-4'>
+                    <h3><MdOutlineBlock /></h3>
+                    <h4>No Data</h4>
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </div>
+              )}
+            </div>
+          )
+        }
+        <div className='flex flex-wrap items-center justify-between mt-4 gap-4'>
+          <div>
+            <span className='mr-2'>Records per page:</span>
+            <select
+              className='px-3 py-1 border bg-[#f2ecfc] border-slate-300 rounded-md focus:outline-none focus:border-[#8144E5] focus:ring-[#8144E5] focus:ring-1'
+              value={recordsPerPage}
+              onChange={(e) => {
+                setRecordsPerPage(parseInt(e.target.value, 10));
+                setCurrentPage(1);
+              }}
+            >
+              <option value='20'>20</option>
+              <option value='50'>50</option>
+              <option value='75'>75</option>
+              <option value='100'>100</option>
+            </select>
+          </div>
+          <Pagination
+            nPages={Math.ceil(count / recordsPerPage)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      </section>
     </div>
   )
 }
