@@ -102,6 +102,12 @@ const SideBar = () => {
                         <Link to='/app/employees' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Employees</Link>
                       </li>
                       <li className='relative'>
+                        <Link to='/app/clinic' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Clinic</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/payments' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Payments</Link>
+                      </li>
+                      <li className='relative'>
                         <Link to='/app/vendors' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Vendors</Link>
                       </li>
                       <li className='relative'>

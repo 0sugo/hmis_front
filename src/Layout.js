@@ -25,6 +25,14 @@ import Accounts from './pages/Admin/Accounts'
 import HospitalData from './pages/Admin/HospitalData'
 import ProductPriceList from './pages/Admin/ProductPriceList'
 import ToDoList from './pages/Admin/ToDoList'
+import Clinic from './pages/Admin/Clinic/Clinic'
+import CreateClinic from './pages/Admin/Clinic/CreateClinic'
+import UpdateClinic from './pages/Admin/Clinic/UpdateClinic'
+import ViewClinic from './pages/Admin/Clinic/ViewClinic'
+import Payment from './pages/Admin/Payment/Payment'
+import CreatePayment from './pages/Admin/Payment/CreatePayment'
+import ViewPayment from './pages/Admin/Payment/ViewPayment'
+import UpdatePayment from './pages/Admin/Payment/UpdatePayment'
 
 import DashBoard from './pages/Doctor/Dashboard'
 import DashboardIP from './pages/Doctor/DashboardIP'
@@ -238,6 +246,14 @@ const Layout = () => {
               <Route path='/hospitaldata' element={<HospitalData />} />
               <Route path='/productpricelist' element={<ProductPriceList />} />
               <Route path='/todolist' element={<ToDoList />} />
+              <Route path='/clinic' element={<Clinic />} />
+              <Route path='/createclinic' element={<CreateClinic />} />
+              <Route path='/viewclinic/:id' element={<ViewClinic />} />
+              <Route path='/updateclinic/:id' element={<UpdateClinic />} />
+              <Route path='/payments' element={<Payment />} />
+              <Route path='/createpayment' element={<CreatePayment />} />
+              <Route path='/viewpayment/:id' element={<ViewPayment />} />
+              <Route path='/updatepayment/:id' element={<UpdatePayment />} />
 
               {/* Doctors routes */}
               <Route path='/OPDashboard' element={<DashBoard />} />

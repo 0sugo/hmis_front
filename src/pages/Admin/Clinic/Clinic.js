@@ -1,26 +1,26 @@
 import React, { useState, useEffect, } from 'react'
 import { Link } from 'react-router-dom'
-import axios from '../../api/api'
-import { MdOutlineBlock, MdModeEdit } from 'react-icons/md';
+import axios from '../../../api/api'
+import { MdOutlineBlock, MdModeEdit, MdOutlineDeleteForever } from 'react-icons/md';
+import { toast } from 'sonner'
 import { FaRegEye } from 'react-icons/fa';
-import Loader from '../Loader';
-import Pagination from '../Pagination';
-import CreateEmployee from './CreateEmployee'
+import Loader from '../../Loader';
+import Pagination from '../../Pagination';
+import CreateClinic from './CreateClinic'
 
+const Clinic = () => {
 
-const Employees = () => {
-
-  const [employees, setEmployees] = useState([]);
+  const [clinic, setClinic] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(20);
   const [count, setCount] = useState(0)
 
-  const getEmployees = async () => {
+  const getClinics = async () => {
     try {
-      const response = await axios.get('/api/employees')
-      setEmployees(response.data)
+      const response = await axios.get('/api/clinics')
+      setClinic(response.data)
       setLoading(false);
       setError(null);
     } catch (error) {
@@ -37,10 +37,28 @@ const Employees = () => {
   }
 
   useEffect(() => {
-    getEmployees()
+    getClinics()
   }, [])
 
-  // Modal to create employees
+
+  // delete clinic permanently
+  const deleteClinic = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to permanent delete this clinic');
+    if (confirmed) {
+      try {
+        await axios.delete(`/api/clinics/permanentlyDelete/${id}`);
+        toast.success('clinics permanent deleted');
+        getClinics()
+      } catch (error) {
+        toast.error('Failed to permanent delete clinic');
+        console.log(error);
+      }
+    }
+  };
+
+  
+
+  // Modal to create clinic
   const openModal = () => {
     const dialog = document.getElementById('my_modal_3');
     if (dialog !== null) {
@@ -51,17 +69,17 @@ const Employees = () => {
   return (
     <div className='mx-auto p-4'>
       <div className='flex items-center justify-between'>
-        <h4 className='font-semibold'>Admin <span className='text-[#0E6F1E]'>> Employees</span></h4>
-        <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Create Employees</button>
-        {/* create employees modal */}
+        <h4 className='font-semibold'>Admin <span className='text-[#0E6F1E]'>> Clinic</span></h4>
+        <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Create Clinic</button>
+        {/* create clinic modal */}
         <dialog id="my_modal_3" className="modal">
           <div className="modal-box">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
-            {/* create employees section */}
-            <CreateEmployee/>
+            {/* create clinic section */}
+            <CreateClinic/>
           </div>
         </dialog>
       </div>
@@ -79,33 +97,32 @@ const Employees = () => {
               </div>
             </div>
           ) : (
-            <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
-              {employees.length > 0 ? (
+            <div className='overflow-x-auto rounded-lg'>
+              {clinic.length > 0 ? (
                 <table className='w-full text-justify table-auto'>
                   <thead>
                     <tr className='border-b border-slate-500'>
                       <th className='py-3 px-6'>No</th>
-                      <th className='py-3 px-6'>Employee Name</th>
-                      <th className='py-3 px-6'>Employee Code</th>
-                      <th className='py-3 px-6'>Ip Number</th>
+                      <th className='py-3 px-6'>Name</th>
+                      <th className='py-3 px-6'>Description</th>
                       <th className='py-3 px-6'>Created By</th>
                       <th className='py-3 px-6'>Created At</th>
                       <th className='py-3 px-6'>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {employees.map((data) => (
+                    {clinic.map((data) => (
                       <tr key={data.id}>
                         <td className='py-2 px-6'>{data.id}</td>
-                        <td className='py-2 px-6'>{data.employee_name}</td>
-                        <td className='py-2 px-6'>{data.employee_code}</td>
-                        <td className='py-2 px-6'>{data.ipnumber}</td>
+                        <td className='py-2 px-6'>{data.name}</td>
+                        <td className='py-2 px-6'>{data.description}</td>
                         <td className='py-2 px-6'>{data.created_by}</td>
                         <td className='py-2 px-6'>{new Date(data.created_at).toISOString().replace('T', ' ').slice(0, 19)}</td>
                         <td className='py-2 px-6'>
                           <div className='flex space-x-3'>
-                            <span className='text-blue-600 text-xl'><Link to={`/app/viewadminemployee/${data.id}`}><FaRegEye /></Link></span>
-                            <span className='text-green-600 text-xl'><Link to={`/app/updateadminemployee/${data.id}`}><MdModeEdit /></Link></span>
+                            <span className='text-blue-600 text-xl'><Link to={`/app/viewclinic/${data.id}`}><FaRegEye /></Link></span>
+                            <span className='text-green-600 text-xl'><Link to={`/app/updateclinic/${data.id}`}><MdModeEdit /></Link></span>
+                            <button onClick={() => deleteClinic(data.id)} className='text-red-600 text-xl hover:bg-orange-500'><span><MdOutlineDeleteForever /></span></button>
                           </div>
                         </td>
                       </tr>
@@ -151,4 +168,4 @@ const Employees = () => {
   )
 }
 
-export default Employees
+export default Clinic
