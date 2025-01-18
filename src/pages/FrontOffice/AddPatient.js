@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
+import axios from '../../api/api'
+import { useEffect } from 'react';
 
 const AddPatient = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    // Patient Details
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
+    // step1
+    firstname: '',
+    lastname: '',
+    dob: '',
     address: '',
-
-    // Emergency Medical Information
+    residence: '',
+    phonenumber1: '',
+    phonenumber2: '',
+    // step2
     emergencyContactName: '',
     emergencyContactPhone: '',
     allergies: '',
@@ -35,8 +39,20 @@ const AddPatient = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Handle form submission here
   };
+
+  const getScheme = async () => {
+    try {
+      const response = await axios.get('/scheme');
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getScheme();
+  } ,[]);
 
   return (
     <div className='container mx-auto px-4 py-6'>
