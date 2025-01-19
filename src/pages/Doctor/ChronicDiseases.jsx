@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { IoIosArrowForward } from 'react-icons/io';
-import { GoPlus } from 'react-icons/go';
-import PatientNavigation from './PatientNavigation';
+import axios from '../../api/api'
+import { toast } from 'sonner'
 
 const ChronicDiseases = () => {
-  const handleAddNewClick = (type) => {
-    // Implement the add new functionality here
-    console.log(`Adding new ${type}`);
+
+  const [name,setName] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.post('/api/chronicDiseases/create', {
+        name
+      })
+      toast.success('Chronic disease added')
+      setName('')
+    } catch (error) {
+      console.log(error)
+      if (!error?.response) {
+        toast.error('Network error! Check your connection.');
+      } else if (error.response.status === 422) {
+        toast.error(error.response.data.errors.name)
+      } else {
+        toast.error('Oops! Something went wrong.')
+      }
+    }
   };
 
   return (
@@ -26,21 +44,19 @@ const ChronicDiseases = () => {
 
       </div>
 
-      <form className="mt-4">
+      <form className="mt-4" onSubmit={handleSubmit}>
         <label className="text-[#192252] text-xs font-semibold block mb-2">
           Enter Chronic Disease Here:
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center">
-          <select
-            name="disease"
-            placeholder="Disease"
-            className="block w-full sm:col-span-10 border bg-white border-[#DEDEDE] rounded-lg p-2 text-[#AEAEAE] leading-tight focus:outline-none"
-          >
-            <option value="">Select Disease...</option>
-            <option value="disease1">Disease 1</option>
-            <option value="disease2">Disease 2</option>
-            <option value="disease3">Disease 3</option>
-          </select>
+          <input 
+            type="text" 
+            required
+            placeholder='disease'
+            className="block w-full sm:col-span-10 border bg-white border-[#DEDEDE] rounded-lg p-2  leading-tight focus:outline-none"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
           <button
             type="submit"

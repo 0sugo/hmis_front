@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BarChart from '../../components/Graphs/BarChart';
 import DoughnutChart from '../../components/Graphs/DoughnutChart';
+import axios from '../../api/api'
 
 const Consultation = () => {
   const barChartLabels = ['Headache', 'Chest pains', 'Fever', 'Abdonimal pains', 'Diarrhoea', 'Migraine', 'Acid Reflux'];
@@ -11,6 +12,10 @@ const Consultation = () => {
   const [chiefComplaints, setChiefComplaints] = useState([]);
   const [selectedComplaint, setSelectedComplaint] = useState('');
   const [customComplaint, setCustomComplaint] = useState('');
+  const [consultation, setConsultation] = useState([])
+  const [diagnosis, setDiagnosis] = useState([])
+  const [physicalExamination, setPhysicalExamination] = useState([])
+
 
   const handleAddComplaint = () => {
     if (selectedComplaint === 'custom' && customComplaint.trim()) {
@@ -25,6 +30,48 @@ const Consultation = () => {
   const handleRemoveComplaint = (index) => {
     setChiefComplaints(prevComplaints => prevComplaints.filter((_, i) => i !== index));
   };
+
+  // get consultation types
+  const getConsultation = async () => {
+    try {
+      const response = await axios.get('/api/consultationTypes')
+      setConsultation(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getConsultation()
+  }, [])
+
+  // get diagnosis types
+  const getDiagnosis = async () => {
+    try {
+      const response = await axios.get('/api/diagnosis')
+      setDiagnosis(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getDiagnosis()
+  }, [])
+
+  // get PHYSICAL examination types
+  const getphysicalExamination = async () => {
+    try {
+      const response = await axios.get('/api/physicalExaminationTypes')
+      setPhysicalExamination(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getphysicalExamination()
+  }, [])
 
   return (
     <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -49,11 +96,11 @@ const Consultation = () => {
                     Select Consultation Template
                   </label>
                   <select id="consultationType"
-                    className="block w-full border bg-white border-[#DEDEDE] rounded-lg py-2 px-3 text-[#AEAEAE] leading-tight focus:outline-none">
+                    className="block w-full border bg-white border-[#DEDEDE] rounded-lg py-2 px-3 leading-tight focus:outline-none">
                     <option value="">Select a type</option>
-                    <option value="general">General Consultation</option>
-                    <option value="specialist">Specialist Consultation</option>
-                    <option value="follow-up">Follow-up</option>
+                    {consultation.map((consult) => (
+                      <option key={consult.id} value={consult.name}>{consult.description}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -111,11 +158,11 @@ const Consultation = () => {
                 </label>
                 <select
                   id="examinationTemplate"
-                  className="block w-full border bg-white border-[#DEDEDE] rounded-lg py-2 px-3 text-[#AEAEAE] leading-tight focus:outline-none">
+                  className="block w-full border bg-white border-[#DEDEDE] rounded-lg py-2 px-3 leading-tight focus:outline-none">
                   <option value="">Select a template</option>
-                  <option value="template1">Template 1</option>
-                  <option value="template2">Template 2</option>
-                  <option value="template3">Template 3</option>
+                  {physicalExamination.map((physical) => (
+                    <option key={physical.id} value={physical.name}>{physical.description}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -166,11 +213,11 @@ const Consultation = () => {
               <label className="block text-[#000000] text-sm mb-2" htmlFor="diagnosis">Enter Diagnosis</label>
               <select
                 id="diagnosis"
-                className="block w-full border bg-white border-[#DEDEDE] rounded-lg py-3 px-3 text-[#AEAEAE] leading-tight focus:outline-none">
+                className="block w-full border bg-white border-[#DEDEDE] rounded-lg py-3 px-3 leading-tight focus:outline-none">
                 <option value="">Select a diagnostic</option>
-                <option value="diagnostic1">Diagnostic 1</option>
-                <option value="diagnostic2">Diagnostic 2</option>
-                <option value="diagnostic3">Diagnostic 3</option>
+                {diagnosis.map((diagnose) => (
+                  <option key={diagnose.id} value={diagnose.name}>{diagnose.description}</option>
+                ))}
               </select>
             </div>
             <button type='submit' className='bg-customGreen mt-4 text-white rounded-md py-3 px-4 sm:p-4 w-full sm:w-auto'>Add</button>
