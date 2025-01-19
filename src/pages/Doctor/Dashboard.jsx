@@ -11,9 +11,13 @@ import axios from '../../api/api'
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [patientlist, setPatientlist] = useState([]); 
+  const [patientlist, setPatientlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [nextPageUrl, setNextPageUrl] = useState(null);
+  const [prevPageUrl, setPrevPageUrl] = useState(null);
 
   const summary = [
     {
@@ -786,20 +790,29 @@ const Dashboard = () => {
   const [list, setList] = useState(waitingReviewsData);
   const [currentListName, setCurrentListName] = useState('Waiting Reviews');
 
-  const fetchData = async () => {
+  const fetchData = async (url) => {
+    setLoading(true);
     try {
-      const response = await axios.get('/api/patients');
-      setPatientlist(response.data.data); 
+      const response = await axios.get(url);
+      setPatientlist(response.data.data);
+      setCurrentPage(response.data.current_page);
+      setTotalPages(response.data.last_page);
+      setNextPageUrl(response.data.next_page_url);
+      setPrevPageUrl(response.data.prev_page_url);
     } catch (error) {
       setError(error.message);
     } finally {
-      setLoading(false);  
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(`/api/patients?page=${currentPage}`);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
@@ -838,17 +851,13 @@ const Dashboard = () => {
     navigate('/app/patientview');
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
     <div className='mx-auto p-4'>
       <div className="bg-white p-4 rounded-lg">
         {/* Header */}
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center w-full mb-6 md:mb-2'>
           <div className='flex flex-col mb-4 md:mb-0'>
-            <span className='text-black text-sm'>Good Morning</span>
+            <span className='text-black text-sm'>Good Morningoo</span>
             <span className='text-customGreen font-semibold text-xl'>Dr.Alamini</span>
           </div>
           <div className="w-full md:w-auto">
@@ -943,14 +952,51 @@ const Dashboard = () => {
                         </button>
                       </td>
                     </tr>
-                  ))) : (
+                  ))
+                ) : (
                   <tr>
-                    <td colSpan="4" className="px-6 py-3 text-sm text-center">No patients found</td>
-                  </tr>)}
+                    <td colSpan="5" className="px-6 py-3 text-sm text-center">No patients found</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-between items-center mt-4">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={!prevPageUrl}
+              className="px-4 py-2 bg-gray-200 rounded-lg"
+            >
+              &laquo; Previous
+            </button>
+
+            <div className="flex space-x-2">
+              {[...Array(totalPages)].map((_, index) => {
+                const page = index + 1;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-4 py-2 ${currentPage === page ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded-lg`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={!nextPageUrl}
+              className="px-4 py-2 bg-gray-200 rounded-lg"
+            >
+              Next &raquo;
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   );
