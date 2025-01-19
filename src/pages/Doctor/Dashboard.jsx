@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import newPatient from '../../assets/images/newPatient.svg'
-import search from '../../assets/images/search.svg'
+// import search from '../../assets/images/search.svg'
 import patientWait from '../../assets/images/patientWait.svg'
 import sleep from '../../assets/images/sleep.svg'
 import dayCaseImg from '../../assets/images/dayCase.svg'
-import pen from '../../assets/images/pen.svg'
+// import pen from '../../assets/images/pen.svg'
 import eye from '../../assets/images/eye.svg'
 import { useNavigate } from 'react-router-dom'
+import axios from '../../api/api'
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [patientlist, setPatientlist] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const summary = [
     {
@@ -782,6 +786,27 @@ const Dashboard = () => {
   const [list, setList] = useState(waitingReviewsData);
   const [currentListName, setCurrentListName] = useState('Waiting Reviews');
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/patients');
+      setPatientlist(response.data.data); 
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);  
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const ageDiff = Date.now() - birthDate.getTime();
+    const ageDate = new Date(ageDiff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
 
   const showNewPatients = () => {
@@ -812,6 +837,10 @@ const Dashboard = () => {
   const handleIndividualPatient = () => {
     navigate('/app/patientview');
   }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className='mx-auto p-4'>
@@ -901,19 +930,23 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {list.map((data, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-3 text-sm">{data.patientName}</td>
-                    <td className="px-6 py-3 text-sm">{data.visitCode}</td>
-                    <td className="px-6 py-3 text-sm">{data.age} kg</td>
-                    <td className="px-6 py-3 text-sm">120/80</td>
-                    <td className="px-6 py-3 text-sm">
-                      <button onClick={() => handleIndividualPatient(data.visitCode)} className="bg-[#DBFFDE] p-2 rounded-lg">
-                        <img src={eye} alt="View" className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {patientlist.length > 0 ? (
+                  patientlist.map((data, index) => (
+                    <tr key={index}>
+                      <td className="px-6 py-3 text-sm">{`${data.patient_firstname} ${data.patient_lastname}`}</td>
+                      <td className="px-6 py-3 text-sm">{data.patient_code}</td>
+                      <td className="px-6 py-3 text-sm">{data.age} kg</td>
+                      <td className="px-6 py-3 text-sm">120/80</td>
+                      <td className="px-6 py-3 text-sm">
+                        <button onClick={() => handleIndividualPatient(data.visitCode)} className="bg-[#DBFFDE] p-2 rounded-lg">
+                          <img src={eye} alt="View" className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))) : (
+                  <tr>
+                    <td colSpan="4" className="px-6 py-3 text-sm text-center">No patients found</td>
+                  </tr>)}
               </tbody>
             </table>
           </div>
