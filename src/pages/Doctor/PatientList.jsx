@@ -4,123 +4,23 @@ import download from '../../assets/images/download.svg';
 import search from '../../assets/images/search.svg'
 import { LuPlus } from "react-icons/lu";
 import { GoPlus } from "react-icons/go";
+import axios from '../../api/api'
 
 const PatientList = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-  const tableData = [
-    {
-      visitCode: 'MM0001',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0002',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0003',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'V0004',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0005',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0006',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0007',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0008',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0009',
-      date: '12/12/2021',
-      patientName: 'Idris Maimon',
-      age: 34,
-      gender: 'Male',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-    {
-      visitCode: 'MM0010',
-      date: '12/12/2021',
-      patientName: 'Jane Doe',
-      age: 34,
-      gender: 'Female',
-      scheme: 'NHIF',
-      triaged: 'Yes',
-      visitType: 'OPD',
-      waitTime: '30 mins',
-    },
-  ];
+  const tableData = [];
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/patients');
+      console.log(response.data)
+      tableData = response.data;
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="mx-auto p-4">
@@ -165,10 +65,11 @@ const PatientList = () => {
             </tr>
           </thead>
           <tbody>
+            {/* {console.log(tableData)} */}
             {tableData.map((data, index) => (
               <tr key={index}>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm">{data.patientName}</td>
-                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.visitCode}</td>
+                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm">{data.patient_firstname}</td>
+                <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.patient_code}</td>
                 <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.age}</td>
                 <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.visitType}</td>
                 <td className="px-4 py-4 border-b border-gray-200 text-[#616161] text-sm text-center">{data.waitTime}</td>
