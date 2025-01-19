@@ -115,39 +115,39 @@ const SideBar = () => {
                       </li>
                     </ul>
                   </li>
-                    <li className='relative' id='sidenavXxEx1'>
-                      <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx1' aria-expanded='false' aria-controls='collapseSidenavXxEx1'>
-                        <span className='w-4 h-4 mr-3'><FaUserMd /></span>
-                        <span>Doctors</span>
-                        <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
-                      </span>
-                      <ul className='relative accordion-collapse collapse' id='collapseSidenavXxEx1' aria-labelledby='sidenavXxEx1' data-bs-parent='#sidenavSecExample'>
-                        <li className='relative'>
-                          <Link to='/app/OPDashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>OP DashBoard</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/IPDashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>IP Dashboard</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/PatientList' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Patient List</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/maternity-dashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Maternity DashBoard</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/doctors-daycare' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Day Care</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/calculators' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Calculators</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/patienteducation' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Patient Education</Link>
-                        </li>
-                        <li className='relative'>
-                          <Link to='/app/guidelines' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Guidelines</Link>
-                        </li>
-                      </ul>
-                    </li>
+                  <li className='relative' id='sidenavXxEx1'>
+                    <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx1' aria-expanded='false' aria-controls='collapseSidenavXxEx1'>
+                      <span className='w-4 h-4 mr-3'><FaUserMd /></span>
+                      <span>Doctors</span>
+                      <span className='w-4 h-4 ml-auto text-xl'><MdOutlineKeyboardArrowDown /></span>
+                    </span>
+                    <ul className='relative accordion-collapse collapse' id='collapseSidenavXxEx1' aria-labelledby='sidenavXxEx1' data-bs-parent='#sidenavSecExample'>
+                      <li className='relative'>
+                        <Link to='/app/OPDashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>OP DashBoard</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/IPDashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>IP Dashboard</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/maternity-dashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Maternity DashBoard</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/PatientList' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Patient List</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/doctors-daycare' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Day Care</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/calculators' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Calculators</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/patienteducation' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Patient Education</Link>
+                      </li>
+                      <li className='relative'>
+                        <Link to='/app/guidelines' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Guidelines</Link>
+                      </li>
+                    </ul>
+                  </li>
                   <li className='relative' id='sidenavXxEx2'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx2' aria-expanded='false' aria-controls='collapseSidenavXxEx2'>
                       <span className='w-4 h-4 mr-3'><img src={nurse} alt="nurse-icon" /></span>
@@ -300,7 +300,7 @@ const SideBar = () => {
                         <Link to='/app/fo-dashboard' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>DashBoard</Link>
                       </li>
                       <li className='relative'>
-                        <Link to='/app/addpatient' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Add Patient</Link>
+                        <Link to='/app/addnewpatient' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Add Patient</Link>
                       </li>
                       <li className='relative'>
                         <Link to='/app/patientregistration' className='flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>Patent Registration</Link>
@@ -421,6 +421,7 @@ const SideBar = () => {
                       </li>
                     </ul>
                   </li>
+
                   <li className='relative' id='sidenavXxEx15'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx15' aria-expanded='false' aria-controls='collapseSidenavXxEx15'>
                       <span className='w-4 h-4 mr-3'><img src={inventory} alt="inventory-icon" /></span>
@@ -442,6 +443,7 @@ const SideBar = () => {
                       </li>
                     </ul>
                   </li>
+
                   <li className='relative' id='sidenavXxEx16'>
                     <span className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out cursor-pointer' data-mdb-ripple='true' data-mdb-ripple-color='primary' data-bs-toggle='collapse' data-bs-target='#collapseSidenavXxEx16' aria-expanded='false' aria-controls='collapseSidenavXxEx16'>
                       <span className='w-4 h-4 mr-3'><img src={billing} alt="billing-icon" /></span>
@@ -475,6 +477,7 @@ const SideBar = () => {
                       </li>
                     </ul>
                   </li>
+
                   <li className='relative'>
                     <Link to='#' className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>
                       <span className='w-4 h-4 mr-3'><img src={Settings} alt="settings-icon" /></span>
