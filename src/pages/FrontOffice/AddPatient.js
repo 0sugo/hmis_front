@@ -9,45 +9,46 @@ const AddPatient = () => {
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
-    dob: '',
     phonenumber1: '',
-    email: '',
-    address: '',
-    residence: '',
     phonenumber2: '',
+    email: '',
+    dob: '',
     identification_type: '',
     id_no: '',
-    id_card_image: null,
+    address: '',
+    residence: '',
+    id_card_image: '',
     next_of_kin_name: '',
     next_of_kin_contact: '',
     next_of_kin_relationship: '',
-    paymentMethods: {
+    payment_methods: {
       cash: false,
       insurance: false
     },
-    memberType: 'principal',
-    insurances: [
+    insuarance_membership: 'principal',
+    insurance_details: [
       {
-        principalMember: '',
-        insurer: 'NHIF',
-        scheme: '',
-        insuranceCard: null,
-        principalMemberName: '',
-        principalMemberNumber: '',
-        memberValidity: ''
+        insurer: 'test',
+        scheme_type: 'default',
+        principal_member_name: '',
+        principal_member_number: '',
+        insurance_card_image: '',
+        insurer_contact: '',
+        member_validity: ''
       }
-    ]
+    ],
+
   });
 
   const handleInputChange = (e) => {
     const { name, value, type, files, checked } = e.target;
 
     if (type === 'checkbox') {
-      if (name === 'paymentMethod') {
+      if (name === 'payment_methods') {
         setFormData(prev => ({
           ...prev,
-          paymentMethods: {
-            ...prev.paymentMethods,
+          payment_methods: {
+            ...prev.payment_methods,
             [value]: checked
           }
         }));
@@ -57,30 +58,37 @@ const AddPatient = () => {
           [name]: checked
         }));
       }
-    } else if (type === 'radio' && name === 'memberType') {
+    } else if (type === 'file' && files && files.length > 0) {
       setFormData(prev => ({
         ...prev,
-        memberType: value
+        [name]: files[0]
       }));
     } else {
       setFormData(prev => ({
         ...prev,
-        [name]: type === 'file' ? files[0] : value
+        [name]: value
       }));
     }
   };
 
   const handleInsuranceChange = (index, field, value) => {
-    console.log('Insurance change:', index, field, value);
+    if (field === 'insurance_card_image' && value instanceof File) {
+      // Check file size for insurance card
+      if (value.size > 2048 * 1024) {
+        toast.error('Insurance card image must be less than 2MB');
+        return;
+      }
+    }
+
     setFormData(prev => {
-      const updatedInsurances = [...prev.insurances];
-      updatedInsurances[index] = {
-        ...updatedInsurances[index],
-        [field]: value instanceof FileList ? value[0] : value
+      const updatedInsuranceDetails = [...prev.insurance_details];
+      updatedInsuranceDetails[index] = {
+        ...updatedInsuranceDetails[index],
+        [field]: value
       };
       return {
         ...prev,
-        insurances: updatedInsurances
+        insurance_details: updatedInsuranceDetails
       };
     });
   };
@@ -88,26 +96,26 @@ const AddPatient = () => {
   const addInsurance = () => {
     setFormData(prev => ({
       ...prev,
-      insurances: [...prev.insurances, {
-        principalMember: '',
-        insurer: 'NHIF',
-        scheme: '',
-        insuranceCard: null,
-        principalMemberName: '',
-        principalMemberNumber: '',
-        memberValidity: ''
+      insurance_details: [...prev.insurance_details, {
+        insurer: '',
+        scheme_type: '',
+        insurance_card_image: null,
+        principal_member_name: '',
+        principal_member_number: '',
+        insurer_contact: '',
+        member_validity: ''
       }]
     }));
   };
 
   const removeInsurance = (index) => {
-    if (formData.insurances.length === 1) {
+    if (formData.insurance_details.length === 1) {
       toast.error("You must have at least one insurance record");
       return;
     }
     setFormData(prev => ({
       ...prev,
-      insurances: prev.insurances.filter((_, i) => i !== index)
+      insurance_details: prev.insurance_details.filter((_, i) => i !== index)
     }));
   };
 
@@ -118,7 +126,6 @@ const AddPatient = () => {
       dob: 'Date of Birth',
       phonenumber1: 'Phone Number',
       identification_type: 'Identification Type',
-      id_no: 'ID Number'
     };
 
     const stepTwoRequired = {
@@ -131,7 +138,11 @@ const AddPatient = () => {
     const missingFields = [];
 
     Object.entries(fieldsToCheck).forEach(([key, label]) => {
-      if (!formData[key] || formData[key].trim() === '') {
+      if (key === 'id_card_image') {
+        if (!formData[key]) {
+          missingFields.push(label);
+        }
+      } else if (!formData[key] || formData[key].trim() === '') {
         missingFields.push(label);
       }
     });
@@ -160,72 +171,139 @@ const AddPatient = () => {
     setLoading(true);
 
     try {
-      const submitData = new FormData();
+      const formDataToSubmit = new FormData();
 
-      // Handle regular form fields
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key !== 'insurances' && key !== 'paymentMethods') {
-          if (value instanceof File) {
-            submitData.append(key, value);
-          } else if (typeof value === 'object') {
-            submitData.append(key, JSON.stringify(value));
-          } else if (value !== undefined && value !== null) {
-            submitData.append(key, value.toString());
+      // Create the data object structure expected by the backend
+      const dataObject = {
+        firstname: formData.firstname || null,
+        lastname: formData.lastname || null,
+        phonenumber1: formData.phonenumber1 || null,
+        phonenumber2: formData.phonenumber2 || null,
+        email: formData.email || null,
+        dob: formData.dob || null,
+        identification_type: formData.identification_type || null,
+        id_no: formData.id_no || null,
+        address: formData.address || null,
+        residence: formData.residence || null,
+        insurance_membership: formData.insuarance_membership || null,
+        next_of_kin_name: formData.next_of_kin_name || null,
+        next_of_kin_contact: formData.next_of_kin_contact || null,
+        next_of_kin_relationship: formData.next_of_kin_relationship || null,
+        insurance_details: formData.insurance_details.map(insurance => ({
+          insurer: insurance.insurer || null,
+          scheme_type: insurance.scheme_type || null,
+          insurer_contact: insurance.insurer_contact || null,
+          principal_member_name: insurance.principal_member_name || null,
+          principal_member_number: insurance.principal_member_number || null,
+          member_validity: insurance.member_validity || null
+        })),
+        payment_methods: [
+          {
+            cash: formData.payment_methods.cash ? 1 : 0,
+            insurance: formData.payment_methods.insurance ? 1 : 0
           }
+        ]
+      };
+
+      // Append the main data object
+      formDataToSubmit.append('data', JSON.stringify(dataObject));
+
+      // Append files separately
+      if (formData.id_card_image instanceof File) {
+        formDataToSubmit.append('id_card_image', formData.id_card_image);
+      }
+
+      // Append insurance card images
+      formData.insurance_details.forEach((insurance, index) => {
+        if (insurance.insurance_card_image instanceof File) {
+          formDataToSubmit.append('insurance_card_image', insurance.insurance_card_image);
         }
       });
 
-      // Handle insurances array
-      submitData.append('insurances', JSON.stringify(formData.insurances));
-      formData.insurances.forEach((insurance, index) => {
-        if (insurance.insuranceCard instanceof File) {
-          submitData.append(`insuranceCard_${index}`, insurance.insuranceCard);
-        }
-      });
-
-      await axios.post('/api/patients/create', submitData, {
+      const response = await axios.post('/api/patients/create', formDataToSubmit, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      toast.success('Patient registered successfully!');
-      setFormData({
-        firstname: '',
-        lastname: '',
-        dob: '',
-        phonenumber1: '',
-        email: '',
-        address: '',
-        residence: '',
-        phonenumber2: '',
-        identification_type: '',
-        id_no: '',
-        id_card_image: null,
-        next_of_kin_name: '',
-        next_of_kin_contact: '',
-        next_of_kin_relationship: '',
-        paymentMethods: {
-          cash: false,
-          insurance: false
-        },
-        memberType: 'principal',
-        insurances: [{
-          principalMember: '',
-          insurer: 'NHIF',
-          scheme: '',
-          insuranceCard: null,
-          principalMemberName: '',
-          principalMemberNumber: '',
-          memberValidity: ''
-        }]
-      });
-      setCurrentStep(1);
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
+      if (response.data.success) {
+        toast.success('Patient registered successfully');
+        // Reset form and state
+        setFormData({
+          firstname: '',
+          lastname: '',
+          phonenumber1: '',
+          phonenumber2: '',
+          email: '',
+          dob: '',
+          identification_type: '',
+          id_no: '',
+          address: '',
+          residence: '',
+          id_card_image: '',
+          next_of_kin_name: '',
+          next_of_kin_contact: '',
+          next_of_kin_relationship: '',
+          payment_methods: {
+            cash: false,
+            insurance: false
+          },
+          insuarance_membership: 'principal',
+          insurance_details: [
+            {
+              insurer: '',
+              scheme_type: '',
+              principal_member_name: '',
+              principal_member_number: '',
+              insurance_card_image: '',
+              insurer_contact: '',
+              member_validity: ''
+            }
+          ]
+        });
+        setCurrentStep(1);
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast.error(error.response?.data?.message || 'Failed to register patient');
     } finally {
       setLoading(false);
     }
   };
+  // To persist images between form steps, move the file handling to a separate component state
+  const [files, setFiles] = useState({
+    id_card_image: null,
+    insurance_card_images: []
+  });
 
+  // Update the file handling in PatientDetails
+  const handleIdCardUpload = (file) => {
+    if (file && file.size > 2048 * 1024) {
+      toast.error('ID card image must be less than 2MB');
+      return;
+    }
+    setFiles(prev => ({
+      ...prev,
+      id_card_image: file
+    }));
+    setFormData(prev => ({
+      ...prev,
+      id_card_image: file
+    }));
+  };
+
+  // Update the insurance card file handling
+  const handleInsuranceCardUpload = (index, file) => {
+    if (file && file.size > 2048 * 1024) {
+      toast.error('Insurance card image must be less than 2MB');
+      return;
+    }
+    setFiles(prev => ({
+      ...prev,
+      insurance_card_images: prev.insurance_card_images.map((img, i) =>
+        i === index ? file : img
+      )
+    }));
+    handleInsuranceChange(index, 'insurance_card_image', file);
+  };
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
@@ -246,6 +324,9 @@ const AddPatient = () => {
               <PatientDetails
                 formData={formData}
                 handleInputChange={handleInputChange}
+                setFormData={setFormData}
+                handleIdCardUpload={handleIdCardUpload}
+                currentFile={files.id_card_image}
               />
             ) : (
               <EmergencyInformation
@@ -254,6 +335,8 @@ const AddPatient = () => {
                 handleInsuranceChange={handleInsuranceChange}
                 addInsurance={addInsurance}
                 removeInsurance={removeInsurance}
+                handleInsuranceCardUpload={handleInsuranceCardUpload}
+                insuranceFiles={files.insurance_card_images}
               />
             )}
 
@@ -284,7 +367,7 @@ const AddPatient = () => {
   );
 };
 
-const PatientDetails = ({ formData, handleInputChange }) => {
+const PatientDetails = ({ formData, setFormData, handleInputChange }) => {
   const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent';
   const labelStyles = 'block text-sm font-medium text-gray-700 mb-1';
 
@@ -368,10 +451,24 @@ const PatientDetails = ({ formData, handleInputChange }) => {
           </label>
           <input
             type="file"
-            name="idPhoto"
+            name="id_card_image"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                // Check file size (2048KB = 2MB)
+                if (file.size > 2048 * 1024) {
+                  toast.error('ID card image must be less than 2MB');
+                  e.target.value = ''; // Reset input
+                  return;
+                }
+                setFormData(prev => ({
+                  ...prev,
+                  id_card_image: file
+                }));
+              }
+            }}
             className={inputStyles}
-            required
-            onChange={handleInputChange}
+            accept="image/*"
           />
         </div>
       </div>
@@ -511,9 +608,9 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
-                name="paymentMethod"
+                name="payment_methods"
                 value="cash"
-                checked={formData.paymentMethods.cash}
+                checked={formData.payment_methods.cash}
                 onChange={handleInputChange}
                 className="form-checkbox h-4 w-4 text-green-600"
               />
@@ -522,9 +619,9 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
-                name="paymentMethod"
+                name="payment_methods"
                 value="insurance"
-                checked={formData.paymentMethods.insurance}
+                checked={formData.payment_methods.insurance}
                 onChange={handleInputChange}
                 className="form-checkbox h-4 w-4 text-green-600"
               />
@@ -534,7 +631,7 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
         </div>
       </div>
 
-      {formData.paymentMethods.insurance && (
+      {formData.payment_methods.insurance && (
         <>
           <div className="mt-6">
             <label className={labelStyles}>Member Type</label>
@@ -542,9 +639,9 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
               <label className="inline-flex items-center">
                 <input
                   type="radio"
-                  name="memberType"
-                  value="principal"
-                  checked={formData.memberType === 'principal'}
+                  name="insuarance_membership"
+                  value="principal member"
+                  checked={formData.insuarance_membership === 'principal'}
                   onChange={handleInputChange}
                   className="form-radio h-4 w-4 text-green-600"
                 />
@@ -553,9 +650,9 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
               <label className="inline-flex items-center">
                 <input
                   type="radio"
-                  name="memberType"
+                  name="insuarance_membership"
                   value="dependent"
-                  checked={formData.memberType === 'dependent'}
+                  checked={formData.insuarance_membership === 'dependent'}
                   onChange={handleInputChange}
                   className="form-radio h-4 w-4 text-green-600"
                 />
@@ -564,7 +661,7 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
             </div>
           </div>
 
-          {formData.insurances.map((insurance, index) => (
+          {formData.insurance_details.map((insurance, index) => (
             <div key={index} className="mt-6 p-4 border border-gray-200 rounded-lg">
               <div className="flex items-center justify-between mb-4">
                 <h6 className="text-lg font-semibold">
@@ -589,7 +686,7 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
                     onChange={(e) => handleInsuranceChange(index, 'insurer', e.target.value)}
                     className={inputStyles}
                   >
-                    <option value="NHIF">NHIF</option>
+                    <option value="test">test</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
@@ -600,23 +697,21 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
                   </label>
                   <input
                     type="text"
-                    value={insurance.scheme}
-                    onChange={(e) => handleInsuranceChange(index, 'scheme', e.target.value)}
+                    value={insurance.scheme_type}
+                    onChange={(e) => handleInsuranceChange(index, 'scheme_type', e.target.value)}
                     className={inputStyles}
                     placeholder="Enter scheme"
                   />
                 </div>
 
-                {formData.memberType === 'dependent' && (
-                  <>
                     <div>
                       <label className={labelStyles}>
                         Principal Member Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
-                        value={insurance.principalMemberName}
-                        onChange={(e) => handleInsuranceChange(index, 'principalMemberName', e.target.value)}
+                        value={insurance.principal_member_name}
+                        onChange={(e) => handleInsuranceChange(index, 'principal_member_name', e.target.value)}
                         className={inputStyles}
                         placeholder="Enter principal member name"
                       />
@@ -627,14 +722,12 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
                       </label>
                       <input
                         type="text"
-                        value={insurance.principalMemberNumber}
-                        onChange={(e) => handleInsuranceChange(index, 'principalMemberNumber', e.target.value)}
+                        value={insurance.principal_member_number}
+                        onChange={(e) => handleInsuranceChange(index, 'principal_member_number', e.target.value)}
                         className={inputStyles}
                         placeholder="Enter principal member number"
                       />
                     </div>
-                  </>
-                )}
 
                 <div>
                   <label className={labelStyles}>
@@ -642,8 +735,8 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
                   </label>
                   <input
                     type="date"
-                    value={insurance.memberValidity}
-                    onChange={(e) => handleInsuranceChange(index, 'memberValidity', e.target.value)}
+                    value={insurance.member_validity}
+                    onChange={(e) => handleInsuranceChange(index, 'member_validity', e.target.value)}
                     className={inputStyles}
                   />
                 </div>
@@ -654,7 +747,7 @@ const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChan
                   </label>
                   <input
                     type="file"
-                    onChange={(e) => handleInsuranceChange(index, 'insuranceCard', e.target.files)}
+                    onChange={(e) => handleInsuranceChange(index, 'insurance_card_image', e.target.files[0])}
                     className={inputStyles}
                     accept="image/*,.pdf"
                   />
