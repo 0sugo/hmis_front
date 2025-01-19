@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 const PatientNavigation = () => {
   const navigate = useNavigate();
   const patientStory = [
-    { name: 'Consultation', path: '/individualpatient/consultation' },
     { name: 'Vitals', path: '/individualpatient/vitals' },
+    { name: 'Consultation', path: '/individualpatient/consultation' },
     { name: 'Relevant History', path: '/individualpatient/relevant-history' },
     { name: 'Chronic Disease', path: '/individualpatient/view-relevant-history/chronic-disease' },
     { name: 'Diagnostics', path: '/individualpatient/diagnostics' },
