@@ -51,7 +51,6 @@ const PatientNavigationBar = ({ activeSection, onSectionChange }) => {
 
   const patientSections = [
     { name: 'General', value: 'patientInformation' },
-    { name: 'Consultation', value: 'consultation' },
     { name: 'Vitals', value: 'vitals' },
     {
       name: 'Past History',
@@ -61,8 +60,9 @@ const PatientNavigationBar = ({ activeSection, onSectionChange }) => {
         { name: 'Chronic Disease', value: 'chronicDiseases' },
       ],
     },
-    { name: 'Diagnostics', value: 'diagnostics' },
+    { name: 'Consultation', value: 'consultation' },
     { name: 'Order Tests', value: 'orderTests' },
+    { name: 'Diagnostics', value: 'diagnostics' },
     { name: 'Prescription', value: 'prescription' },
     { name: 'Services', value: 'services' },
     { name: 'Nurse orders', value: 'nursingOrders' },
