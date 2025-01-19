@@ -1,246 +1,373 @@
-import React, { useState } from 'react'
-import axios from '../../api/api'
-import { useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from '../../api/api';
+import { toast } from 'sonner';
+import { Plus, Trash2 } from 'lucide-react';
 
 const AddPatient = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    // step1
     firstname: '',
     lastname: '',
     dob: '',
+    phonenumber1: '',
+    email: '',
     address: '',
     residence: '',
-    phonenumber1: '',
     phonenumber2: '',
-    // step2
-    emergencyContactName: '',
-    emergencyContactPhone: '',
-    allergies: '',
-
+    identification_type: '',
+    id_no: '',
+    id_card_image: null,
+    next_of_kin_name: '',
+    next_of_kin_contact: '',
+    next_of_kin_relationship: '',
+    paymentMethods: {
+      cash: false,
+      insurance: false
+    },
+    memberType: 'principal',
+    insurances: [
+      {
+        principalMember: '',
+        insurer: 'NHIF',
+        scheme: '',
+        insuranceCard: null,
+        principalMemberName: '',
+        principalMemberNumber: '',
+        memberValidity: ''
+      }
+    ]
   });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, files, checked } = e.target;
+
+    if (type === 'checkbox') {
+      if (name === 'paymentMethod') {
+        setFormData(prev => ({
+          ...prev,
+          paymentMethods: {
+            ...prev.paymentMethods,
+            [value]: checked
+          }
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          [name]: checked
+        }));
+      }
+    } else if (type === 'radio' && name === 'memberType') {
+      setFormData(prev => ({
+        ...prev,
+        memberType: value
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === 'file' ? files[0] : value
+      }));
+    }
+  };
+
+  const handleInsuranceChange = (index, field, value) => {
+    console.log('Insurance change:', index, field, value);
+    setFormData(prev => {
+      const updatedInsurances = [...prev.insurances];
+      updatedInsurances[index] = {
+        ...updatedInsurances[index],
+        [field]: value instanceof FileList ? value[0] : value
+      };
+      return {
+        ...prev,
+        insurances: updatedInsurances
+      };
+    });
+  };
+
+  const addInsurance = () => {
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      insurances: [...prev.insurances, {
+        principalMember: '',
+        insurer: 'NHIF',
+        scheme: '',
+        insuranceCard: null,
+        principalMemberName: '',
+        principalMemberNumber: '',
+        memberValidity: ''
+      }]
     }));
   };
 
+  const removeInsurance = (index) => {
+    if (formData.insurances.length === 1) {
+      toast.error("You must have at least one insurance record");
+      return;
+    }
+    setFormData(prev => ({
+      ...prev,
+      insurances: prev.insurances.filter((_, i) => i !== index)
+    }));
+  };
+
+  const validateStep = (step) => {
+    const stepOneRequired = {
+      firstname: 'First Name',
+      lastname: 'Last Name',
+      dob: 'Date of Birth',
+      phonenumber1: 'Phone Number',
+      identification_type: 'Identification Type',
+      id_no: 'ID Number'
+    };
+
+    const stepTwoRequired = {
+      next_of_kin_name: 'Next of Kin Name',
+      next_of_kin_contact: 'Next of Kin Contact',
+      next_of_kin_relationship: 'Next of Kin Relationship'
+    };
+
+    const fieldsToCheck = step === 1 ? stepOneRequired : stepTwoRequired;
+    const missingFields = [];
+
+    Object.entries(fieldsToCheck).forEach(([key, label]) => {
+      if (!formData[key] || formData[key].trim() === '') {
+        missingFields.push(label);
+      }
+    });
+
+    if (missingFields.length > 0) {
+      toast.error(`Please fill in: ${missingFields.join(', ')}`);
+      return false;
+    }
+    return true;
+  };
+
   const handleNext = () => {
-    setCurrentStep(prev => prev + 1);
+    if (validateStep(1)) {
+      setCurrentStep(2);
+    }
   };
 
   const handlePrevious = () => {
-    setCurrentStep(prev => prev - 1);
+    setCurrentStep(1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+    if (!validateStep(2)) return;
 
-  const getScheme = async () => {
+    setLoading(true);
+
     try {
-      const response = await axios.get('/scheme');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+      const submitData = new FormData();
 
-  useEffect(() => {
-    getScheme();
-  } ,[]);
+      // Handle regular form fields
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key !== 'insurances' && key !== 'paymentMethods') {
+          if (value instanceof File) {
+            submitData.append(key, value);
+          } else if (typeof value === 'object') {
+            submitData.append(key, JSON.stringify(value));
+          } else if (value !== undefined && value !== null) {
+            submitData.append(key, value.toString());
+          }
+        }
+      });
+
+      // Handle insurances array
+      submitData.append('insurances', JSON.stringify(formData.insurances));
+      formData.insurances.forEach((insurance, index) => {
+        if (insurance.insuranceCard instanceof File) {
+          submitData.append(`insuranceCard_${index}`, insurance.insuranceCard);
+        }
+      });
+
+      await axios.post('/api/patients/create', submitData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      toast.success('Patient registered successfully!');
+      setFormData({
+        firstname: '',
+        lastname: '',
+        dob: '',
+        phonenumber1: '',
+        email: '',
+        address: '',
+        residence: '',
+        phonenumber2: '',
+        identification_type: '',
+        id_no: '',
+        id_card_image: null,
+        next_of_kin_name: '',
+        next_of_kin_contact: '',
+        next_of_kin_relationship: '',
+        paymentMethods: {
+          cash: false,
+          insurance: false
+        },
+        memberType: 'principal',
+        insurances: [{
+          principalMember: '',
+          insurer: 'NHIF',
+          scheme: '',
+          insuranceCard: null,
+          principalMemberName: '',
+          principalMemberNumber: '',
+          memberValidity: ''
+        }]
+      });
+      setCurrentStep(1);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className='container mx-auto px-4 py-6'>
-      <h4 className='text-2xl font-semibold mb-6 '>Add Patient</h4>
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Patient Registration - Step {currentStep} of 2
+          </h2>
 
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h5 className='text-xl font-medium mb-4 text-center'>STEP {currentStep}.</h5>
-        <hr className='mb-6' />
-
-        <form onSubmit={handleSubmit} className='space-y-4'>
-          {currentStep === 1 && <PatientDetails handleInputChange={handleInputChange} />}
-          {currentStep === 2 && <EmergencyInformation handleInputChange={handleInputChange} />}
-
-          <div className="flex justify-center items-center space-x-4 mt-8">
-            {currentStep > 1 && (
-              <button
-                type="button"
-                onClick={handlePrevious}
-                className="px-6 py-2 bg-[#0E6F1E] text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Previous
-              </button>
-            )}
-
-            {currentStep < 2 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="px-6 py-2 bg-[#0E6F1E] text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Save & Next
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="px-6 py-2 bg-[#0E6F1E] text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Submit
-              </button>
-            )}
+          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+            <div
+              className="bg-green-600 h-2.5 rounded-full transition-all duration-300"
+              style={{ width: `${(currentStep / 2) * 100}%` }}
+            ></div>
           </div>
-        </form>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {currentStep === 1 ? (
+              <PatientDetails
+                formData={formData}
+                handleInputChange={handleInputChange}
+              />
+            ) : (
+              <EmergencyInformation
+                formData={formData}
+                handleInputChange={handleInputChange}
+                handleInsuranceChange={handleInsuranceChange}
+                addInsurance={addInsurance}
+                removeInsurance={removeInsurance}
+              />
+            )}
+
+            <div className="flex justify-between items-center pt-6">
+              {currentStep > 1 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  Previous
+                </button>
+              )}
+
+              <button
+                type={currentStep === 2 ? 'submit' : 'button'}
+                onClick={currentStep === 1 ? handleNext : undefined}
+                className="ml-auto px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+                disabled={loading}
+              >
+                {loading ? 'Processing...' : currentStep === 2 ? 'Submit' : 'Next'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-const PatientDetails = ({ handleInputChange }) => {
-  const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0E6F1E] focus:border-transparent';
+const PatientDetails = ({ formData, handleInputChange }) => {
+  const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent';
   const labelStyles = 'block text-sm font-medium text-gray-700 mb-1';
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-      <div className='space-y-4'>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="firstName" className={labelStyles}>
-            First Name <span className='text-red-600'>*</span>
+          <label className={labelStyles}>
+            First Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            className={inputStyles}
-            required
-            placeholder='Enter first name'
+            name="firstname"
+            value={formData.firstname}
             onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter first name"
           />
         </div>
 
         <div>
-          <label htmlFor="lastName" className={labelStyles}>
-            Last Name <span className='text-red-600'>*</span>
+          <label className={labelStyles}>
+            Last Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            className={inputStyles}
-            required
-            placeholder='Enter last name'
+            name="lastname"
+            value={formData.lastname}
             onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter last name"
           />
         </div>
 
         <div>
-          <label htmlFor="age" className={labelStyles}>
-            Age <span className='text-red-600'>*</span>
-          </label>
-          <input
-            type="number"
-            id="age"
-            name="age"
-            className={inputStyles}
-            required
-            placeholder='Enter age'
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="dateOfBirth" className={labelStyles}>
-            Date of Birth <span className='text-red-600'>*</span>
+          <label className={labelStyles}>
+            Date of Birth <span className="text-red-500">*</span>
           </label>
           <input
             type="date"
-            id="dateOfBirth"
-            name="dateOfBirth"
-            className={inputStyles}
-            required
+            name="dob"
+            value={formData.dob}
             onChange={handleInputChange}
-          />
-        </div>
-      </div>
-
-      <div className='space-y-4'>
-        <div>
-          <label htmlFor="mobileNumber" className={labelStyles}>
-            Mobile Number <span className='text-red-600'>*</span>
-          </label>
-          <input
-            type="tel"
-            id="mobileNumber"
-            name="mobileNumber"
             className={inputStyles}
-            required
-            placeholder='Enter mobile number'
-            onChange={handleInputChange}
           />
         </div>
 
         <div>
-          <label htmlFor="identificationType" className={labelStyles}>
-            Identification Type <span className='text-red-600'>*</span>
+          <label className={labelStyles}>
+            Identification Type <span className="text-red-500">*</span>
           </label>
           <select
-            id="identificationType"
-            name="identificationType"
-            className={inputStyles}
-            required
+            name="identification_type"
+            value={formData.identification_type}
             onChange={handleInputChange}
+            className={inputStyles}
           >
-            <option value="">Select</option>
+            <option value="">Select type</option>
             <option value="ID">ID</option>
             <option value="Passport">Passport</option>
           </select>
         </div>
 
         <div>
-          <label htmlFor="nationalId" className={labelStyles}>
-            National ID <span className='text-red-600'>*</span>
-          </label>
-          <select
-            id="nationalId"
-            name="nationalId"
-            className={inputStyles}
-            required
-            onChange={handleInputChange}
-          >
-            <option value="">Select</option>
-            <option value="ID">ID</option>
-            <option value="Passport">Passport</option>
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="idNumber" className={labelStyles}>
-            ID No. <span className='text-red-600'>*</span>
+          <label className={labelStyles}>
+            Identification Number <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            id="idNumber"
-            name="idNumber"
-            className={inputStyles}
-            required
-            placeholder='Enter ID number'
+            name="id_no"
+            value={formData.id_no}
             onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter ID number"
           />
         </div>
-      </div>
 
-      <div className='md:col-span-2'>
         <div>
-          <label htmlFor="idPhoto" className={labelStyles}>
-            Upload ID Photo <span className='text-red-600'>*</span>
+          <label className={labelStyles}>
+            ID photo <span className="text-red-500">*</span>
           </label>
           <input
             type="file"
-            id="idPhoto"
             name="idPhoto"
             className={inputStyles}
             required
@@ -249,338 +376,305 @@ const PatientDetails = ({ handleInputChange }) => {
         </div>
       </div>
 
-      <div className='md:col-span-2'>
-        <h6 className='text-lg font-semibold mb-4'>Contact Information</h6>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          <div>
-            <label htmlFor="phoneNumber1" className={labelStyles}>
-              Phone Number 1 <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="tel"
-              id="phoneNumber1"
-              name="phoneNumber1"
-              className={inputStyles}
-              required
-              placeholder='Enter phone number'
-              onChange={handleInputChange}
-            />
-          </div>
 
-          <div>
-            <label htmlFor="phoneNumber2" className={labelStyles}>
-              Phone Number 2 <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="tel"
-              id="phoneNumber2"
-              name="phoneNumber2"
-              className={inputStyles}
-              required
-              placeholder='Enter phone number'
-              onChange={handleInputChange}
-            />
-          </div>
+      <h6 className='text-lg font-semibold mb-4'>Contact Information</h6>
 
-          <div>
-            <label htmlFor="email" className={labelStyles}>
-              Email <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={inputStyles}
-              required
-              placeholder='Enter email'
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="address" className={labelStyles}>
-              Address <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              className={inputStyles}
-              required
-              placeholder='Enter address'
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="residence" className={labelStyles}>
-              Residence <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="text"
-              id="residence"
-              name="residence"
-              className={inputStyles}
-              required
-              placeholder='Enter town'
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const EmergencyInformation = ({ handleInputChange }) => {
-  const [paymentMethods, setPaymentMethods] = useState({
-    cash: false,
-    insurance: false
-  });
-  const [principalMember, setPrincipalMember] = useState('');
-
-  const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0E6F1E] focus:border-transparent';
-  const labelStyles = 'block text-sm font-medium text-gray-700 mb-1';
-
-  const handlePaymentMethodChange = (method) => {
-    const updatedMethods = {
-      ...paymentMethods,
-      [method]: !paymentMethods[method]
-    };
-    setPaymentMethods(updatedMethods);
-    handleInputChange({
-      target: {
-        name: 'paymentMethods',
-        value: updatedMethods
-      }
-    });
-  };
-
-  const handlePrincipalMemberChange = (value) => {
-    setPrincipalMember(value);
-    handleInputChange({
-      target: {
-        name: 'principalMember',
-        value: value
-      }
-    });
-  };
-
-  return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-      <div className='space-y-4'>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="nextOfKinName" className={labelStyles}>
-            Next of Kin Name <span className='text-red-600'>*</span>
-          </label>
-          <input
-            type="text"
-            id="nextOfKinName"
-            name="nextOfKinName"
-            className={inputStyles}
-            required
-            placeholder='Enter next of kin name'
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="nextOfKinMobile" className={labelStyles}>
-            Mobile Number <span className='text-red-600'>*</span>
+          <label className={labelStyles}>Phone Number 1
+            <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
-            id="nextOfKinMobile"
-            name="nextOfKinMobile"
-            className={inputStyles}
-            required
-            placeholder='Enter next of kin mobile number'
+            name="phonenumber1"
+            value={formData.phonenumber1}
             onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter phone number"
           />
         </div>
 
         <div>
-          <label htmlFor="relationship" className={labelStyles}>
-            Relationship <span className='text-red-600'>*</span>
+          <label className={labelStyles}>Phone Number 2
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            name="phonenumber2"
+            value={formData.phonenumber2}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter phone number"
+          />
+        </div>
+
+        <div>
+          <label className={labelStyles}>Email
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter email"
+          />
+        </div>
+
+        <div>
+          <label className={labelStyles}>Address
+            <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            id="relationship"
-            name="relationship"
-            className={inputStyles}
-            required
-            placeholder='e.g. father'
+            name="address"
+            value={formData.address}
             onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter address"
           />
         </div>
-      </div>
 
-      <div className='space-y-4'>
+        <div>
+          <label className={labelStyles}>Residence
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="residence"
+            value={formData.residence}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter residence"
+          />
+
+        </div>
+
+      </div>
+    </>
+  );
+};
+
+const EmergencyInformation = ({ formData, handleInputChange, handleInsuranceChange, addInsurance, removeInsurance }) => {
+  const inputStyles = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent';
+  const labelStyles = 'block text-sm font-medium text-gray-700 mb-1';
+
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className={labelStyles}>
-            Payer Details <span className='text-red-600'>*</span>
+            Next of Kin Name <span className="text-red-500">*</span>
           </label>
-          <div className='flex space-x-4'>
+          <input
+            type="text"
+            name="next_of_kin_name"
+            value={formData.next_of_kin_name}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter next of kin name"
+          />
+        </div>
+
+        <div>
+          <label className={labelStyles}>
+            Next of Kin Contact <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            name="next_of_kin_contact"
+            value={formData.next_of_kin_contact}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter next of kin contact"
+          />
+        </div>
+
+        <div>
+          <label className={labelStyles}>
+            Relationship <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="next_of_kin_relationship"
+            value={formData.next_of_kin_relationship}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="e.g. Father"
+          />
+        </div>
+
+        <div>
+          <label className={labelStyles}>Payer Details</label>
+          <div className="space-x-4">
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="paymentMethod"
                 value="cash"
-                checked={paymentMethods.cash}
-                onChange={() => handlePaymentMethodChange('cash')}
-                className="h-4 w-4 text-[#0E6F1E] border-gray-300 rounded focus:ring-[#0E6F1E]"
+                checked={formData.paymentMethods.cash}
+                onChange={handleInputChange}
+                className="form-checkbox h-4 w-4 text-green-600"
               />
-              <span className="ml-2 text-gray-700">Cash</span>
+              <span className="ml-2">Cash</span>
             </label>
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
                 name="paymentMethod"
                 value="insurance"
-                checked={paymentMethods.insurance}
-                onChange={() => handlePaymentMethodChange('insurance')}
-                className="h-4 w-4 text-[#0E6F1E] border-gray-300 rounded focus:ring-[#0E6F1E]"
+                checked={formData.paymentMethods.insurance}
+                onChange={handleInputChange}
+                className="form-checkbox h-4 w-4 text-green-600"
               />
-              <span className="ml-2 text-gray-700">Insurance</span>
+              <span className="ml-2">Insurance</span>
             </label>
           </div>
-          <p className='text-red-600 text-xs mt-1'>
-            Note: A payer can be both cash & Insurance. A patient can have multiple insurances.
-          </p>
-        </div>
-
-        <div>
-          <label className={labelStyles}>
-            Principal Member <span className='text-red-600'>*</span>
-          </label>
-          <div className='flex space-x-4'>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                name="principalMember"
-                required
-                value="Principal Member"
-                checked={principalMember === 'Principal Member'}
-                onChange={() => handlePrincipalMemberChange('Principal Member')}
-                className="h-4 w-4 text-[#0E6F1E] border-gray-300 focus:ring-[#0E6F1E]"
-              />
-              <span className="ml-2 text-gray-700">Principal Member</span>
-            </label>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                name="principalMember"
-                value="Dependent"
-                required
-                checked={principalMember === 'Dependent'}
-                onChange={() => handlePrincipalMemberChange('Dependent')}
-                className="h-4 w-4 text-[#0E6F1E] border-gray-300 focus:ring-[#0E6F1E]"
-              />
-              <span className="ml-2 text-gray-700">Dependent</span>
-            </label>
-          </div>
-          <p className='text-red-600 text-xs mt-1'>
-            Note: if dependent, then fill in the principal member's details.
-          </p>
         </div>
       </div>
 
-      <div className='md:col-span-2'>
-        <h6 className='text-lg font-semibold mb-4'>Primary Insurance Details</h6>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          <div>
-            <label htmlFor="insurer" className={labelStyles}>
-              Insurer <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="text"
-              id="insurer"
-              name="insurer"
-              className={inputStyles}
-              required
-              placeholder='Enter your Insurer'
-              onChange={handleInputChange}
-            />
+      {formData.paymentMethods.insurance && (
+        <>
+          <div className="mt-6">
+            <label className={labelStyles}>Member Type</label>
+            <div className="space-x-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="memberType"
+                  value="principal"
+                  checked={formData.memberType === 'principal'}
+                  onChange={handleInputChange}
+                  className="form-radio h-4 w-4 text-green-600"
+                />
+                <span className="ml-2">Principal Member</span>
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="memberType"
+                  value="dependent"
+                  checked={formData.memberType === 'dependent'}
+                  onChange={handleInputChange}
+                  className="form-radio h-4 w-4 text-green-600"
+                />
+                <span className="ml-2">Dependent</span>
+              </label>
+            </div>
           </div>
 
-          <div>
-            <label htmlFor="scheme" className={labelStyles}>
-              Scheme <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="text"
-              id="scheme"
-              name="scheme"
-              className={inputStyles}
-              required
-              placeholder='Enter your scheme'
-              onChange={handleInputChange}
-            />
-          </div>
+          {formData.insurances.map((insurance, index) => (
+            <div key={index} className="mt-6 p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <h6 className="text-lg font-semibold">
+                  Insurance Details {index + 1}
+                </h6>
+                <button
+                  type="button"
+                  onClick={() => removeInsurance(index)}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
 
-          <div>
-            <label htmlFor="scanInsuaranceCard" className={labelStyles}>
-              Scan Insuarance Card <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="file"
-              id="idPhoto"
-              name="idPhoto"
-              className={inputStyles}
-              required
-              onChange={handleInputChange}
-            />
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className={labelStyles}>
+                    Insurer <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={insurance.insurer}
+                    onChange={(e) => handleInsuranceChange(index, 'insurer', e.target.value)}
+                    className={inputStyles}
+                  >
+                    <option value="NHIF">NHIF</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
 
-          <div>
-            <label htmlFor="principalMemberName" className={labelStyles}>
-              Principal Member Name <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="text"
-              id="principalMemberName"
-              name="principalMemberName"
-              className={inputStyles}
-              required
-              placeholder='Enter principal member name'
-              onChange={handleInputChange}
-            />
-          </div>
+                <div>
+                  <label className={labelStyles}>
+                    Scheme <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={insurance.scheme}
+                    onChange={(e) => handleInsuranceChange(index, 'scheme', e.target.value)}
+                    className={inputStyles}
+                    placeholder="Enter scheme"
+                  />
+                </div>
 
-          <div>
-            <label htmlFor="principalMemberNumber" className={labelStyles}>
-              Principal Member Number <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="text"
-              id="principalMemberNumber"
-              name="principalMemberNumber"
-              className={inputStyles}
-              required
-              placeholder='Enter principal member number'
-              onChange={handleInputChange}
-            />
-          </div>
+                {formData.memberType === 'dependent' && (
+                  <>
+                    <div>
+                      <label className={labelStyles}>
+                        Principal Member Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={insurance.principalMemberName}
+                        onChange={(e) => handleInsuranceChange(index, 'principalMemberName', e.target.value)}
+                        className={inputStyles}
+                        placeholder="Enter principal member name"
+                      />
+                    </div>
+                    <div>
+                      <label className={labelStyles}>
+                        Principal Member Number <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={insurance.principalMemberNumber}
+                        onChange={(e) => handleInsuranceChange(index, 'principalMemberNumber', e.target.value)}
+                        className={inputStyles}
+                        placeholder="Enter principal member number"
+                      />
+                    </div>
+                  </>
+                )}
 
-          <div>
-            <label htmlFor="memberValidity" className={labelStyles}>
-              Member Validity <span className='text-red-600'>*</span>
-            </label>
-            <input
-              type="date"
-              id="memberValidity"
-              name="memberValidity"
-              className={inputStyles}
-              required
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+                <div>
+                  <label className={labelStyles}>
+                    Member Validity <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={insurance.memberValidity}
+                    onChange={(e) => handleInsuranceChange(index, 'memberValidity', e.target.value)}
+                    className={inputStyles}
+                  />
+                </div>
+
+                <div>
+                  <label className={labelStyles}>
+                    Insurance Card Scan <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    onChange={(e) => handleInsuranceChange(index, 'insuranceCard', e.target.files)}
+                    className={inputStyles}
+                    accept="image/*,.pdf"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={addInsurance}
+            className="mt-4 flex items-center px-4 py-2 text-green-600 hover:text-green-800 border border-green-600 rounded-lg hover:bg-green-50"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            Add Another Insurance
+          </button>
+        </>
+      )}
+    </>
   );
 };
 
-
-
-export default AddPatient
+export default AddPatient;
