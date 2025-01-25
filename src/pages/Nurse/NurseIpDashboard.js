@@ -1,161 +1,171 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 import newPatient from '../../assets/images/newPatient.svg'
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import search from '../../assets/images/search.svg'
+import patientWait from '../../assets/images/patientWait.svg'
+import sleep from '../../assets/images/sleep.svg'
+import dayCase from '../../assets/images/dayCase.svg'
+import pen from '../../assets/images/pen.svg'
+import eye from '../../assets/images/eye.svg'
+import { useNavigate } from 'react-router-dom'
 
-const NurseIpDashboard = () => {
+const DashboardIP = () => {
+  const navigate = useNavigate();
 
-  const waitingReviewsData = [
+  const handleNavigate = () => {
+    navigate('/app/patientview', { replace: true });
+
+  }
+
+  const tableData = [
     {
-      No: 1,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
+      IpNo: 'mmh12',
+      patientName: 'James Kingori',
+      age: '12',
+      gender: 'male',
+      doctorInCharge: 'Dr.Kamau',
+      diagnosis: 'Malaria',
+      doa: '12-2-2024',
+      category: 'Medical',
+      ward: 'St.Michael',
+      bedNo: '4',
+      approvalStatus: 'Approved',
+      time: '10 min'
     },
     {
-      No: 2,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
+      IpNo: 'mmh92',
+      patientName: 'Peter Milke',
+      age: '23',
+      gender: 'male',
+      doctorInCharge: 'Dr.Stpeth',
+      diagnosis: 'AIDS',
+      doa: '25-9-2024',
+      category: 'Medical',
+      ward: 'St.Gabriel',
+      bedNo: '7',
+      approvalStatus: 'Not Approved',
+      time: '50 min'
     },
-    {
-      No: 3,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
-    },
-    {
-      No: 4,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
-    }
-  ];
+  ]
 
-  const [list, setList] = useState(waitingReviewsData);
- 
   return (
     <div className='mx-auto p-4'>
-      <section className="bg-white p-4 rounded-lg">
-        <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-          <div>
-            <h3><b>Welcome, Nambi</b></h3>
+      <div className='bg-white p-4 rounded-lg'>
+        {/* Summary */}
+        <div className='flex justify-between items-center w-full'>
+          <div className='flex flex-col p-2 min-h-fit'>
+            <h3>Welcome, Nambi</h3>
           </div>
           <div>
-            <label htmlFor="searchpatient">
-              <input 
-                type="search"
-                className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-                placeholder='Search for patient...'
-              />
-            </label>
+
+            <div className="lg:block hidden relative max-w-xs">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input
+                  type="search"
+                  className="border border-gray-300 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm w-full rounded-lg pt-2 pb-2 pl-12 pr-3"
+                  placeholder="Search for patient"
+                />
+              </div>
+            </div>
           </div>
+
         </div>
+        {/** Recents Summary */}
+        <div className='grid grid-cols-8'>
+          <div className='col-span-2 flex flex-col gap-y-4'>
+            <div className='flex flex-col '>
+              <div className='flex justify-center items-center bg-[#F3E8FF] rounded-lg w-[90%] h-[110px] gap-2'>
+                <span className='bg-[#8D49D4] p-4 rounded-full'>
+                  <img src={newPatient} className=' w-5 h-5' />
+                </span>
+                <p className='flex flex-col items-start text-[#8D49D4] font-semibold text-lg'>34<span className='text-[#5E5E5E] text-xs w-[115px] h-fit overflow-hidden'>Ward Transafer</span></p>
+              </div>
+            </div>
 
-        <div className="grid grid-cols-8 gap-4">
-          <div className="space-y-4 col-span-2">
-            <div className='bg-[#F3E8FF] p-4 rounded-lg flex items-center gap-4'>
-              <div className='bg-[#8D49D4] p-3 rounded-full'>
-                <img src={newPatient} alt="patient" />
-              </div>
-              <div>
-                <h5 className='font-bold text-[#8D49D4]'>34</h5>
-                <p>Ward Transfer</p>
+            <div className='flex flex-col '>
+              <div className='flex justify-center items-center bg-[#DEF3FF] rounded-lg w-[90%] h-[110px] gap-2'>
+                <span className='bg-[#2E8BBF] p-4 rounded-full'>
+                  <img src={patientWait} className=' w-5 h-5' />
+                </span>
+                <p className='flex flex-col items-start text-[#2E8BBF] font-semibold text-lg'>24<span className='text-[#5E5E5E] text-xs w-[115px] h-fit overflow-hidden '>Admitted Patients</span></p>
               </div>
             </div>
-            <div className='bg-[#DEF3FF] p-4 rounded-lg flex items-center gap-4'>
-              <div className='bg-[#2E8BBF] p-3 rounded-full'>
-                <img src={newPatient} alt="patient" />
-              </div>
-              <div>
-                <h5 className='font-bold text-[#2E8BBF]'>24</h5>
-                <p>Ward Transfer</p>
-              </div>
-            </div>
-            <div className='bg-[#FFE2E5] p-4 rounded-lg flex items-center gap-4'>
-              <div className='bg-[#DD3459] p-3 rounded-full'>
-                <img src={newPatient} alt="patient" />
-              </div>
-              <div>
-                <h5 className='font-bold text-[#DD3459]'>16</h5>
-                <p>Pending Discharge/ Referral</p>
+
+            <div className='flex flex-col '>
+              <div className='flex justify-center items-center bg-[#FFE2E5] rounded-lg w-[90%] h-[110px] gap-2'>
+                <span className='bg-[#DD3459] p-4 rounded-full'>
+                  <img src={sleep} className=' w-5 h-5' />
+                </span>
+                <p className='flex flex-col items-start text-[#DD3459] font-semibold text-lg'>16<span className='text-[#5E5E5E] text-xs w-[115px] h-fit overflow-hidden '>Pending Discharge / Referral</span></p>
               </div>
             </div>
-            <div className='bg-[#E7F1E9] p-4 rounded-lg flex items-center gap-4'>
-              <div className='bg-[#0E6F1E] p-3 rounded-full'>
-                <img src={newPatient} alt="patient" />
-              </div>
-              <div>
-                <h5 className='font-bold text-[#0E6F1E]'>16</h5>
-                <p>Patients in casualty</p>
+
+            <div className='flex flex-col '>
+              <div className='flex justify-center items-center bg-[#DCF4E0] rounded-lg w-[90%] h-[110px] gap-2'>
+                <span className='bg-[#058843] p-4 rounded-full'>
+                  <img src={dayCase} className=' w-5 h-5' />
+                </span>
+                <p className='flex flex-col items-start text-[#058843] font-semibold text-lg'>16<span className='text-[#5E5E5E] text-xs w-[115px] h-fit overflow-hidden '>Patients in casualty</span></p>
               </div>
             </div>
           </div>
 
-          <div className='col-span-6 overflow-x-auto rounded-lg'>
-            <table className='w-full table-auto'>
-              <thead>
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">No.</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Patient Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Age</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Gender</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Doctor incharge</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Diagnosis</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">D.O.A</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Category</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Ward</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Bed No</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Approval Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Time</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {list.map((data, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-3 text-sm">{data.No}</td>
-                    <td className="px-6 py-3 text-sm">{data.patientName}</td>
-                    <td className="px-6 py-3 text-sm">{data.insurance}</td>
-                    <td className="px-6 py-3 text-sm">{data.scheme}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                    <td className='py-2 px-6 flex space-x-2'>
-                      <Link to={`/app/update/${data.No}`} className='text-[#3E36B0] bg-[#E4EDFE] p-2 rounded-lg text-xl'>
-                        <MdEdit />
-                      </Link>
-                      <Link to={`/app/view/${data.No}`} className='text-[#0E6F1E] bg-[#DBFFDE] p-2 rounded-lg text-xl'>
-                        <MdRemoveRedEye />
-                      </Link>
-                    </td>
+          <div className='col-span-6 bg-[#f7f4ff] rounded-lg overflow-x-auto py-6 px-2'>
+            <div className="max-h-[400px] overflow-y-auto scrollbar-w-1 scrollbar scrollbar-thumb-[#413D80] scrollbar-track-slate-300">
+              <table className="w-full leading-normal overflow-x-auto">
+                <thead>
+                  <tr>
+                    <th className="sticky top-0 bg-[#BED0FF] rounded-l-xl py-3 text-[10px] text-[#413D80] text-center">IP No.</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Patient Name</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Age</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Gender</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Doctor Incharge</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Diagnosis</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">D.O.A</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Category</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Ward</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Bed No.</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Approval status</th>
+                    <th className="sticky top-0 bg-[#BED0FF] px-6 py-3 text-[10px] text-[#413D80] text-center">Time</th>
+                    <th className="sticky top-0 bg-[#BED0FF] rounded-r-xl px-6 py-3 text-[10px] text-[#413D80] text-center">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {tableData.map((data, index) => (
+                    <tr key={index}>
+                      <td className="py-3 text-[10px]">{data.IpNo}</td>
+                      <td className="py-3 text-[10px] text-center">{data.patientName}</td>
+                      <td className="py-3 text-[10px] text-center">{data.age}</td>
+                      <td className="py-3 text-[10px] text-center">{data.gender}</td>
+                      <td className="py-3 text-[10px] text-center">{data.doctorInCharge}</td>
+                      <td className="py-3 text-[10px] text-center">{data.diagnosis}</td>
+                      <td className="py-3 text-[10px] text-center">{data.doa}</td>
+                      <td className="py-3 text-[10px] text-center">{data.category}</td>
+                      <td className="py-3 text-[10px] text-center">{data.ward}</td>
+                      <td className="py-3 text-[10px] text-center">{data.bedNo}</td>
+                      <td className="py-3 text-[10px] text-center">{data.approvalStatus}</td>
+                      <td className="py-3 text-[10px] text-center">{data.time}</td>
+                      <td className="py-3 text-[10px] text-center">
+                        <div className='flex justify-center gap-2'>
+                          <span className='bg-[#E4EDFE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={pen} alt='pen' /></span>
+                          <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer' onClick={handleNavigate}><img src={eye} alt='eye' /></span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
-      </section>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default NurseIpDashboard
+export default DashboardIP
