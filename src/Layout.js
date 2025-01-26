@@ -33,6 +33,30 @@ import Payment from './pages/Admin/Payment/Payment'
 import CreatePayment from './pages/Admin/Payment/CreatePayment'
 import ViewPayment from './pages/Admin/Payment/ViewPayment'
 import UpdatePayment from './pages/Admin/Payment/UpdatePayment'
+import ViewBrand from './pages/Admin/Brand/ViewBrand'
+import UpdateBrand from './pages/Admin/Brand/UpdateBrand'
+import ViewChronic from './pages/Admin/ChronicDisease/ViewChronic'
+import UpdateChronic from './pages/Admin/ChronicDisease/UpdateChronic'
+import ViewImageTest from './pages/Admin/ImageTest/ViewImageTest'
+import UpdateImageTest from './pages/Admin/ImageTest/UpdateImageTest'
+import ViewLabTest from './pages/Admin/LabTest/ViewLabTest'
+import UpdateLabTest from './pages/Admin/LabTest/UpdateLabTest'
+import ViewImageClass from './pages/Admin/ImageClass/ViewImageClass'
+import UpdateImageClass from './pages/Admin/ImageClass/UpdateImageClass'
+import ViewLabClass from './pages/Admin/LabClass/ViewLabClass'
+import UpdateLabClass from './pages/Admin/LabClass/UpdateLabClass'
+import ViewImageRequest from './pages/Admin/ImageRequest/ViewImageRequest'
+import UpdateImageRequest from './pages/Admin/ImageRequest/UpdateImageRequest'
+import ViewLabRequest from './pages/Admin/LabRequest/ViewLabRequest'
+import UpdateLabRequest from './pages/Admin/LabRequest/UpdateLabRequest'
+import ViewPhysical from './pages/Admin/PhysicalExamination/ViewPhysical'
+import UpdatePhysical from './pages/Admin/PhysicalExamination/UpdatePhysical'
+import ViewSymptoms from './pages/Admin/Symptoms/ViewSymptoms'
+import UpdateSymptoms from './pages/Admin/Symptoms/UpdateSymptoms'
+import ViewDrug from './pages/Admin/Drugs/ViewDrug'
+import UpdateDrug from './pages/Admin/Drugs/UpdateDrug'
+import ViewDrugFormula from './pages/Admin/DrugFormulas/ViewDrugFormula'
+import UpdateDrugFormula from './pages/Admin/DrugFormulas/UpdateDrugFormula'
 
 import DashBoard from './pages/Doctor/Dashboard'
 import DashboardIP from './pages/Doctor/DashboardIP'
@@ -254,6 +278,30 @@ const Layout = () => {
               <Route path='/createpayment' element={<CreatePayment />} />
               <Route path='/viewpayment/:id' element={<ViewPayment />} />
               <Route path='/updatepayment/:id' element={<UpdatePayment />} />
+              <Route path='/viewbrand/:id' element={<ViewBrand />} />
+              <Route path='/updatebrand/:id' element={<UpdateBrand />} />
+              <Route path='/updatechronic/:id' element={<UpdateChronic />} />
+              <Route path='/viewchronic/:id' element={<ViewChronic />} />
+              <Route path='/viewimagetest/:id' element={<ViewImageTest />} />
+              <Route path='/updateimagetest/:id' element={<UpdateImageTest />} />
+              <Route path='/viewlabtest/:id' element={<ViewLabTest />} />
+              <Route path='/updatelabtest/:id' element={<UpdateLabTest />} />
+              <Route path='/viewimageclass/:id' element={<ViewImageClass />} />
+              <Route path='/updateimageclass/:id' element={<UpdateImageClass />} />
+              <Route path='/viewlabclass/:id' element={<ViewLabClass />} />
+              <Route path='/updatelabclass/:id' element={<UpdateLabClass />} />
+              <Route path='/viewimagerequest/:id' element={<ViewImageRequest />} />
+              <Route path='/updateimagerequest/:id' element={<UpdateImageRequest />} />
+              <Route path='/viewlabrequest/:id' element={<ViewLabRequest />} />
+              <Route path='/updatelabrequest/:id' element={<UpdateLabRequest />} />
+              <Route path='/viewphysical/:id' element={<ViewPhysical />} />
+              <Route path='/updatephysical/:id' element={<UpdatePhysical />} />
+              <Route path='/viewsymptoms/:id' element={<ViewSymptoms />} />
+              <Route path='/updatesymptoms/:id' element={<UpdateSymptoms />} />
+              <Route path='/viewdrug/:id' element={<ViewDrug />} />
+              <Route path='/updatedrug/:id' element={<UpdateDrug />} />
+              <Route path='/viewdrugformula/:id' element={<ViewDrugFormula />} />
+              <Route path='/updatedrugformula/:id' element={<UpdateDrugFormula />} />
 
               {/* Doctors routes */}
               <Route path='/OPDashboard' element={<DashBoard />} />

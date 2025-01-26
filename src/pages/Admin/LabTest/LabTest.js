@@ -99,8 +99,8 @@ const LabTest = () => {
                         <td className='py-2 px-6'>{new Date(data.created_at).toISOString().replace('T', ' ').slice(0, 19)}</td>
                         <td className='py-2 px-6'>
                           <div className='flex space-x-3'>
-                            <span className='text-blue-600 text-xl'><Link to={`/app/viewbrand/${data.id}`}><FaRegEye /></Link></span>
-                            <span className='text-green-600 text-xl'><Link to={`/app/updatebrand/${data.id}`}><MdModeEdit /></Link></span>
+                            <span className='text-blue-600 text-xl'><Link to={`/app/viewlabtest/${data.id}`}><FaRegEye /></Link></span>
+                            <span className='text-green-600 text-xl'><Link to={`/app/updatelabtest/${data.id}`}><MdModeEdit /></Link></span>
                           </div>
                         </td>
                       </tr>

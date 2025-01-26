@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import axios from '../../../api/api'
 import { toast } from 'sonner'
 
-const CreateBrand = () => {
+const CreateDrugFormula = () => {
 
   const [name,setName] = useState('')
   const [description,setDescription] = useState('')
-  const [company,setCompany] = useState('')
+  const [formula,setFormula] = useState('')
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -15,8 +15,8 @@ const CreateBrand = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.post('/api/brands/create', { name, description })
-      toast.success('Brand Created')
+      await axios.post('/api/drugFormulas/create', { name, description, formula })
+      toast.success('Drug formula Created')
       setName('')
       setDescription('')
       setTimeout(() => {
@@ -38,10 +38,10 @@ const CreateBrand = () => {
 
   return (
     <div>
-      <h4 className='text-center my-4 font-semibold'>Create Brand</h4>
+      <h4 className='text-center my-4 font-semibold'>Create Drug formula</h4>
       <form onSubmit={handleSubmit}>
         <div className='py-2'>
-          <label htmlFor='name'>Brand Name
+          <label htmlFor='name'>Formula Name
             <input 
               type="text" 
               required
@@ -65,14 +65,14 @@ const CreateBrand = () => {
           </label>
         </div>
         <div className='py-2'>
-          <label htmlFor='name'>Company
+          <label htmlFor='name'>Formula
             <input 
               type="text" 
               required
-              placeholder='Company'
+              placeholder='Formula'
               className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
+              value={formula}
+              onChange={(e) => setFormula(e.target.value)}
             />
           </label>
         </div>
@@ -85,4 +85,4 @@ const CreateBrand = () => {
   )
 }
 
-export default CreateBrand
+export default CreateDrugFormula

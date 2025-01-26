@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import axios from '../../../api/api'
 import { toast } from 'sonner'
 
-const CreateBrand = () => {
+const CreateDrug = () => {
 
   const [name,setName] = useState('')
   const [description,setDescription] = useState('')
-  const [company,setCompany] = useState('')
+  const [in_stock,setIn_stock] = useState('')
+  const [price_per_item,setPrice_per_item] = useState('')
+  const [brand,setBrand] = useState('')
+  const [expiry_date,setExpiry_date] = useState('')
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -15,8 +18,8 @@ const CreateBrand = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.post('/api/brands/create', { name, description })
-      toast.success('Brand Created')
+      await axios.post('/api/drugs/create', { name, description, in_stock, price_per_item, brand, expiry_date })
+      toast.success('Drug Created')
       setName('')
       setDescription('')
       setTimeout(() => {
@@ -38,10 +41,10 @@ const CreateBrand = () => {
 
   return (
     <div>
-      <h4 className='text-center my-4 font-semibold'>Create Brand</h4>
+      <h4 className='text-center my-4 font-semibold'>Create Drug</h4>
       <form onSubmit={handleSubmit}>
         <div className='py-2'>
-          <label htmlFor='name'>Brand Name
+          <label htmlFor='name'>Drug Name
             <input 
               type="text" 
               required
@@ -65,14 +68,50 @@ const CreateBrand = () => {
           </label>
         </div>
         <div className='py-2'>
-          <label htmlFor='name'>Company
+          <label htmlFor='name'>In Stock
+            <input 
+              type="number" 
+              required
+              placeholder='In Stock'
+              className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
+              value={in_stock}
+              onChange={(e) => setIn_stock(e.target.value)}
+            />
+          </label>
+        </div>
+        <div className='py-2'>
+          <label htmlFor='name'>Price per Item
+            <input 
+              type="number" 
+              required
+              placeholder='Price per Item'
+              className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
+              value={price_per_item}
+              onChange={(e) => setPrice_per_item(e.target.value)}
+            />
+          </label>
+        </div>
+        <div className='py-2'>
+          <label htmlFor='name'>Brand
             <input 
               type="text" 
               required
-              placeholder='Company'
+              placeholder='Brand'
               className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+            />
+          </label>
+        </div>
+        <div className='py-2'>
+          <label htmlFor='name'>Expiry Date
+            <input 
+              type="date" 
+              required
+              placeholder='Date'
+              className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
+              value={expiry_date}
+              onChange={(e) => setExpiry_date(e.target.value)}
             />
           </label>
         </div>
@@ -85,4 +124,4 @@ const CreateBrand = () => {
   )
 }
 
-export default CreateBrand
+export default CreateDrug
