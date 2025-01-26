@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from '../../api/api';
 import swal from 'sweetalert';
+import Cookie from 'js-cookie';
 
 export default function AuthToken () {
   function getToken () {
@@ -24,6 +25,7 @@ export default function AuthToken () {
   const saveToken = (userToken, expirationHours = 3) => {
     const expiresAt = new Date().getTime() + expirationHours * 60 * 60 * 1000;
     const tokenData = { data: userToken.data, expiresAt };
+    Cookie.set('token', userToken.data, { expires: 30 });
 
     window.localStorage.setItem('token', JSON.stringify(tokenData));
     setAccessToken(userToken);
