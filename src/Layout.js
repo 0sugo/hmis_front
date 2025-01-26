@@ -313,7 +313,8 @@ const Layout = () => {
               <Route path='/searchpatient' element={<SearchPatient />} />
               <Route path ='/newvisit' element={<NewVisit />} />
               <Route path ='/emergencyvisit' element={<EmergencyVisit />} />
-              <Route path ='/createPersonalVisit' element={<CreatePersonalVisit />} />
+              <Route path="/createvisit/:id" element={<CreatePersonalVisit />} />
+              {/* <Route path ='/createPersonalVisit' element={<CreatePersonalVisit />} /> */}
               <Route path ='/appointments' element={<Appointment />} />
 
               {/* Procurement routes */}
