@@ -12,12 +12,51 @@ import Missing from './pages/Missing';
 import Home from './pages/Home';
 
 import Departments from './pages/Admin/Departments'
+import ViewDepartment from './pages/Admin/ViewDepartment'
+import UpdateDepartment from './pages/Admin/UpdateDepartment'
 import Schemes from './pages/Admin/Schemes'
+import ViewScheme from './pages/Admin/ViewScheme'
+import UpdateScheme from './pages/Admin/UpdateScheme'
+import Employee from './pages/Admin/Employees'
+import ViewAdminEmployee from './pages/Admin/ViewAdminEmployee'
+import UpdateEmployee from './pages/Admin/UpdateEmployee'
 import Vendors from './pages/Admin/Vendors'
 import Accounts from './pages/Admin/Accounts'
 import HospitalData from './pages/Admin/HospitalData'
 import ProductPriceList from './pages/Admin/ProductPriceList'
 import ToDoList from './pages/Admin/ToDoList'
+import Clinic from './pages/Admin/Clinic/Clinic'
+import CreateClinic from './pages/Admin/Clinic/CreateClinic'
+import UpdateClinic from './pages/Admin/Clinic/UpdateClinic'
+import ViewClinic from './pages/Admin/Clinic/ViewClinic'
+import Payment from './pages/Admin/Payment/Payment'
+import CreatePayment from './pages/Admin/Payment/CreatePayment'
+import ViewPayment from './pages/Admin/Payment/ViewPayment'
+import UpdatePayment from './pages/Admin/Payment/UpdatePayment'
+import ViewBrand from './pages/Admin/Brand/ViewBrand'
+import UpdateBrand from './pages/Admin/Brand/UpdateBrand'
+import ViewChronic from './pages/Admin/ChronicDisease/ViewChronic'
+import UpdateChronic from './pages/Admin/ChronicDisease/UpdateChronic'
+import ViewImageTest from './pages/Admin/ImageTest/ViewImageTest'
+import UpdateImageTest from './pages/Admin/ImageTest/UpdateImageTest'
+import ViewLabTest from './pages/Admin/LabTest/ViewLabTest'
+import UpdateLabTest from './pages/Admin/LabTest/UpdateLabTest'
+import ViewImageClass from './pages/Admin/ImageClass/ViewImageClass'
+import UpdateImageClass from './pages/Admin/ImageClass/UpdateImageClass'
+import ViewLabClass from './pages/Admin/LabClass/ViewLabClass'
+import UpdateLabClass from './pages/Admin/LabClass/UpdateLabClass'
+import ViewImageRequest from './pages/Admin/ImageRequest/ViewImageRequest'
+import UpdateImageRequest from './pages/Admin/ImageRequest/UpdateImageRequest'
+import ViewLabRequest from './pages/Admin/LabRequest/ViewLabRequest'
+import UpdateLabRequest from './pages/Admin/LabRequest/UpdateLabRequest'
+import ViewPhysical from './pages/Admin/PhysicalExamination/ViewPhysical'
+import UpdatePhysical from './pages/Admin/PhysicalExamination/UpdatePhysical'
+import ViewSymptoms from './pages/Admin/Symptoms/ViewSymptoms'
+import UpdateSymptoms from './pages/Admin/Symptoms/UpdateSymptoms'
+import ViewDrug from './pages/Admin/Drugs/ViewDrug'
+import UpdateDrug from './pages/Admin/Drugs/UpdateDrug'
+import ViewDrugFormula from './pages/Admin/DrugFormulas/ViewDrugFormula'
+import UpdateDrugFormula from './pages/Admin/DrugFormulas/UpdateDrugFormula'
 
 import DashBoard from './pages/Doctor/Dashboard'
 import DashboardIP from './pages/Doctor/DashboardIP'
@@ -103,9 +142,16 @@ import ViewOpeningStock from './pages/Pharmacy/StoreManagement/ViewOpeningStock'
 import PatientDetails from './pages/Pharmacy/StoreManagement/PatientDetails'
 
 import FoDashboard from './pages/FrontOffice/FoDashboard'
+import ListPatients from './pages/FrontOffice/ListPatients'
 import AddPatient from './pages/FrontOffice/AddPatient'
+import ViewPatient from './pages/FrontOffice/ViewPatient'
+import UpdatePatient from './pages/FrontOffice/UpdatePatient'
 import PatientRegistration from './pages/FrontOffice/PatientRegistration'
-import SearchPatient from './pages/FrontOffice/SearchPatient'
+import ListEmergencyVisit from './pages/FrontOffice/ListEmergencyVisit'
+import ViewEmergencyVisit from './pages/FrontOffice/ViewEmergencyVisit'
+import UpdateEmergencyVisit from './pages/FrontOffice/UpdateEmergencyVisit'
+import ViewNewVisit from './pages/FrontOffice/ViewNewVisit'
+import UpdateNewVisit from './pages/FrontOffice/UpdateNewVisit'
 
 import ProcurementRequest from './pages/Procurement/ProcurementRequest'
 import ViewProcurementRequest from './pages/Procurement/ViewProcurementRequest'
@@ -211,12 +257,51 @@ const Layout = () => {
 
               {/* Admin routes */}
               <Route path='/departments' element={<Departments />} />
+              <Route path='/updatedepartment/:id' element={<UpdateDepartment />} />
+              <Route path='/viewdepartment/:id' element={<ViewDepartment />} />
               <Route path='/schemes' element={<Schemes />} />
+              <Route path='/updatescheme/:id' element={<UpdateScheme />} />
+              <Route path='/viewscheme/:id' element={<ViewScheme />} />
+              <Route path='/employees' element={<Employee />} />
+              <Route path='/viewadminemployee/:id' element={<ViewAdminEmployee />} />
+              <Route path='/updateadminemployee/:id' element={<UpdateEmployee />} />
               <Route path='/vendors' element={<Vendors />} />
               <Route path='/accounts' element={<Accounts />} />
               <Route path='/hospitaldata' element={<HospitalData />} />
               <Route path='/productpricelist' element={<ProductPriceList />} />
               <Route path='/todolist' element={<ToDoList />} />
+              <Route path='/clinic' element={<Clinic />} />
+              <Route path='/createclinic' element={<CreateClinic />} />
+              <Route path='/viewclinic/:id' element={<ViewClinic />} />
+              <Route path='/updateclinic/:id' element={<UpdateClinic />} />
+              <Route path='/payments' element={<Payment />} />
+              <Route path='/createpayment' element={<CreatePayment />} />
+              <Route path='/viewpayment/:id' element={<ViewPayment />} />
+              <Route path='/updatepayment/:id' element={<UpdatePayment />} />
+              <Route path='/viewbrand/:id' element={<ViewBrand />} />
+              <Route path='/updatebrand/:id' element={<UpdateBrand />} />
+              <Route path='/updatechronic/:id' element={<UpdateChronic />} />
+              <Route path='/viewchronic/:id' element={<ViewChronic />} />
+              <Route path='/viewimagetest/:id' element={<ViewImageTest />} />
+              <Route path='/updateimagetest/:id' element={<UpdateImageTest />} />
+              <Route path='/viewlabtest/:id' element={<ViewLabTest />} />
+              <Route path='/updatelabtest/:id' element={<UpdateLabTest />} />
+              <Route path='/viewimageclass/:id' element={<ViewImageClass />} />
+              <Route path='/updateimageclass/:id' element={<UpdateImageClass />} />
+              <Route path='/viewlabclass/:id' element={<ViewLabClass />} />
+              <Route path='/updatelabclass/:id' element={<UpdateLabClass />} />
+              <Route path='/viewimagerequest/:id' element={<ViewImageRequest />} />
+              <Route path='/updateimagerequest/:id' element={<UpdateImageRequest />} />
+              <Route path='/viewlabrequest/:id' element={<ViewLabRequest />} />
+              <Route path='/updatelabrequest/:id' element={<UpdateLabRequest />} />
+              <Route path='/viewphysical/:id' element={<ViewPhysical />} />
+              <Route path='/updatephysical/:id' element={<UpdatePhysical />} />
+              <Route path='/viewsymptoms/:id' element={<ViewSymptoms />} />
+              <Route path='/updatesymptoms/:id' element={<UpdateSymptoms />} />
+              <Route path='/viewdrug/:id' element={<ViewDrug />} />
+              <Route path='/updatedrug/:id' element={<UpdateDrug />} />
+              <Route path='/viewdrugformula/:id' element={<ViewDrugFormula />} />
+              <Route path='/updatedrugformula/:id' element={<UpdateDrugFormula />} />
 
               {/* Doctors routes */}
               <Route path='/OPDashboard' element={<DashBoard />} />
@@ -308,15 +393,22 @@ const Layout = () => {
 
               {/* FrontOffice routes */}
               <Route path='/fo-dashboard' element={<FoDashboard />} />
+              <Route path='/listpatients' element={<ListPatients />} />
               <Route path='/addnewpatient' element={<AddPatient />} />
+              <Route path='/viewpatient/:id' element={<ViewPatient />} />
+              <Route path='/updatepatient/:id' element={<UpdatePatient />} />
               <Route path='/patientregistration' element={<PatientRegistration />} />
-              <Route path='/searchpatient' element={<SearchPatient />} />
+              <Route path='/listemergencyvisit' element={<ListEmergencyVisit />} />
+              <Route path='/viewemergencyvisit/:id' element={<ViewEmergencyVisit />} />
+              <Route path='/updateemergencyvisit/:id' element={<UpdateEmergencyVisit />} />
               <Route path ='/newvisit' element={<NewVisit />} />
+              <Route path ='/viewnewvisit/:id' element={<ViewNewVisit />} />
+              <Route path ='/updatenewvisit/:id' element={<UpdateNewVisit />} />
               <Route path ='/emergencyvisit' element={<EmergencyVisit />} />
               <Route path="/createvisit/:id" element={<CreatePersonalVisit />} />
               {/* <Route path ='/createPersonalVisit' element={<CreatePersonalVisit />} /> */}
               <Route path ='/appointments' element={<Appointment />} />
-
+            
               {/* Procurement routes */}
               <Route path='/procurementrequests' element={<ProcurementRequest />} />
               <Route path='/viewprocurementrequests/:id' element={<ViewProcurementRequest />} />

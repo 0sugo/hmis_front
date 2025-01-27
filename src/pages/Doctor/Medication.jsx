@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
-import PatientNavigation from './PatientNavigation'
-import pen from '../../assets/images/pen.svg'
-import eye from '../../assets/images/eye.svg'
 import { useNavigate } from 'react-router-dom'
+import axios from "../../api/api"
 
 const Medication = () => {
   const navigate = useNavigate();
@@ -49,6 +47,53 @@ const Medication = () => {
     navigate('/individualpatient/AdmissionRequest', { replace: true });
 
   }
+
+  const [brand,setBrand] = useState([])
+  const [drug,setDrug] = useState([])
+  const [drugformula,setDrugformula] = useState([])
+
+  // get brand types
+  const getbrand = async () => {
+    try {
+      const response = await axios.get('/api/brands')
+      setBrand(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getbrand()
+  }, [])
+
+  // get drug types
+  const getdrug = async () => {
+    try {
+      const response = await axios.get('/api/drugs')
+      setDrug(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getdrug()
+  }, [])
+
+  // get drug formula types
+  const getdrugformula = async () => {
+    try {
+      const response = await axios.get('/api/drugFormulas')
+      setDrugformula(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getdrugformula()
+  }, [])
+
   return (
     <div className='w-full px-4 sm:px-6 lg:px-8'>
 
@@ -82,24 +127,29 @@ const Medication = () => {
             </div>
 
             <div className="mb-2">
-              <input type='text' name="drug" placeholder='Drug' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
-            </div>
-
-            <div className="mb-2">
-              <select name="formulation" placeholder='Formulation' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " >
-                <option value="">Formulation Available</option>
-                <option value="disease1">Formulation 1</option>
-                <option value="disease2">Formulation 2</option>
-                <option value="disease3">Formulation 3</option>
+              <select name="brand" placeholder='brand' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 leading-tight focus:outline-none " >
+                <option value="">Drug</option>
+                {drug.map((drugs) => (
+                  <option key={drugs.id} value={drugs.name}>{drugs.name} - {drugs.description}</option>
+                ))}
               </select>
             </div>
 
             <div className="mb-2">
-              <select name="brand" placeholder='brand' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " >
-                <option value="">Brand</option>
-                <option value="disease1">brand 1</option>
-                <option value="disease2">brand 2</option>
-                <option value="disease3">brand 3</option>
+              <select name="formulation" placeholder='Formulation' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 leading-tight focus:outline-none " >
+                <option value="">Formulation Available</option>
+                {drugformula.map((formula) => (
+                  <option key={formula.id} value={formula.name}>{formula.name} - {formula.description}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-2">
+              <select name="brand" placeholder='brand' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 leading-tight focus:outline-none " >
+                <option value="">Brand Type</option>
+                {brand.map((brands) => (
+                  <option key={brands.id} value={brands.name}>{brands.name} - {brands.description}</option>
+                ))}
               </select>
             </div>
           </div>

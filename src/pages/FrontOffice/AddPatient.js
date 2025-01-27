@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import { fetchSchemes } from '../../redux/scheme/schemeSlice';
 
 const AddPatient = () => {
+  
   const [currentStep, setCurrentStep] = useState(1);
   const token = Cookies.get('token');
   const dispatch = useDispatch();

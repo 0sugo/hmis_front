@@ -1,7 +1,6 @@
-import React from 'react'
-import PatientNavigationBar from './PatientNavigationBar'
+import React, { useState, useEffect } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
-import pic from '../../assets/images/pic.svg'
+import axios from "../../api/api"
 
 const OrderTests = () => {
   const tableData = [
@@ -41,6 +40,99 @@ const OrderTests = () => {
       status: 'Pending'
     },
   ]
+
+  const [testType, setTestType] = useState([])
+  const [testClass, setTestClass] = useState([])
+  const [testRequest, setTestRequest] = useState([])
+
+  const [imageType, setImageType] = useState([])
+  const [imageClass, setImageClass] = useState([])
+  const [imageRequest, setImageRequest] = useState([])
+
+  // get lab test types
+  const getTestTypes = async () => {
+    try {
+      const response = await axios.get('/api/labTestTypes')
+      setTestType(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getTestTypes()
+  }, [])
+
+  // get lab test classes types
+  const getClassTypes = async () => {
+    try {
+      const response = await axios.get('/api/labTestClasses')
+      setTestClass(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getClassTypes()
+  }, [])
+
+  // get lab test requests
+  const getTestRequest = async () => {
+    try {
+      const response = await axios.get('/api/labTestRequests')
+      setTestRequest(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getTestRequest()
+  }, [])
+
+  // get image test types
+  const getImageTypes = async () => {
+    try {
+      const response = await axios.get('/api/imageTestTypes')
+      setImageType(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getImageTypes()
+  }, [])
+
+  // get image test classes types
+  const getImageClassTypes = async () => {
+    try {
+      const response = await axios.get('/api/imageTestClasses')
+      setImageClass(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getImageClassTypes()
+  }, [])
+
+  // get image test requests
+  const getImageRequest = async () => {
+    try {
+      const response = await axios.get('/api/imageTestRequests')
+      setImageRequest(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getImageRequest()
+  }, [])
+
   return (
     <div className='container mx-auto px-4'>
       <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4'>
@@ -54,29 +146,29 @@ const OrderTests = () => {
         <form className='my-2 text-xs'>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
             <div className="mb-2">
-              <select name="requestType" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none">
+              <select name="requestType" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Request Type</option>
-                <option value="requestType1">requestType 1</option>
-                <option value="requestType2">requestType 2</option>
-                <option value="requestType3">requestType 3</option>
+                {testType.map((testtype) => (
+                  <option key={testtype.id} value={testtype.name}>{testtype.name} - {testtype.description}</option>
+                ))}
               </select>
             </div>
 
             <div className="mb-2">
-              <select name="class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none">
+              <select name="class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">class</option>
-                <option value="class1">class 1</option>
-                <option value="class2">class 2</option>
-                <option value="class3">class 3</option>
+                {testClass.map((testclass) => (
+                  <option key={testclass.id} value={testclass.name}>{testclass.name} - {testclass.description}</option>
+                ))}
               </select>
             </div>
 
             <div className="mb-2">
-              <select name="labTestRequest" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none">
+              <select name="labTestRequest" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Lab test to be request</option>
-                <option value="labTestRequest1">labTestRequest 1</option>
-                <option value="labTestRequest2">labTestRequest 2</option>
-                <option value="labTestRequest3">labTestRequest 3</option>
+                {testRequest.map((testrequest) => (
+                  <option key={testrequest.id} value={testrequest.name}>{testrequest.name} - {testrequest.description}</option>
+                ))}
               </select>
             </div>
 
@@ -135,29 +227,29 @@ const OrderTests = () => {
         <form className='my-2 text-xs'>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
             <div className="mb-2">
-              <select name="requestType" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none">
+              <select name="requestType" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Request Type</option>
-                <option value="requestType1">requestType 1</option>
-                <option value="requestType2">requestType 2</option>
-                <option value="requestType3">requestType 3</option>
+                {imageType.map((imagetype) => (
+                  <option key={imagetype.id} value={imagetype.name}>{imagetype.name} - {imagetype.description}</option>
+                ))}
               </select>
             </div>
 
             <div className="mb-2">
-              <select name="class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none">
+              <select name="class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">class</option>
-                <option value="class1">class 1</option>
-                <option value="class2">class 2</option>
-                <option value="class3">class 3</option>
+                {imageClass.map((imageclass) => (
+                  <option key={imageclass.id} value={imageclass.name}>{imageclass.name} - {imageclass.description}</option>
+                ))}
               </select>
             </div>
 
             <div className="mb-2">
-              <select name="labTestRequest" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none">
+              <select name="labTestRequest" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Lab test to be request</option>
-                <option value="labTestRequest1">labTestRequest 1</option>
-                <option value="labTestRequest2">labTestRequest 2</option>
-                <option value="labTestRequest3">labTestRequest 3</option>
+                {imageRequest.map((imagerequest) => (
+                  <option key={imagerequest.id} value={imagerequest.name}>{imagerequest.name} - {imagerequest.description}</option>
+                ))}
               </select>
             </div>
 

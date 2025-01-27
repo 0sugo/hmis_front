@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import Vitals from './Vitals';
 import PastHistory from './PastHistory';
 import ChronicDiseases from './ChronicDiseases';
 import PatientNavigationBar from './PatientNavigationBar';
-import { GoPlus } from 'react-icons/go';
 import Consultation from './Consultation';
 import Diagnostics from './Diagnostics';
 import Results from './Results';
@@ -22,7 +20,7 @@ import PatientList from './PatientList';
 import pic from '../../assets/images/pic.svg'
 
 const DoctorsPatientView = () => {
-  const { patientId } = useParams();
+
   const [activeSection, setActiveSection] = useState('patientInformation');
 
   const renderActiveSection = () => {
