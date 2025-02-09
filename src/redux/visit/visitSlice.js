@@ -10,7 +10,6 @@ const intialState = {
 
 }
 
-
 export const FetchVisit = createAsyncThunk('fetch/visits', async (_, { rejectWithValue }) => {
     try {
         const response = await axios(`api/visits/create`);
