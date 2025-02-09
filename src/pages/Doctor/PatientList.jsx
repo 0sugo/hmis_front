@@ -8,7 +8,6 @@ import Pagination from '../Pagination';
 import { toast } from 'sonner'
 import download from '../../assets/images/download.svg';
 import { GoPlus } from "react-icons/go";
-import axios from '../../api/api'
 
 const PatientList = () => {
 
