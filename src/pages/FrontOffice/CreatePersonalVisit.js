@@ -1,351 +1,3 @@
-// import React, { useEffect, useState } from 'react'
-// import pic from '../../assets/images/pic.svg'
-// import { MdSearch } from 'react-icons/md'
-// import { AlertCircle, CheckCircle2, PenTool } from 'lucide-react';
-// import api from '../../api/api';
-// import axios from 'axios';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { createVisit } from '../../redux/visit/visitSlice';
-// import { deepSearch } from '../../redux/patient/patientSlice';
-// import Cookies from 'js-cookie';
-// import { useParams } from 'react-router-dom';
-// import profPic from '../../assets/images/pic.svg'
-
-// const CreatePersonalVisit = () => {
-//   const { id } = useParams();
-//   const [sladeVerification, setSladeVerification] = useState('No');
-//   const [claimNo, setClaimNo] = useState('');
-//   const [claimAmount, setClaimAmount] = useState('');
-//   const [specialistClinic, setSpecialistClinic] = useState('');
-//   const [visitingType, setVisitingType] = useState('');
-//   const [feeType, setFeeType] = useState('');
-//   const [department, setdepartment] = useState('');
-//   const token = Cookies.get('token');
-//   const dispatch = useDispatch();
-//   const { patient } = useSelector((state) => state.patient);
-//   const [formData, setFormData] = useState({
-//     patient_id: '',
-//     claim_number: '',
-//     department: '',
-//     clinic: '',
-//     visit_type: '',
-//     schemes: [{
-//       claim_number: '',
-//       available_balance: '',
-//       insurer: ''
-//     }],
-//     payment_types: [{
-//       cash: 0,
-//       insurance: 0
-//     }],
-//     signature: ''
-//   });
-
-//   // const userData = JSON.parse(localStorage.getItem('token'));
-//   // const token = userData?.data?.authorisation?.token;
-
-
-//   // useEffect(() => {
-
-//   //   dispatch(deepSearch({ search: id, token }));
-//   // }, [id]);
-
-//   // if (!patient) {
-//   //   return <div>Loading patient details...</div>;
-//   // }
-
-
-//   // const dispatch = useDispatch();
-//   // const { isLoading, error } = useSelector((state) => state.visits);
-
-//   const [activeSection, setActiveSection] = useState('Member Verification');
-
-//   const sections = ['Member Verification', 'Booking', 'Claim Documents'];
-
-//   const updateFormData = (field, value) => {
-//     setFormData(prev => ({
-//       ...prev,
-//       [field]: value
-//     }));
-//   };
-
-//   // Update nested scheme data
-//   const updateSchemeData = (field, value) => {
-//     setFormData(prev => ({
-//       ...prev,
-//       schemes: [{
-//         ...prev.schemes[0],
-//         [field]: value
-//       }]
-//     }));
-//   };
-
-//   // Update payment types
-//   const updatePaymentType = (field, value) => {
-//     setFormData(prev => ({
-//       ...prev,
-//       payment_types: [{
-//         ...prev.payment_types[0],
-//         [field]: value ? 1 : 0
-//       }]
-//     }));
-//   };
-
-//   // Handle form submission
-//   const handleSubmit = async () => {
-//     try {
-//       // Add your API endpoint here
-//       const response = await axios.post(
-//         'https://maimoon.hospify.co.ke/api/visits/create',
-//         formData,
-//         {
-//           method: 'POST',
-//           headers: {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//           }
-//         }
-//       );
-//       console.log('Form submitted successfully:', response.data);
-//       // Add success handling
-//     } catch (error) {
-//       console.error('Error submitting form:', error);
-//       // Add error handling
-//     }
-//   };
-
-
-
-//   // const handleCreateVisit = () => {
-//   //   dispatch(createVisit({ formData, token }));
-//   // };
-
-//   // Handle button click (Next/Submit)
-
-//   const handleButtonClick = () => {
-//     const currentIndex = sections.indexOf(activeSection);
-//     if (activeSection === 'Claim Documents') {
-//       handleSubmit();
-//     } else if (currentIndex < sections.length - 1) {
-//       setActiveSection(sections[currentIndex + 1]);
-//     }
-//   };
-
-
-//   const renderSection = () => {
-//     switch (activeSection) {
-//       case 'Member Verification':
-//         return (
-//           <section className="bg-white p-4 rounded-lg mb-4 shadow-sm">
-//             <div className="flex justify-between items-center mb-4">
-//               <span className="text-[#413D80] font-semibold">Member Verification</span>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//               <div>
-//                 <label className="block text-[#413D80] mb-2">
-//                   Claim Number: <span className="text-red-600">*</span>
-//                 </label>
-//                 <input
-//                   value={formData.claim_number}
-//                   onChange={(e) => updateFormData('claim_number', e.target.value)}
-//                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-//                 />
-//               </div>
-//               <div>
-//                 <label className="block text-[#413D80] mb-2">
-//                   Available Balance: <span className="text-red-600">*</span>
-//                 </label>
-//                 <input
-//                   type="number"
-//                   value={formData.schemes[0].available_balance}
-//                   onChange={(e) => updateSchemeData('available_balance', e.target.value)}
-//                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-//                 />
-//               </div>
-//             </div>
-//           </section>
-//         );
-
-//       case 'Booking':
-//         return (
-//           <section className="bg-white p-4 rounded-lg mb-4 shadow-sm">
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//               <div>
-//                 <label className="block text-[#413D80] mb-2">
-//                   Department: <span className="text-red-600">*</span>
-//                 </label>
-//                 <select
-//                   value={formData.department}
-//                   onChange={(e) => updateFormData('department', e.target.value)}
-//                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-//                 >
-//                   <option value="">Select Department</option>
-//                   <option value="kitchen">Kitchen</option>
-//                   <option value="ent">ENT</option>
-//                 </select>
-//               </div>
-//               <div>
-//                 <label className="block text-[#413D80] mb-2">
-//                   Clinic: <span className="text-red-600">*</span>
-//                 </label>
-//                 <select
-//                   value={formData.clinic}
-//                   onChange={(e) => updateFormData('clinic', e.target.value)}
-//                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-//                 >
-//                   <option value="">Select Clinic</option>
-//                   <option value="ENT">ENT</option>
-//                   <option value="General">General</option>
-//                 </select>
-//               </div>
-//               <div>
-//                 <label className="block text-[#413D80] mb-2">
-//                   Visit Type: <span className="text-red-600">*</span>
-//                 </label>
-//                 <select
-//                   value={formData.visit_type}
-//                   onChange={(e) => updateFormData('visit_type', e.target.value)}
-//                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-//                 >
-//                   <option value="">Select Visit Type</option>
-//                   <option value="in patient">In Patient</option>
-//                   <option value="out patient">Out Patient</option>
-//                 </select>
-//               </div>
-//               <div>
-//                 <label className="block text-[#413D80] mb-2">Payment Types:</label>
-//                 <div className="space-y-2">
-//                   <label className="flex items-center space-x-2">
-//                     <input
-//                       type="checkbox"
-//                       checked={formData.payment_types[0].cash === 1}
-//                       onChange={(e) => updatePaymentType('cash', e.target.checked)}
-//                       className="rounded border-slate-300"
-//                     />
-//                     <span>Cash</span>
-//                   </label>
-//                   <label className="flex items-center space-x-2">
-//                     <input
-//                       type="checkbox"
-//                       checked={formData.payment_types[0].insurance === 1}
-//                       onChange={(e) => updatePaymentType('insurance', e.target.checked)}
-//                       className="rounded border-slate-300"
-//                     />
-//                     <span>Insurance</span>
-//                   </label>
-//                 </div>
-//               </div>
-//             </div>
-//           </section>
-//         );
-
-//       case 'Claim Documents':
-//         return (
-//           <section className="bg-white p-4 rounded-lg mb-4 shadow-sm">
-//             <div className="space-y-4">
-//               <div className="flex items-center justify-between border border-slate-300 rounded-lg p-4">
-//                 <div className="flex items-center gap-3">
-//                   <PenTool className="h-5 w-5 text-[#413D80]" />
-//                   <div>
-//                     <h3 className="font-medium text-[#413D80]">Patient Signature</h3>
-//                     <p className="text-sm text-slate-500">Enter signature data</p>
-//                   </div>
-//                 </div>
-//                 <input
-//                   value={formData.signature}
-//                   onChange={(e) => updateFormData('signature', e.target.value)}
-//                   className="w-full max-w-md px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-//                   placeholder="Enter signature data"
-//                 />
-//               </div>
-//             </div>
-//           </section>
-//         );
-
-//       default:
-//         return null;
-//     }
-//   };
-
-//   return (
-//     <div className="mx-auto p-4">
-//       <h4 className="text-[#192252] font-bold mb-4">New Visit</h4>
-//       <div className='grid grid-cols-12 mb-4 w-full bg-white p-8 rounded-[10px]'>
-//         <div className='flex flex-col col-span-2 items-center gap-2'>
-//           <img src={profPic} />
-//           <span className='text-[#192252] font-semibold'>Idris Maimoon</span>
-//         </div>
-
-//         <div className='col-span-5 w-full px-4 text-[#413D80]'>
-//           <p className=''>Patient Name : <span className='text-[#616161]'>Idriis Maimoon</span></p>
-//           <p className=''>Age: <span className='text-[#616161]'>26 Years</span></p>
-//           <p className=''>Gender: <span className='text-[#616161]'>Male</span></p>
-//           <p className=''>Occupation: <span className='text-[#616161]'>Medical Doctor</span></p>
-//           <p className=''>Company: <span className='text-[#616161]'>Britam</span></p>
-
-//         </div>
-//         <div className='col-span-5 w-full text-[#413D80]'>
-//           <p>Visit code : <span className='text-[#616161]'>MH-0001</span></p>
-//           <p>Scheme: <span className='text-[#616161]'>Kifili Country Government</span></p>
-//           <p>Prescription No: <span className='text-[#616161]'>MHP1-000001</span></p>
-//           <p>Address: <span className='text-[#616161]'>Ndovi Road, Malindi Kenya</span></p>
-//           <p>Prescribed by: <span className='text-[#616161]'>Dr. Yunus</span></p>
-
-//         </div>
-//       </div>
-
-
-//       {/* Navigation Indicators */}
-//       <div className="w-full grid grid-cols-3 gap-4 mb-6">
-//         {sections.map((section) => (
-//           <button
-//             key={section}
-//             onClick={() => setActiveSection(section)}
-//             className={`p-2 text-center font-medium rounded-lg transition-all duration-300 ${activeSection === section
-//               ? 'bg-[#0E6F1E] text-white'
-//               : 'text-[#697696] hover:bg-gray-100'
-//               }`}
-//           >
-//             {section}
-//           </button>
-//         ))}
-//       </div>
-
-//       {/* Render Active Section */}
-//       {renderSection()}
-
-//       {/* Navigation Buttons */}
-//       <div className="flex justify-between mt-6">
-//         <button
-//           onClick={() => {
-//             const currentIndex = sections.indexOf(activeSection);
-//             if (currentIndex > 0) {
-//               setActiveSection(sections[currentIndex - 1]);
-//             }
-//           }}
-//           className={`px-4 py-2 rounded-md transition ${sections.indexOf(activeSection) === 0
-//             ? 'bg-gray-300 cursor-not-allowed'
-//             : 'bg-[#0E6F1E] text-white hover:bg-green-700'
-//             }`}
-//           disabled={sections.indexOf(activeSection) === 0}
-//         >
-//           Previous
-//         </button>
-//         <button
-//           onClick={handleButtonClick}
-//           className="px-4 py-2 bg-[#0E6F1E] text-white rounded-md hover:bg-green-700 transition"
-//         >
-//           {activeSection === 'Claim Documents' ? 'Submit' : 'Next'}
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CreatePersonalVisit;
-
-
 import React, { useEffect, useRef, useState } from 'react'
 import pic from '../../assets/images/pic.svg'
 import { MdSearch } from 'react-icons/md'
@@ -360,16 +12,20 @@ import Signature from '@uiw/react-signature';
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import api from '../../api/api';
+import { fetchServices } from '../../redux/service/serviceSlice';
 
 const CreatePersonalVisit = () => {
   const { id } = useParams();
+  // const { bookings, error, isLoading } = useSelector((state) => state.bookingss);
   const [sladeVerification, setSladeVerification] = useState('No');
+  const [currentInsuarances, setCurrentInsuarances] = useState([]);
   const [claimNo, setClaimNo] = useState('');
   const [claimAmount, setClaimAmount] = useState('');
   const [specialistClinic, setSpecialistClinic] = useState('');
   const [visitingType, setVisitingType] = useState('');
-  const [feeType, setFeeType] = useState('');
   const [department, setdepartment] = useState('');
+  const [service, setservice] = useState('');
   const [activeSection, setActiveSection] = useState('Member Verification');
   const dispatch = useDispatch();
   const token = Cookies.get('token');
@@ -378,9 +34,14 @@ const CreatePersonalVisit = () => {
   const { clinics } = useSelector((state) => state.clinics);
   const { visitTypes } = useSelector((state) => state.visitTypes);
   const { visits } = useSelector((state) => state.visits);
+  const { services } = useSelector((state) => state.services);
   const sections = ['Member Verification', 'Booking', 'Claim Documents'];
   const $svg = useRef(null);
+  const [priceList, setPriceList] = useState(null);
+  const [showButton, setShowButton] = useState(true);
   const [signatureData, setSignatureData] = useState('');
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [showTable, setShowTable] = useState(false);
 
   const handleDraw = () => {
     if ($svg.current) {
@@ -388,6 +49,13 @@ const CreatePersonalVisit = () => {
       setSignatureData(signature);
       console.log(signature);
     }
+  };
+
+  const handleFeeTypeChange = (type) => {
+    setFeeType(prev => ({
+      ...prev,
+      [type]: !prev[type]
+    }));
   };
 
   useEffect(() => {
@@ -400,56 +68,86 @@ const CreatePersonalVisit = () => {
     dispatch(getIndividualPatient({ search: id, token }));
     dispatch(fetchDepartments());
     dispatch(fetchClinics());
-    dispatch(fetchVisitTypes());
+    // dispatch(fetchVisitTypes());
+    dispatch(fetchServices());
   }, [id, dispatch, token]);
 
+  // const handleSubmit = () => {
+  //   console.log(checkedItems);
+  //   const formData = {
+  //     patient_id: id,
+  //     department: "",
+  //     clinic: "",
+  //     visit_type: "",
+  //     schemes: [
+  //       {
+  //         claim_number: "",
+  //         available_balance: "",
+  //         insurer: "",
+  //       },
+  //     ],
+  //     payment_types: [
+  //       {
+  //         cash: "",
+  //         insurance: ""
+  //       },
+  //     ],
+  //     signature: signatureData,
+  //     bill_items: [
+  //       {
+  //         service: "",
+  //         department: "",
+  //         consultation_category: "",
+  //         clinic: "",
+  //         payment_type: "",
+  //         scheme: "",
+  //         scheme_type: "",
+  //         consultation_type: "",
+  //         visit_type: "",
+  //         doctor: "",
+  //         lab_test_type: "",
+  //         image_test_type: "",
+  //         drug: "",
+  //         brand: "",
+  //         branch: "",
+  //         building: "",
+  //         wing: "",
+  //         ward: "",
+  //         office: "",
+  //         discount: "",
+  //         current_time: "",
+  //         duration: "",
+  //         description: "",
+  //       },
+  //     ],
+  //   };
+
+  //   console.log('Form Data Submitted:', formData);
+  //   dispatch(createVisit({ formData, token }));
+  //   alert('Visit created successfully');
+  // };
   const handleSubmit = () => {
+    console.log(checkedItems);
     const formData = {
       patient_id: id,
-      department: "kitchen",
-      clinic: "ENT",
-      visit_type: "in patient",
-      schemes: [
-        {
-          claim_number: 2313,
-          available_balance: 245,
-          insurer: "",
-        },
-      ],
+      department: department,
+      clinic: specialistClinic,
+      visit_type: visitingType,
+      schemes: currentInsuarances,
       payment_types: [
         {
-          cash: 1,
-          insurance: ""
-        },
+          cash: feeType.cash ? 1 : 0,
+          insurance: feeType.insurance ? 1 : 0
+        }
       ],
       signature: signatureData,
-      bill_items: [
-        {
-          service: "Test",
-          department: "kitchen",
-          consultation_category: null,
-          clinic: "ENT",
-          payment_type: feeType,
-          scheme: null,
-          scheme_type: null,
-          consultation_type: null,
-          visit_type: "in patient",
-          doctor: null,
-          lab_test_type: null,
-          image_test_type: null,
-          drug: null,
-          brand: null,
-          branch: null,
-          building: null,
-          wing: null,
-          ward: null,
-          office: null,
-          discount: null,
-          current_time: null,
-          duration: null,
-          description: null,
-        },
-      ],
+      bar_code: "bar_code", // Assuming you want to include this field
+      service_price_details: checkedItems.map(item => ({
+        id: item,
+        discount: 0.0, // Assuming no discount by default
+        description: "No description",
+        quantity: 1.0
+      }))
     };
 
     console.log('Form Data Submitted:', formData);
@@ -457,17 +155,118 @@ const CreatePersonalVisit = () => {
     alert('Visit created successfully');
   };
 
-
   const handleButtonClick = () => {
     const currentIndex = sections.indexOf(activeSection);
-
     if (activeSection === 'Claim Documents') {
       handleSubmit();
     } else if (currentIndex < sections.length - 1) {
-      setActiveSection(sections[currentIndex + 1]);
+      if (activeSection === 'Booking') {
+        // Only proceed if at least one item is checked
+        if (checkedItems.length > 0) {
+          setActiveSection(sections[currentIndex + 1]);
+        } else {
+          // Optionally, you can show a toast message or some other user feedback here
+          toast.error('Please select at least one service.', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      } else {
+        setActiveSection(sections[currentIndex + 1]);
+      }
+    }
+  }
+
+  const getPriceList = async () => {
+    const formData = {
+      service: service,
+      department: department,
+      consultation_category: null,
+      clinic: specialistClinic,
+      payment_types: [
+        {
+          cash: feeType.cash ? 1 : 0,
+          insurance: feeType.insurance ? 1 : 0,
+        }
+      ],
+      branch: null,
+      building: null,
+      wing: null,
+      ward: null,
+      office: null,
+      duration: null,
+      // visit_type: visitingType
+    };
+
+    try {
+      const response = await api.post('/api/visits/selectPrices', formData);
+      setPriceList(response.data);
+      setShowTable(true);
+      console.log('Pricelist:', response.data);
+    } catch (error) {
+      console.error('Error fetching pricelist:', error);
+      setShowTable(false);
     }
   };
 
+  const handleCheckboxChange = (itemId, isChecked) => {
+    setCheckedItems(prev => {
+      if (isChecked) {
+        return [...prev, itemId];
+      } else {
+        return prev.filter(id => id !== itemId);
+      }
+    });
+  };
+
+  const [feeType, setFeeType] = useState({
+    cash: false,
+    insurance: false
+  });
+
+  // add insuarances
+  const addInsurance = () => {
+    const allInsurers = currentInsuarances.map(ins => ins.insurer);
+    const availableInsurers = patient[0].insurance_details
+      .map(ins => ins.schemes.map(scheme => scheme.name))
+      .flat()
+      .filter(insurer => !allInsurers.includes(insurer));
+
+    if (availableInsurers.length > 0) {
+      setCurrentInsuarances(prev => [...prev, { claim_number: '', available_balance: '', insurer: availableInsurers[0] }]);
+    } else {
+      // Handle no more unique insurers to add, perhaps show a message or disable the add button
+      toast.info('No more unique insurers to add.');
+    }
+  };
+
+  const removeInsurance = (index) => {
+    setCurrentInsuarances(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const updateInsuranceField = (index, field, value) => {
+    setCurrentInsuarances(prev => prev.map((ins, i) =>
+      i === index ? { ...ins, [field]: value } : ins
+    ));
+  };
+
+  // populate the current insurances from the patient data
+  useEffect(() => {
+    if (patient && patient.length > 0 && patient[0].insurance_details) {
+      const schemes = patient[0].insurance_details
+        .map(ins => ins.schemes.map(scheme => scheme.name))
+        .flat();
+      setCurrentInsuarances(schemes.map(scheme => ({
+        claim_number: '',
+        available_balance: '',
+        insurer: scheme
+      })));
+    }
+  }, [patient]);
 
   const renderSection = () => {
     switch (activeSection) {
@@ -504,6 +303,52 @@ const CreatePersonalVisit = () => {
               </select>
             </div>
 
+            <div>
+              <button
+                onClick={addInsurance}
+                className="mb-2 bg-[#0E6F1E] text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
+                disabled={currentInsuarances.length >= (patient[0]?.insurance_details?.length ?? 0)}
+              >
+                Add Insurance
+              </button>
+              {currentInsuarances.map((insurance, index) => (
+                <div key={index} className="mb-4">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block mb-2 text-[#413D80]">Insurer:</label>
+                      <select
+                        value={insurance.insurer}
+                        onChange={(e) => updateInsuranceField(index, 'insurer', e.target.value)}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
+                      >
+                        {patient[0]?.insurance_details?.map(ins => ins.schemes.map(scheme => (
+                          <option key={scheme.name} value={scheme.name}>{scheme.name}</option>
+                        ))).flat()}
+                      </select>
+                    </div>
+                    {['claim_number', 'available_balance'].map(field => (
+                      <div key={field}>
+                        <label className="block mb-2 capitalize text-[#413D80]">{field.replace('_', ' ')}:</label>
+                        <input
+                          type="text"
+                          value={insurance[field]}
+                          onChange={(e) => updateInsuranceField(index, field, e.target.value)}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => removeInsurance(index)}
+                    className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[#413D80] mb-2">
@@ -527,14 +372,37 @@ const CreatePersonalVisit = () => {
                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
                 />
               </div>
-            </div>
+            </div> */}
           </section>
         );
       case 'Booking':
         return (
-          <section className="bg-white p-4 rounded-lg mb-4 shadow-sm">
-            <div>
+          <section className="bg-white p-4 rounded-lg mb-4 shadow-sm grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className='col-span-2'>
               <div>
+                <label htmlFor='service' className='block mb-4 text-[#413D80]'>
+                  Select service<span className='text-red-600'>*</span>
+                </label>
+                <select
+                  value={service}
+                  onChange={(e) => setservice(e.target.value)}
+                  className='w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]'
+                >
+                  <option selected value='Please select a service'></option>
+                  {services && services.length > 0 ? (
+                    services.map((serv, index) => (
+                      <option key={index} value={serv.name}>
+                        {serv.name}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+
+                      <option>Loading...</option>
+                    </>
+                  )}
+                </select>
+
                 <label htmlFor="department" className="block mb-4 text-[#413D80]">
                   Select department<span className="text-red-600">*</span>
                 </label>
@@ -543,9 +411,10 @@ const CreatePersonalVisit = () => {
                   onChange={(e) => setdepartment(e.target.value)}
                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
                 >
+                  <option selected value="Please select a department"></option>
                   {departments && departments.length > 0 ? (
                     departments.map((dept, index) => (
-                      <option key={index} value={dept.id}>
+                      <option key={index} value={dept.name}>
                         {dept.name}
                       </option>
                     ))
@@ -558,20 +427,22 @@ const CreatePersonalVisit = () => {
 
               </div>
 
-              <h4 className="mt-4 mb-2 font-semibold text-[#413D80]">For Outpatient</h4>
+              {/* <h4 className="mt-4 mb-2 font-semibold text-[#413D80]">For Outpatient</h4> */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="specialistClinic" className="block mb-4 text-[#413D80]">
-                    For Specialist clinic<span className="text-red-600">*</span>
+                  <label htmlFor="specialistClinic" className="block mt-4 text-[#413D80]">
+                    Select specialist clinic<span className="text-red-600">*</span>
                   </label>
                   <select
                     value={specialistClinic}
                     onChange={(e) => setSpecialistClinic(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
                   >
+                    <option selected value="Please select a Clinic"></option>
+
                     {clinics && clinics.length > 0 ? (
                       clinics.map((clin, index) => (
-                        <option key={index} value={clin.id}>
+                        <option key={index} value={clin.name}>
                           {clin.name}
                         </option>
                       ))
@@ -584,43 +455,103 @@ const CreatePersonalVisit = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="visitingType" className="block mb-4 text-[#413D80]">
+                  <label htmlFor="visitingType" className="block mt-4 text-[#413D80]">
                     Visiting type<span className="text-red-600">*</span>
                   </label>
                   <select
                     value={visitingType}
                     onChange={(e) => setVisitingType(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-                  >{visitTypes && visitTypes.length > 0 ? (
-                    visitTypes.map((viz, index) => (
-                      <option key={index} value={viz.id}>
-                        {viz.name}
-                      </option>
-                    ))
-                  ) : (
-                    <>
-                      <option>Inpatient</option>
-                      <option>Outpatient</option>
-                      <option>FollowUps</option>
-                    </>
-                  )}
+                  >
+                    <option value="Please select a visit Type"></option>
+                    {visitTypes && visitTypes.length > 0 ? (
+                      visitTypes.map((viz, index) => (
+                        <option key={index} value={viz.id}>
+                          {viz.name}
+                        </option>
+                      ))
+                    ) : (
+                      <>
+                        <option value="Please select a visit Type"></option>
+
+                        <option>Inpatient</option>
+                        <option>Outpatient</option>
+                        <option>FollowUps</option>
+                      </>
+                    )}
                   </select>
                 </div>
               </div>
 
               <div className="mt-4">
-                <label htmlFor="feeType" className="block mb-4 text-[#413D80]">
+                <label htmlFor="feeType" className="block text-[#413D80]">
                   Fee type<span className="text-red-600">*</span>
                 </label>
-                <select
-                  value={feeType}
-                  onChange={(e) => setFeeType(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
-                >
-                  <option>Insurance</option>
-                  <option>Cash</option>
-                </select>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={feeType.cash}
+                      onChange={() => handleFeeTypeChange('cash')}
+                      className="rounded border-slate-300"
+                    />
+                    <span className="ml-2">Cash</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={feeType.insurance}
+                      onChange={() => handleFeeTypeChange('insurance')}
+                      className="rounded border-slate-300"
+                    />
+                    <span className="ml-2">Insurance</span>
+                  </label>
+                </div>
               </div>
+            </div>
+
+            <div className='col-span-2 flex flex-col items-center justify-center border rounded-lg'>
+              <button className='bg-[#0E6F1E] text-white px-4 py-2 rounded-lg mb-4' onClick={getPriceList}>Get Pricelist</button>
+              {showTable && priceList && (
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">Select</th>
+                      <th scope="col" className="px-6 py-3">Service</th>
+                      <th scope="col" className="px-6 py-3">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(priceList) ?
+                      priceList.map((item, index) => (
+                        <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                          <td className="px-6 py-4">
+                            <input
+                              type="checkbox"
+                              checked={checkedItems.includes(item.id)}
+                              onChange={(e) => handleCheckboxChange(item.id, e.target.checked)}
+                            />
+                          </td>
+                          <td className="px-6 py-4">{item.scheme == null ? 'cash' : item.scheme}</td>
+                          <td className="px-6 py-4">{item.price}</td>
+                        </tr>
+                      )) :
+                      Object.entries(priceList).map(([key, value], index) => (
+                        <tr key={key} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                          <td className="px-6 py-4">
+                            <input
+                              type="checkbox"
+                              checked={checkedItems.includes(key)}
+                              onChange={(e) => handleCheckboxChange(key, e.target.checked)}
+                            />
+                          </td>
+                          <td className="px-6 py-4">{key}</td>
+                          <td className="px-6 py-4">{value.price || value}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </section>
         );
@@ -716,7 +647,7 @@ const CreatePersonalVisit = () => {
 
             <div className="flex gap-4">
               <button
-                onClick={() => $svg.current.clear()} // Clear the signature
+                onClick={() => $svg.current.clear()}
                 className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
               >
                 Clear
@@ -744,7 +675,7 @@ const CreatePersonalVisit = () => {
     }
   };
 
-  const [signatureStatus, setSignatureStatus] = useState('pending'); // 'pending' | 'capturing' | 'completed' | 'error'
+  const [signatureStatus, setSignatureStatus] = useState('pending');
   const [isDeviceConnected, setIsDeviceConnected] = useState(false);
 
   const handleCaptureSignature = () => {
@@ -808,8 +739,8 @@ const CreatePersonalVisit = () => {
                 </div>
                 <div className="md:col-span-5 text-[#413D80] text-sm">
                   {[
-                    { label: 'Visit Code:', value: `${patient[0].patient_code}` }, // Visit code data is missing
-                    { label: 'Scheme:', value: 'Not Provided' }, // Scheme data is missing
+                    { label: 'Visit Code:', value: `${patient[0].patient_code}` },
+                    { label: 'Scheme:', value: 'Not Provided' },
                     { label: 'Address:', value: patient[0].address },
                   ].map(({ label, value }) => (
                     <p key={label} className="grid grid-cols-3 gap-2 py-1">
@@ -869,7 +800,8 @@ const CreatePersonalVisit = () => {
         </button>
         <button
           onClick={handleButtonClick}
-          className="px-4 py-2 bg-[#0E6F1E] text-white rounded-md hover:bg-green-700 transition"
+          className={`px-4 py-2 rounded-md transition ${activeSection === 'Booking' && checkedItems.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#0E6F1E] text-white hover:bg-green-700'}`}
+          disabled={activeSection === 'Booking' && checkedItems.length === 0}
         >
           {activeSection === 'Claim Documents' ? 'Book Visit' : 'Next'}
         </button>
