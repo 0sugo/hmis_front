@@ -1,45 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react'
-import pic from '../../assets/images/pic.svg'
-import { MdSearch } from 'react-icons/md'
-import { AlertCircle, CheckCircle2, PenTool } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIndividualPatient } from '../../redux/patient/patientSlice';
-import { fetchDepartments } from '../../redux/department/departmentSlice';
-import { fetchClinics } from '../../redux/clinic/clinicSlice';
-import { fetchVisitTypes } from '../../redux/visit/visitTypesSlice';
-import { createVisit } from '../../redux/visit/visitSlice';
-import Signature from '@uiw/react-signature';
-import Cookies from 'js-cookie';
-import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import api from '../../api/api';
-import { fetchServices } from '../../redux/service/serviceSlice';
+import React, { useEffect, useRef, useState } from "react";
+import pic from "../../assets/images/pic.svg";
+import { MdSearch } from "react-icons/md";
+import { AlertCircle, CheckCircle2, PenTool } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { getIndividualPatient } from "../../redux/patient/patientSlice";
+import { fetchDepartments } from "../../redux/department/departmentSlice";
+import { fetchClinics } from "../../redux/clinic/clinicSlice";
+import { fetchVisitTypes } from "../../redux/visit/visitTypesSlice";
+import { createVisit } from "../../redux/visit/visitSlice";
+import Signature from "@uiw/react-signature";
+import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from "../../api/api";
+import { fetchServices } from "../../redux/service/serviceSlice";
 
 const CreatePersonalVisit = () => {
   const { id } = useParams();
   // const { bookings, error, isLoading } = useSelector((state) => state.bookingss);
-  const [sladeVerification, setSladeVerification] = useState('No');
+  const [sladeVerification, setSladeVerification] = useState("No");
   const [currentInsuarances, setCurrentInsuarances] = useState([]);
-  const [claimNo, setClaimNo] = useState('');
-  const [claimAmount, setClaimAmount] = useState('');
-  const [specialistClinic, setSpecialistClinic] = useState('');
-  const [visitingType, setVisitingType] = useState('');
-  const [department, setdepartment] = useState('');
-  const [service, setservice] = useState('');
-  const [activeSection, setActiveSection] = useState('Member Verification');
+  const [claimNo, setClaimNo] = useState("");
+  const [claimAmount, setClaimAmount] = useState("");
+  const [specialistClinic, setSpecialistClinic] = useState("");
+  const [visitingType, setVisitingType] = useState("");
+  const [department, setdepartment] = useState("");
+  const [service, setservice] = useState("");
+  const [activeSection, setActiveSection] = useState("Member Verification");
   const dispatch = useDispatch();
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const { patient } = useSelector((state) => state.patient);
   const { departments } = useSelector((state) => state.departments);
   const { clinics } = useSelector((state) => state.clinics);
   const { visitTypes } = useSelector((state) => state.visitTypes);
   const { visits } = useSelector((state) => state.visits);
   const { services } = useSelector((state) => state.services);
-  const sections = ['Member Verification', 'Booking', 'Claim Documents'];
+  const sections = ["Member Verification", "Booking", "Claim Documents"];
   const $svg = useRef(null);
   const [priceList, setPriceList] = useState(null);
   const [showButton, setShowButton] = useState(true);
-  const [signatureData, setSignatureData] = useState('');
+  const [signatureData, setSignatureData] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
@@ -52,9 +52,9 @@ const CreatePersonalVisit = () => {
   };
 
   const handleFeeTypeChange = (type) => {
-    setFeeType(prev => ({
+    setFeeType((prev) => ({
       ...prev,
-      [type]: !prev[type]
+      [type]: !prev[type],
     }));
   };
 
@@ -137,36 +137,34 @@ const CreatePersonalVisit = () => {
       payment_types: [
         {
           cash: feeType.cash ? 1 : 0,
-          insurance: feeType.insurance ? 1 : 0
-        }
+          insurance: feeType.insurance ? 1 : 0,
+        },
       ],
       signature: signatureData,
-      bar_code: "bar_code", // Assuming you want to include this field
-      service_price_details: checkedItems.map(item => ({
+      bar_code: "bar_code",
+      service_price_details: checkedItems.map((item) => ({
         id: item,
-        discount: 0.0, // Assuming no discount by default
+        discount: 0.0,
         description: "No description",
-        quantity: 1.0
-      }))
+        quantity: 1.0,
+      })),
     };
 
-    console.log('Form Data Submitted:', formData);
+    console.log("Form Data Submitted:", formData);
     dispatch(createVisit({ formData, token }));
-    alert('Visit created successfully');
+    alert("Visit created successfully");
   };
 
   const handleButtonClick = () => {
     const currentIndex = sections.indexOf(activeSection);
-    if (activeSection === 'Claim Documents') {
+    if (activeSection === "Claim Documents") {
       handleSubmit();
     } else if (currentIndex < sections.length - 1) {
-      if (activeSection === 'Booking') {
-        // Only proceed if at least one item is checked
+      if (activeSection === "Booking") {
         if (checkedItems.length > 0) {
           setActiveSection(sections[currentIndex + 1]);
         } else {
-          // Optionally, you can show a toast message or some other user feedback here
-          toast.error('Please select at least one service.', {
+          toast.error("Please select at least one service.", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -179,7 +177,7 @@ const CreatePersonalVisit = () => {
         setActiveSection(sections[currentIndex + 1]);
       }
     }
-  }
+  };
 
   const getPriceList = async () => {
     const formData = {
@@ -191,7 +189,7 @@ const CreatePersonalVisit = () => {
         {
           cash: feeType.cash ? 1 : 0,
           insurance: feeType.insurance ? 1 : 0,
-        }
+        },
       ],
       branch: null,
       building: null,
@@ -203,78 +201,88 @@ const CreatePersonalVisit = () => {
     };
 
     try {
-      const response = await api.post('/api/visits/selectPrices', formData);
+      const response = await api.post("/api/visits/selectPrices", formData);
       setPriceList(response.data);
       setShowTable(true);
-      console.log('Pricelist:', response.data);
+      console.log("Pricelist:", response.data);
     } catch (error) {
-      console.error('Error fetching pricelist:', error);
+      console.error("Error fetching pricelist:", error);
       setShowTable(false);
     }
   };
 
   const handleCheckboxChange = (itemId, isChecked) => {
-    setCheckedItems(prev => {
+    setCheckedItems((prev) => {
       if (isChecked) {
         return [...prev, itemId];
       } else {
-        return prev.filter(id => id !== itemId);
+        return prev.filter((id) => id !== itemId);
       }
     });
   };
 
   const [feeType, setFeeType] = useState({
     cash: false,
-    insurance: false
+    insurance: false,
   });
 
   // add insuarances
   const addInsurance = () => {
-    const allInsurers = currentInsuarances.map(ins => ins.insurer);
+    const allInsurers = currentInsuarances.map((ins) => ins.insurer);
     const availableInsurers = patient[0].insurance_details
-      .map(ins => ins.schemes.map(scheme => scheme.name))
+      .map((ins) => ins.schemes.map((scheme) => scheme.name))
       .flat()
-      .filter(insurer => !allInsurers.includes(insurer));
+      .filter((insurer) => !allInsurers.includes(insurer));
 
     if (availableInsurers.length > 0) {
-      setCurrentInsuarances(prev => [...prev, { claim_number: '', available_balance: '', insurer: availableInsurers[0] }]);
+      setCurrentInsuarances((prev) => [
+        ...prev,
+        {
+          claim_number: "",
+          available_balance: "",
+          insurer: availableInsurers[0],
+        },
+      ]);
     } else {
       // Handle no more unique insurers to add, perhaps show a message or disable the add button
-      toast.info('No more unique insurers to add.');
+      toast.info("No more unique insurers to add.");
     }
   };
 
   const removeInsurance = (index) => {
-    setCurrentInsuarances(prev => prev.filter((_, i) => i !== index));
+    setCurrentInsuarances((prev) => prev.filter((_, i) => i !== index));
   };
 
   const updateInsuranceField = (index, field, value) => {
-    setCurrentInsuarances(prev => prev.map((ins, i) =>
-      i === index ? { ...ins, [field]: value } : ins
-    ));
+    setCurrentInsuarances((prev) =>
+      prev.map((ins, i) => (i === index ? { ...ins, [field]: value } : ins))
+    );
   };
 
-  // populate the current insurances from the patient data
   useEffect(() => {
     if (patient && patient.length > 0 && patient[0].insurance_details) {
       const schemes = patient[0].insurance_details
-        .map(ins => ins.schemes.map(scheme => scheme.name))
+        .map((ins) => ins.schemes.map((scheme) => scheme.name))
         .flat();
-      setCurrentInsuarances(schemes.map(scheme => ({
-        claim_number: '',
-        available_balance: '',
-        insurer: scheme
-      })));
+      setCurrentInsuarances(
+        schemes.map((scheme) => ({
+          claim_number: "",
+          available_balance: "",
+          insurer: scheme,
+        }))
+      );
     }
   }, [patient]);
 
   const renderSection = () => {
     switch (activeSection) {
-      case 'Member Verification':
+      case "Member Verification":
         return (
           <section className="bg-white p-4 rounded-lg mb-4 shadow-sm">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-[#413D80] font-semibold">Member Verification</span>
+              <span className="text-[#413D80] font-semibold">
+                Member Verification
+              </span>
             </div>
 
             <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -292,7 +300,9 @@ const CreatePersonalVisit = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-[#413D80] mb-2">Have you verified on Slade?</label>
+              <label className="block text-[#413D80] mb-2">
+                Have you verified on Slade?
+              </label>
               <select
                 value={sladeVerification}
                 onChange={(e) => setSladeVerification(e.target.value)}
@@ -307,7 +317,10 @@ const CreatePersonalVisit = () => {
               <button
                 onClick={addInsurance}
                 className="mb-2 bg-[#0E6F1E] text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
-                disabled={currentInsuarances.length >= (patient[0]?.insurance_details?.length ?? 0)}
+                disabled={
+                  currentInsuarances.length >=
+                  (patient[0]?.insurance_details?.length ?? 0)
+                }
               >
                 Add Insurance
               </button>
@@ -315,24 +328,38 @@ const CreatePersonalVisit = () => {
                 <div key={index} className="mb-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div>
-                      <label className="block mb-2 text-[#413D80]">Insurer:</label>
+                      <label className="block mb-2 text-[#413D80]">
+                        Insurer:
+                      </label>
                       <select
                         value={insurance.insurer}
-                        onChange={(e) => updateInsuranceField(index, 'insurer', e.target.value)}
+                        onChange={(e) =>
+                          updateInsuranceField(index, "insurer", e.target.value)
+                        }
                         className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
                       >
-                        {patient[0]?.insurance_details?.map(ins => ins.schemes.map(scheme => (
-                          <option key={scheme.name} value={scheme.name}>{scheme.name}</option>
-                        ))).flat()}
+                        {patient[0]?.insurance_details
+                          ?.map((ins) =>
+                            ins.schemes.map((scheme) => (
+                              <option key={scheme.name} value={scheme.name}>
+                                {scheme.name}
+                              </option>
+                            ))
+                          )
+                          .flat()}
                       </select>
                     </div>
-                    {['claim_number', 'available_balance'].map(field => (
+                    {["claim_number", "available_balance"].map((field) => (
                       <div key={field}>
-                        <label className="block mb-2 capitalize text-[#413D80]">{field.replace('_', ' ')}:</label>
+                        <label className="block mb-2 capitalize text-[#413D80]">
+                          {field.replace("_", " ")}:
+                        </label>
                         <input
                           type="text"
                           value={insurance[field]}
-                          onChange={(e) => updateInsuranceField(index, field, e.target.value)}
+                          onChange={(e) =>
+                            updateInsuranceField(index, field, e.target.value)
+                          }
                           className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
                         />
                       </div>
@@ -348,8 +375,19 @@ const CreatePersonalVisit = () => {
               ))}
             </div>
 
-            {/* 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* crude inputs but modifies to above  dynamic */}
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+              <label className="block text-[#413D80] mb-2">
+                  Enter Insurance claim: <span className="text-red-600">*</span>
+                </label>
+                <select className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]">
+                  <option>Jubilee</option>
+                  <option>M-Tiba</option>
+                  <option>SHIF</option>
+                </select>
+              </div>
+
               <div>
                 <label className="block text-[#413D80] mb-2">
                   Enter Claim No: <span className="text-red-600">*</span>
@@ -373,22 +411,24 @@ const CreatePersonalVisit = () => {
                 />
               </div>
             </div> */}
+
+            {/* till here */}
           </section>
         );
-      case 'Booking':
+      case "Booking":
         return (
           <section className="bg-white p-4 rounded-lg mb-4 shadow-sm grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className='col-span-2'>
+            <div className="col-span-2">
               <div>
-                <label htmlFor='service' className='block mb-4 text-[#413D80]'>
-                  Select service<span className='text-red-600'>*</span>
+                <label htmlFor="service" className="block mb-4 text-[#413D80]">
+                  Select service<span className="text-red-600">*</span>
                 </label>
                 <select
                   value={service}
                   onChange={(e) => setservice(e.target.value)}
-                  className='w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]'
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
                 >
-                  <option selected value='Please select a service'></option>
+                  <option selected value="Please select a service"></option>
                   {services && services.length > 0 ? (
                     services.map((serv, index) => (
                       <option key={index} value={serv.name}>
@@ -397,13 +437,15 @@ const CreatePersonalVisit = () => {
                     ))
                   ) : (
                     <>
-
                       <option>Loading...</option>
                     </>
                   )}
                 </select>
 
-                <label htmlFor="department" className="block mb-4 text-[#413D80]">
+                <label
+                  htmlFor="department"
+                  className="block mb-4 text-[#413D80]"
+                >
                   Select department<span className="text-red-600">*</span>
                 </label>
                 <select
@@ -424,14 +466,17 @@ const CreatePersonalVisit = () => {
                     </>
                   )}
                 </select>
-
               </div>
 
               {/* <h4 className="mt-4 mb-2 font-semibold text-[#413D80]">For Outpatient</h4> */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="specialistClinic" className="block mt-4 text-[#413D80]">
-                    Select specialist clinic<span className="text-red-600">*</span>
+                  <label
+                    htmlFor="specialistClinic"
+                    className="block mt-4 text-[#413D80]"
+                  >
+                    Select specialist clinic
+                    <span className="text-red-600">*</span>
                   </label>
                   <select
                     value={specialistClinic}
@@ -455,7 +500,10 @@ const CreatePersonalVisit = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="visitingType" className="block mt-4 text-[#413D80]">
+                  <label
+                    htmlFor="visitingType"
+                    className="block mt-4 text-[#413D80]"
+                  >
                     Visiting type<span className="text-red-600">*</span>
                   </label>
                   <select
@@ -474,9 +522,9 @@ const CreatePersonalVisit = () => {
                       <>
                         <option value="Please select a visit Type"></option>
 
-                        <option>Inpatient</option>
-                        <option>Outpatient</option>
-                        <option>FollowUps</option>
+                        <option>In patient</option>
+                        <option>Out patient</option>
+                        <option>Follow ups</option>
                       </>
                     )}
                   </select>
@@ -492,7 +540,7 @@ const CreatePersonalVisit = () => {
                     <input
                       type="checkbox"
                       checked={feeType.cash}
-                      onChange={() => handleFeeTypeChange('cash')}
+                      onChange={() => handleFeeTypeChange("cash")}
                       className="rounded border-slate-300"
                     />
                     <span className="ml-2">Cash</span>
@@ -501,7 +549,7 @@ const CreatePersonalVisit = () => {
                     <input
                       type="checkbox"
                       checked={feeType.insurance}
-                      onChange={() => handleFeeTypeChange('insurance')}
+                      onChange={() => handleFeeTypeChange("insurance")}
                       className="rounded border-slate-300"
                     />
                     <span className="ml-2">Insurance</span>
@@ -510,130 +558,81 @@ const CreatePersonalVisit = () => {
               </div>
             </div>
 
-            <div className='col-span-2 flex flex-col items-center justify-center border rounded-lg'>
-              <button className='bg-[#0E6F1E] text-white px-4 py-2 rounded-lg mb-4' onClick={getPriceList}>Get Pricelist</button>
+            <div className="col-span-2 flex flex-col items-center justify-center border rounded-lg">
+              <button
+                className="bg-[#0E6F1E] text-white px-4 py-2 rounded-lg mb-4"
+                onClick={getPriceList}
+              >
+                Get Pricelist
+              </button>
               {showTable && priceList && (
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" className="px-6 py-3">Select</th>
-                      <th scope="col" className="px-6 py-3">Service</th>
-                      <th scope="col" className="px-6 py-3">Price</th>
+                      <th scope="col" className="px-6 py-3">
+                        Select
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Service
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Price
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {Array.isArray(priceList) ?
-                      priceList.map((item, index) => (
-                        <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                          <td className="px-6 py-4">
-                            <input
-                              type="checkbox"
-                              checked={checkedItems.includes(item.id)}
-                              onChange={(e) => handleCheckboxChange(item.id, e.target.checked)}
-                            />
-                          </td>
-                          <td className="px-6 py-4">{item.scheme == null ? 'cash' : item.scheme}</td>
-                          <td className="px-6 py-4">{item.price}</td>
-                        </tr>
-                      )) :
-                      Object.entries(priceList).map(([key, value], index) => (
-                        <tr key={key} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                          <td className="px-6 py-4">
-                            <input
-                              type="checkbox"
-                              checked={checkedItems.includes(key)}
-                              onChange={(e) => handleCheckboxChange(key, e.target.checked)}
-                            />
-                          </td>
-                          <td className="px-6 py-4">{key}</td>
-                          <td className="px-6 py-4">{value.price || value}</td>
-                        </tr>
-                      ))}
+                    {Array.isArray(priceList)
+                      ? priceList.map((item, index) => (
+                          <tr
+                            key={item.id}
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                          >
+                            <td className="px-6 py-4">
+                              <input
+                                type="checkbox"
+                                checked={checkedItems.includes(item.id)}
+                                onChange={(e) =>
+                                  handleCheckboxChange(
+                                    item.id,
+                                    e.target.checked
+                                  )
+                                }
+                              />
+                            </td>
+                            <td className="px-6 py-4">
+                              {item.scheme == null ? "cash" : item.scheme}
+                            </td>
+                            <td className="px-6 py-4">{item.price}</td>
+                          </tr>
+                        ))
+                      : Object.entries(priceList).map(([key, value], index) => (
+                          <tr
+                            key={key}
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                          >
+                            <td className="px-6 py-4">
+                              <input
+                                type="checkbox"
+                                checked={checkedItems.includes(key)}
+                                onChange={(e) =>
+                                  handleCheckboxChange(key, e.target.checked)
+                                }
+                              />
+                            </td>
+                            <td className="px-6 py-4">{key}</td>
+                            <td className="px-6 py-4">
+                              {value.price || value}
+                            </td>
+                          </tr>
+                        ))}
                   </tbody>
                 </table>
               )}
             </div>
           </section>
         );
-      case 'Claim Documents':
+      case "Claim Documents":
         return (
-          // <section className="bg-white p-4 rounded-lg mb-4 shadow-sm">
-          //   <div className="space-y-4">
-          //     <div className="flex items-center justify-between border border-slate-300 rounded-lg p-4">
-          //       <div className="flex items-center gap-3">
-          //         <PenTool className="h-5 w-5 text-[#413D80]" />
-          //         <div>
-          //           <h3 className="font-medium text-[#413D80]">Patient Signature</h3>
-          //           <p className="text-sm text-slate-500">Capture patient's electronic signature using the signature pad</p>
-          //         </div>
-          //       </div>
-
-          //       {signatureStatus === 'pending' && (
-          //         <button
-          //           onClick={handleCaptureSignature}
-          //           className="inline-flex items-center gap-2 bg-[#0E6F1E] text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
-          //         >
-          //           <PenTool className="h-4 w-4" />
-          //           Capture Signature
-          //         </button>
-          //       )}
-
-          //       {signatureStatus === 'capturing' && (
-          //         <div className="flex items-center gap-2 text-[#0E6F1E]">
-          //           <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#0E6F1E] border-b-transparent" />
-          //           Capturing...
-          //         </div>
-          //       )}
-
-          //       {signatureStatus === 'completed' && (
-          //         <div className="flex items-center gap-4">
-          //           <div className="flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-lg border border-green-200">
-          //             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          //             </svg>
-          //             <span>Signature Captured</span>
-          //           </div>
-          //           <button
-          //             onClick={handleRetry}
-          //             className="text-[#0E6F1E] hover:text-green-700 underline text-sm"
-          //           >
-          //             Capture Again
-          //           </button>
-          //         </div>
-          //       )}
-          //     </div>
-
-          //     {signatureStatus === 'error' && (
-          //       <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-          //         <div className="flex items-center gap-2">
-          //           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          //             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          //           </svg>
-          //           <span className="font-medium">Connection Error</span>
-          //         </div>
-          //         <p className="mt-2 text-sm">
-          //           Unable to detect the signature pad. Please ensure the device is properly connected and try again.
-          //         </p>
-          //         <button
-          //           onClick={handleRetry}
-          //           className="mt-2 text-red-700 hover:text-red-800 underline text-sm block"
-          //         >
-          //           Try Again
-          //         </button>
-          //       </div>
-          //     )}
-          //   </div>
-
-          //   <label htmlFor="SelectTemplate" className="block mb-2 text-[#413D80]">
-          //     Select Template
-          //   </label>
-          //   <select className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]">
-          //     <option>Jubilee</option>
-          //     <option>M-Tiba</option>
-          //     <option>SHIF</option>
-          //   </select>
-          // </section>
-
           <section className="space-y-4 p-4">
             <div className="signature-container border-2 border-gray-300 rounded-md">
               <Signature
@@ -654,17 +653,17 @@ const CreatePersonalVisit = () => {
               </button>
             </div>
 
-            {/* Dropdown for selecting options */}
-            <select className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]">
+            {/* <select className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]">
               <option>Jubilee</option>
               <option>M-Tiba</option>
               <option>SHIF</option>
-            </select>
+            </select> */}
 
-            {/* Display the captured signature as a string */}
             {signatureData && (
               <div className="mt-4 p-2 bg-gray-100 border border-gray-300 rounded-md">
-                <h3 className="font-semibold">Signature Data (Base64 or SVG):</h3>
+                <h3 className="font-semibold">
+                  Signature Data (Base64 or SVG):
+                </h3>
                 <pre>{signatureData}</pre>
               </div>
             )}
@@ -675,24 +674,22 @@ const CreatePersonalVisit = () => {
     }
   };
 
-  const [signatureStatus, setSignatureStatus] = useState('pending');
+  const [signatureStatus, setSignatureStatus] = useState("pending");
   const [isDeviceConnected, setIsDeviceConnected] = useState(false);
 
   const handleCaptureSignature = () => {
     if (!isDeviceConnected) {
-      setSignatureStatus('error');
+      setSignatureStatus("error");
       return;
     }
-    setSignatureStatus('capturing');
-    // Here you would integrate with your signature pad device
-    // For demonstration, we'll simulate a successful capture after 2 seconds
+    setSignatureStatus("capturing");
     setTimeout(() => {
-      setSignatureStatus('completed');
+      setSignatureStatus("completed");
     }, 2000);
   };
 
   const handleRetry = () => {
-    setSignatureStatus('pending');
+    setSignatureStatus("pending");
   };
 
   const calculateAge = (dob) => {
@@ -701,7 +698,6 @@ const CreatePersonalVisit = () => {
     const ageDate = new Date(difference);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
-
 
   return (
     <div className="mx-auto p-4">
@@ -726,10 +722,19 @@ const CreatePersonalVisit = () => {
                 </div>
                 <div className="md:col-span-5 text-[#413D80] text-sm">
                   {[
-                    { label: 'Patient Name:', value: `${patient[0].patient_firstname} ${patient[0].patient_lastname}` },
-                    { label: 'Age:', value: calculateAge(patient[0].dob) + ' Years' },
-                    { label: 'Gender:', value: patient[0].gender },
-                    { label: 'Occupation:', value: patient[0].occupation || null },
+                    {
+                      label: "Patient Name:",
+                      value: `${patient[0].patient_firstname} ${patient[0].patient_lastname}`,
+                    },
+                    {
+                      label: "Age:",
+                      value: calculateAge(patient[0].dob) + " Years",
+                    },
+                    { label: "Gender:", value: patient[0].gender },
+                    {
+                      label: "Occupation:",
+                      value: patient[0].occupation || null,
+                    },
                   ].map(({ label, value }) => (
                     <p key={label} className="grid grid-cols-3 gap-2 py-1">
                       <span>{label}</span>
@@ -739,9 +744,12 @@ const CreatePersonalVisit = () => {
                 </div>
                 <div className="md:col-span-5 text-[#413D80] text-sm">
                   {[
-                    { label: 'Visit Code:', value: `${patient[0].patient_code}` },
-                    { label: 'Scheme:', value: 'Not Provided' },
-                    { label: 'Address:', value: patient[0].address },
+                    {
+                      label: "Visit Code:",
+                      value: `${patient[0].patient_code}`,
+                    },
+                    { label: "Scheme:", value: "Not Provided" },
+                    { label: "Address:", value: patient[0].address },
                   ].map(({ label, value }) => (
                     <p key={label} className="grid grid-cols-3 gap-2 py-1">
                       <span>{label}</span>
@@ -760,18 +768,17 @@ const CreatePersonalVisit = () => {
         </div>
       </section>
 
-
-
       {/* Navigation Indicators */}
       <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {sections.map((section) => (
           <button
             key={section}
             onClick={() => setActiveSection(section)}
-            className={`p-2 text-center font-medium rounded-lg transition-all duration-300 ${activeSection === section
-              ? 'bg-[#0E6F1E] text-white'
-              : 'text-[#697696] hover:bg-gray-100'
-              }`}
+            className={`p-2 text-center font-medium rounded-lg transition-all duration-300 ${
+              activeSection === section
+                ? "bg-[#0E6F1E] text-white"
+                : "text-[#697696] hover:bg-gray-100"
+            }`}
           >
             {section}
           </button>
@@ -790,20 +797,38 @@ const CreatePersonalVisit = () => {
               setActiveSection(sections[currentIndex - 1]);
             }
           }}
-          className={`px-4 py-2 rounded-md transition ${sections.indexOf(activeSection) === 0
-            ? 'bg-gray-300 cursor-not-allowed'
-            : 'bg-[#0E6F1E] text-white hover:bg-green-700'
-            }`}
+          className={`px-4 py-2 rounded-md transition ${
+            sections.indexOf(activeSection) === 0
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-[#0E6F1E] text-white hover:bg-green-700"
+          }`}
           disabled={sections.indexOf(activeSection) === 0}
         >
           Previous
         </button>
         <button
           onClick={handleButtonClick}
-          className={`px-4 py-2 rounded-md transition ${activeSection === 'Booking' && checkedItems.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#0E6F1E] text-white hover:bg-green-700'}`}
-          disabled={activeSection === 'Booking' && checkedItems.length === 0}
+          className={`px-4 py-2 rounded-md transition ${
+            (activeSection === "Booking" && checkedItems.length === 0) ||
+            (activeSection === "Member Verification" &&
+              sladeVerification === "No")
+              ? "bg-red-900 cursor-not-allowed tooltip"
+              : "bg-[#0E6F1E] text-white hover:bg-green-700"
+          }`}
+          data-tip={
+            (activeSection === "Booking" && checkedItems.length === 0) ||
+            (activeSection === "Member Verification" &&
+              sladeVerification === "No")
+              ? "Complete the form to proceed"
+              : ""
+          }
+          disabled={
+            (activeSection === "Booking" && checkedItems.length === 0) ||
+            (activeSection === "Member Verification" &&
+              sladeVerification === "No")
+          }
         >
-          {activeSection === 'Claim Documents' ? 'Book Visit' : 'Next'}
+          {activeSection === "Claim Documents" ? "Book Visit" : "Next"}
         </button>
       </div>
     </div>
