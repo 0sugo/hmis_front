@@ -26,6 +26,7 @@ const CreatePersonalVisit = () => {
   const [visitingType, setVisitingType] = useState("");
   const [department, setdepartment] = useState("");
   const [service, setservice] = useState("");
+  const [amount_to_pay, setAmount_to_pay] = useState("");
   const [activeSection, setActiveSection] = useState("Member Verification");
   const dispatch = useDispatch();
   const token = Cookies.get("token");
@@ -147,12 +148,13 @@ const CreatePersonalVisit = () => {
         discount: 0.0,
         description: "No description",
         quantity: 1.0,
+        amount_to_pay: amount_to_pay,
       })),
     };
 
     console.log("Form Data Submitted:", formData);
     dispatch(createVisit({ formData, token }));
-    alert("Visit created successfully");
+    // alert("Visit created successfully");
   };
 
   const handleButtonClick = () => {
@@ -322,7 +324,7 @@ const CreatePersonalVisit = () => {
                   (patient[0]?.insurance_details?.length ?? 0)
                 }
               >
-                Add Insurance
+                {/* Add Insurance */}
               </button>
               {currentInsuarances.map((insurance, index) => (
                 <div key={index} className="mb-4">
@@ -628,6 +630,18 @@ const CreatePersonalVisit = () => {
                   </tbody>
                 </table>
               )}
+              <label htmlFor="service" className="block mb-4 text-[#413D80]">
+                Select service<span className="text-red-600">*</span>
+              </label>
+
+              <input
+                type="text"
+                value={amount_to_pay}
+                onChange={(e) =>
+                  setAmount_to_pay(e.target.value)
+                }
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
+              />
             </div>
           </section>
         );
