@@ -12,7 +12,8 @@ const AddPatient = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const token = Cookies.get('token');
   const dispatch = useDispatch();
-  const { schemes, isLoading, error } = useSelector((state) => state.schemes);
+  const { schemes, isLoading:schemesLoading , error:schemesError } = useSelector((state) => state.schemes);
+  const {isLoading:patientsLoading, error:patientsError} = useSelector((state)=>state.patient);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(() => {
     const savedData = localStorage.getItem('patientFormData');
@@ -97,7 +98,7 @@ const AddPatient = () => {
   };
 
   const handleInsuranceChange = (index, field, value) => {
-    console.log(index, field, value);
+    // console.log(index, field, value);
     setFormData((prev) => {
       const updatedInsuranceDetails = [...prev.insurance_details];
       const currentInsurance = updatedInsuranceDetails[index] || {};
@@ -318,7 +319,7 @@ const AddPatient = () => {
         setCurrentStep(1);
       }
     } catch (error) {
-      console.error('Submission error:', error);
+      // console.error('Submission error:', error);
       const serverErrors = error.response?.data?.errors;
 
       if (serverErrors) {
@@ -380,14 +381,47 @@ const AddPatient = () => {
   };
 
 
-
   const handlepatient = (e) => {
     if (!validateStep(2)) return;
 
-    setLoading(true);
-
     e.preventDefault();
     dispatch(createPatient({ formData, token }));
+    {patientsError ? toast.error('Patient NOT created') : toast.success('Patient created successfully')}
+    localStorage.removeItem('patientFormData');
+    setFormData({
+      firstname: '',
+      lastname: '',
+      phonenumber1: '',
+      phonenumber2: '',
+      email: '',
+      dob: '',
+      identification_type: '',
+      id_no: '',
+      address: '',
+      residence: '',
+      insuarance_membership: 'principal',
+      id_card_image: null,
+      next_of_kin_name: '',
+      next_of_kin_contact: '',
+      next_of_kin_relationship: '',
+      payment_methods: {
+        cash: false,
+        insurance: false
+      },
+      insurance_details: [
+        {
+          insurer: '',
+          scheme_type: '',
+          principal_member_name: '',
+          principal_member_number: '',
+          insurance_card_image: null,
+          insurer_contact: '',
+          member_validity: ''
+        }
+      ]
+    });
+    setCurrentStep(1);
+
   };
 
 
@@ -423,8 +457,8 @@ const AddPatient = () => {
                 removeInsurance={removeInsurance}
                 files={files}
                 schemes={schemes}
-                isLoading={isLoading}
-                error={error}
+                isLoading={schemesLoading}
+                error={schemesError}
               />
             )}
 
@@ -445,7 +479,7 @@ const AddPatient = () => {
                 className="ml-auto px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                 disabled={loading}
               >
-                {loading ? 'Processing...' : currentStep === 2 ? 'Submit' : 'Next'}
+                {patientsLoading || loading ? 'Processing...' : currentStep === 2 ? 'Submit' : 'Next'}
               </button>
             </div>
           </form>
