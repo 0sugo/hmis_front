@@ -19,8 +19,6 @@ export const FetchVisit = createAsyncThunk('fetch/visits', async (_, { rejectWit
     }
 });
 
-
-
 export const createVisit = createAsyncThunk(
     'visits/create',
     async ({ formData, token }, { rejectWithValue }) => {
@@ -38,8 +36,6 @@ export const createVisit = createAsyncThunk(
             return rejectWithValue(error.response?.data?.message || 'An error occurred');
         }
     });
-
-
 
 const VisitSlice = createSlice({
     name: 'visits',
