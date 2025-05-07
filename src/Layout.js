@@ -70,9 +70,11 @@ import PatientEducation from './pages/Doctor/PatientEducation'
 import Guidelines from './pages/Doctor/Guidelines'
 
 import NurseOpDashboard from './pages/Nurse/NurseOpDashboard'
+import NurseTemplate from './pages/Nurse/NurseTemplate';
 import OpNurseOrders from './pages/Nurse/OpNurseOrders'
 import NurseIpDashboard from './pages/Nurse/NurseIpDashboard'
 import WardTransfer from './pages/Nurse/WardTransfer'
+import WardTransferform from './pages/Nurse/WardTransferForm'
 import DayCare from './pages/Nurse/Daycare'
 import NurseReports from './pages/Nurse/NurseReports'
 import ViewNurseReports from './pages/Nurse/ViewNurseReports'
@@ -218,6 +220,7 @@ import EmergencyVisit from './pages/FrontOffice/EmergencyVisit';
 import NewVisit from './pages/FrontOffice/NewVisit';
 import CreatePersonalVisit from './pages/FrontOffice/CreatePersonalVisit';
 import Appointment from './pages/FrontOffice/Appointment';
+import NurseTriageInfo from './pages/Nurse/NurseTriageInfo';
 
 const Layout = () => {
   const { activeMenu } = useStateContext();
@@ -323,6 +326,9 @@ const Layout = () => {
               <Route path='/daycare' element={<DayCare />} />
               <Route path='/nursereports' element={<NurseReports />} />
               <Route path='/viewnursereports/:id' element={<ViewNurseReports />} />
+              <Route path ='/nursemain' element={<NurseTemplate />} />
+              <Route path='/triage' element={<NurseTriageInfo />} />
+              <Route path='/WardTransferform' element={<WardTransferform />} />
 
               {/* Labaratory routes */}
               <Route path='/phleobotomy' element={<Phleobotomy />} />
