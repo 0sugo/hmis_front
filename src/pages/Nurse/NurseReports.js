@@ -55,10 +55,10 @@ const NurseReports = () => {
 
   return (
     <div className='mx-auto p-4'>
-      <h4 className='font-semibold my-4'>Nurse <span className='text-[#0E6F1E]'>> Report</span></h4>
+      <h4 className='font-semibold my-4'>Nurse <span className='text-[#0E6F1E]'> Report</span></h4>
 
       <section className='bg-white p-4 my-4 rounded-lg'>
-        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
+        <div className='overflow-x-auto rounded-lg '>
           <table className='w-full table-auto'>
             <thead>
               <tr>
