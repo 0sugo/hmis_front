@@ -829,13 +829,13 @@ const Dashboard = () => {
               visit.bills[0]?.bill_reference_number || visit.id.toString(), // Use bill reference or visit ID
             patientName: `${patient.patient_firstname} ${patient.patient_lastname}`,
             age: calculateAge(patient.dob),
+            id: patient.id,
             gender:
               patient.gender === "Nairobi" || patient.gender === "300"
                 ? "Unknown"
                 : patient.gender, // Handle invalid gender values
           }))
       );
-
 
       setReviewslist(transformedData);
       setReviewLength(transformedData.length);
@@ -887,8 +887,8 @@ const Dashboard = () => {
     setCurrentListName("Day Case");
   };
 
-  const handleIndividualPatient = () => {
-    navigate("/app/patientview");
+  const handleIndividualPatient = (id) => {
+    navigate("/app/patientview",{state: {id}});
   };
 
   return (
@@ -936,7 +936,7 @@ const Dashboard = () => {
               icon={newPatient}
               bgColor="bg-[#F3E8FF]"
               iconBgColor="bg-[#8D49D4]"
-              number = {reviewLength}
+              number={reviewLength}
               description="New Patients"
               onClick={showNewPatients}
             />
@@ -1007,9 +1007,7 @@ const Dashboard = () => {
                         <td className="px-6 py-3 text-sm">{data.gender}</td>
                         <td className="px-6 py-3 text-sm">
                           <button
-                            onClick={() =>
-                              handleIndividualPatient(data.visitCode)
-                            }
+                            onClick={() => handleIndividualPatient(data.id)}
                             className="bg-[#DBFFDE] p-2 rounded-lg"
                           >
                             <img src={eye} alt="View" className="w-4 h-4" />
@@ -1129,7 +1127,7 @@ const Dashboard = () => {
   );
 };
 
-const SummaryCard = ({
+export const SummaryCard = ({
   icon,
   bgColor,
   iconBgColor,
