@@ -7,6 +7,8 @@ import clinicReducer from './clinic/clinicSlice';
 import visitTypesReducer from './visit/visitTypesSlice';
 import bookingReducer from './visit/bookingSlice';
 import serviceReducer from './service/serviceSlice';
+import universalStageReducer from '../redux/universal Slice/UniversalStageSlice';
+import vitalReducer from '../redux/patient/vitalsSlice';
 
 const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ const store = configureStore({
     departments:departmentReducer,
     clinics:clinicReducer,
     services:serviceReducer,
+    universalStage:universalStageReducer,
+    vitals:vitalReducer
 
   },
 });
