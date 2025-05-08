@@ -29,10 +29,8 @@ export const createVisit = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
             });
-            toast.success('Visit created successfully');
             return response.data;
         } catch (error) {
-            toast.error('Visit NOT created');
             return rejectWithValue(error.response?.data?.message || 'An error occurred');
         }
     });
