@@ -10,13 +10,15 @@ import { fetchVisitTypes } from "../../redux/visit/visitTypesSlice";
 import { createVisit } from "../../redux/visit/visitSlice";
 import Signature from "@uiw/react-signature";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import { fetchServices } from "../../redux/service/serviceSlice";
+import { toast } from 'sonner'
+
 
 const CreatePersonalVisit = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   // const { bookings, error, isLoading } = useSelector((state) => state.bookingss);
   const [sladeVerification, setSladeVerification] = useState("No");
   const [currentInsuarances, setCurrentInsuarances] = useState([]);
@@ -37,20 +39,12 @@ const CreatePersonalVisit = () => {
   const { visits } = useSelector((state) => state.visits);
   const { services } = useSelector((state) => state.services);
   const sections = ["Member Verification", "Booking", "Claim Documents"];
-  const $svg = useRef(null);
   const [priceList, setPriceList] = useState(null);
   const [showButton, setShowButton] = useState(true);
   const [signatureData, setSignatureData] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const [showTable, setShowTable] = useState(false);
-
-  const handleDraw = () => {
-    if ($svg.current) {
-      const signature = $svg.current.getData();
-      setSignatureData(signature);
-      console.log(signature);
-    }
-  };
+  const signatureRef = useRef(null);
 
   const handleFeeTypeChange = (type) => {
     setFeeType((prev) => ({
@@ -60,12 +54,6 @@ const CreatePersonalVisit = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(handleDraw, 500);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     dispatch(getIndividualPatient({ search: id, token }));
     dispatch(fetchDepartments());
     dispatch(fetchClinics());
@@ -73,62 +61,7 @@ const CreatePersonalVisit = () => {
     dispatch(fetchServices());
   }, [id, dispatch, token]);
 
-  // const handleSubmit = () => {
-  //   console.log(checkedItems);
-  //   const formData = {
-  //     patient_id: id,
-  //     department: "",
-  //     clinic: "",
-  //     visit_type: "",
-  //     schemes: [
-  //       {
-  //         claim_number: "",
-  //         available_balance: "",
-  //         insurer: "",
-  //       },
-  //     ],
-  //     payment_types: [
-  //       {
-  //         cash: "",
-  //         insurance: ""
-  //       },
-  //     ],
-  //     signature: signatureData,
-  //     bill_items: [
-  //       {
-  //         service: "",
-  //         department: "",
-  //         consultation_category: "",
-  //         clinic: "",
-  //         payment_type: "",
-  //         scheme: "",
-  //         scheme_type: "",
-  //         consultation_type: "",
-  //         visit_type: "",
-  //         doctor: "",
-  //         lab_test_type: "",
-  //         image_test_type: "",
-  //         drug: "",
-  //         brand: "",
-  //         branch: "",
-  //         building: "",
-  //         wing: "",
-  //         ward: "",
-  //         office: "",
-  //         discount: "",
-  //         current_time: "",
-  //         duration: "",
-  //         description: "",
-  //       },
-  //     ],
-  //   };
-
-  //   console.log('Form Data Submitted:', formData);
-  //   dispatch(createVisit({ formData, token }));
-  //   alert('Visit created successfully');
-  // };
   const handleSubmit = () => {
-    console.log(checkedItems);
     const formData = {
       patient_id: id,
       department: department,
@@ -141,7 +74,8 @@ const CreatePersonalVisit = () => {
           insurance: feeType.insurance ? 1 : 0,
         },
       ],
-      signature: signatureData,
+      // signature: signatureRef.current.svg,
+      signature: "",
       bar_code: "bar_code",
       service_price_details: checkedItems.map((item) => ({
         id: item,
@@ -152,9 +86,17 @@ const CreatePersonalVisit = () => {
       })),
     };
 
-    console.log("Form Data Submitted:", formData);
-    dispatch(createVisit({ formData, token }));
-    // alert("Visit created successfully");
+    dispatch(createVisit({ formData, token }))
+    .unwrap()
+    .then((res)=>{
+      toast.success("Visit created successfully!")
+      navigate("/app/fo-dashboard");
+    })
+    .catch((err)=>{
+
+      toast.error(err || "Visit NOT created");
+    });
+    
   };
 
   const handleButtonClick = () => {
@@ -206,7 +148,6 @@ const CreatePersonalVisit = () => {
       const response = await api.post("/api/visits/selectPrices", formData);
       setPriceList(response.data);
       setShowTable(true);
-      console.log("Pricelist:", response.data);
     } catch (error) {
       console.error("Error fetching pricelist:", error);
       setShowTable(false);
@@ -268,8 +209,10 @@ const CreatePersonalVisit = () => {
         .flat();
       setCurrentInsuarances(
         schemes.map((scheme) => ({
+          scheme_type: "",
           claim_number: "",
           available_balance: "",
+          total_visits_completed: "",
           insurer: scheme,
         }))
       );
@@ -351,10 +294,16 @@ const CreatePersonalVisit = () => {
                           .flat()}
                       </select>
                     </div>
-                    {["claim_number", "available_balance"].map((field) => (
+                    {[
+                      "scheme_type",
+                      "claim_number",
+                      "available_balance",
+                      "total_visits_completed",
+                    ].map((field) => (
                       <div key={field}>
                         <label className="block mb-2 capitalize text-[#413D80]">
-                          {field.replace("_", " ")}:
+                          {field.replace(/_/g, " ").toLowerCase()}{" "}
+                          {/* Use global replace */}
                         </label>
                         <input
                           type="text"
@@ -523,7 +472,6 @@ const CreatePersonalVisit = () => {
                     ) : (
                       <>
                         <option value="Please select a visit Type"></option>
-
                         <option>In patient</option>
                         <option>Out patient</option>
                         <option>Follow ups</option>
@@ -631,15 +579,15 @@ const CreatePersonalVisit = () => {
                 </table>
               )}
               <label htmlFor="service" className="block mb-4 text-[#413D80]">
-                Select service<span className="text-red-600">*</span>
+                Enter amount to pay (If applicable)
+                <span className="text-red-600">*</span>
               </label>
 
               <input
                 type="text"
+                placeholder="Amount to pay"
                 value={amount_to_pay}
-                onChange={(e) =>
-                  setAmount_to_pay(e.target.value)
-                }
+                onChange={(e) => setAmount_to_pay(e.target.value)}
                 className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]"
               />
             </div>
@@ -650,60 +598,26 @@ const CreatePersonalVisit = () => {
           <section className="space-y-4 p-4">
             <div className="signature-container border-2 border-gray-300 rounded-md">
               <Signature
-                ref={$svg}
+                ref={signatureRef}
                 width="1000"
                 height="200"
-                lineColor="#000000"
-                onEnd={handleDraw}
+                linecolor="#f1f1f1"
               />
             </div>
 
             <div className="flex gap-4">
               <button
-                onClick={() => $svg.current.clear()}
+                onClick={() => signatureRef.current.clear()}
                 className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
               >
                 Clear
               </button>
             </div>
-
-            {/* <select className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-[#0E6F1E]">
-              <option>Jubilee</option>
-              <option>M-Tiba</option>
-              <option>SHIF</option>
-            </select> */}
-
-            {signatureData && (
-              <div className="mt-4 p-2 bg-gray-100 border border-gray-300 rounded-md">
-                <h3 className="font-semibold">
-                  Signature Data (Base64 or SVG):
-                </h3>
-                <pre>{signatureData}</pre>
-              </div>
-            )}
           </section>
         );
       default:
         return null;
     }
-  };
-
-  const [signatureStatus, setSignatureStatus] = useState("pending");
-  const [isDeviceConnected, setIsDeviceConnected] = useState(false);
-
-  const handleCaptureSignature = () => {
-    if (!isDeviceConnected) {
-      setSignatureStatus("error");
-      return;
-    }
-    setSignatureStatus("capturing");
-    setTimeout(() => {
-      setSignatureStatus("completed");
-    }, 2000);
-  };
-
-  const handleRetry = () => {
-    setSignatureStatus("pending");
   };
 
   const calculateAge = (dob) => {
