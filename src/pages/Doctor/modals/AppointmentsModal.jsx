@@ -1,50 +1,85 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal';
+import React, { useRef, useEffect } from 'react';
 
 const AppointmentsModal = ({ show, handleClose }) => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (show) {
+      modalRef.current?.showModal();
+    }
+  }, [show]);
+
+  const closeModal = () => {
+    modalRef.current?.close();
+    handleClose();
+  };
+
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-      <Modal.Header closeButton>
-        <div className='flex justify-center w-full'>
-          <Modal.Title>
-            <span className='text-[#100C53] font-semibold '>Add new appointments</span>
-          </Modal.Title>
+    <dialog ref={modalRef} className="modal">
+      <div className="modal-box w-11/12 max-w-2xl">
+        <div className="flex justify-center mb-4">
+          <h3 className="text-lg font-semibold text-[#100C53]">Add new appointments</h3>
         </div>
-      </Modal.Header>
-      <Modal.Body>
-        <form>
-          <div className="mb-2 grid grid-cols-2 gap-2">
-            <input name="date" type='date' placeholder='Date' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
-            <input name="time" placeholder='Time' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
+
+        <form method="dialog">
+          <div className="mb-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+            <input
+              name="date"
+              type="date"
+              placeholder="Date"
+              className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none"
+            />
+            <input
+              name="time"
+              placeholder="Time"
+              className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none"
+            />
           </div>
 
           <div className="mb-2">
-            <input name="clinic" placeholder='Clinic' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
+            <input
+              name="clinic"
+              placeholder="Clinic"
+              className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none"
+            />
           </div>
 
-
           <div className="mb-2">
-            <select name="disease" placeholder='Disease' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " >
+            <select
+              name="doctor"
+              className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none"
+            >
               <option value="">Doctor in Charge</option>
-              <option value="disease1">doctor 1</option>
-              <option value="disease2">doctor 2</option>
-              <option value="disease3">doctor 3</option>
+              <option value="doctor1">Doctor 1</option>
+              <option value="doctor2">Doctor 2</option>
+              <option value="doctor3">Doctor 3</option>
             </select>
           </div>
 
-
           <div className="mb-2">
-            <textarea rows="5" name="appointmentReason" placeholder='Reason of appointment' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
+            <textarea
+              rows="5"
+              name="appointmentReason"
+              placeholder="Reason of appointment"
+              className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none"
+            />
           </div>
 
-          <div className='flex justify-center my-4'>
-            <button type="submit" className='px-4 py-2 rounded-lg bg-customGreen text-white'>Add</button>
+          <div className="flex justify-center my-4">
+            <button type="submit" className="px-4 py-2 rounded-lg bg-customGreen text-white">
+              Add
+            </button>
           </div>
-
         </form>
-      </Modal.Body>
-    </Modal>
-  )
-}
 
-export default AppointmentsModal
+        <div className="modal-action">
+          <button className="btn" onClick={closeModal}>
+            Close
+          </button>
+        </div>
+      </div>
+    </dialog>
+  );
+};
+
+export default AppointmentsModal;
