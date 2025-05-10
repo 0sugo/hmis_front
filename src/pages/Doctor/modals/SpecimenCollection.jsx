@@ -1,50 +1,77 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal';
+import React, { useRef, useEffect } from 'react';
 
 const SpecimenCollection = ({ show, handleClose }) => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (show) {
+      modalRef.current?.showModal();
+    } else {
+      modalRef.current?.close();
+    }
+  }, [show]);
+
+  const closeModal = () => {
+    modalRef.current?.close();
+    handleClose();
+  };
+
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-      <Modal.Header closeButton>
-        <div className='flex justify-center w-full'>
-          <Modal.Title>
-            <span className='text-[#100C53] font-semibold '>Add new appointments</span>
-          </Modal.Title>
-        </div>
-      </Modal.Header>
-      <Modal.Body>
-        <form>
-          <div className="mb-2 grid grid-cols-2 gap-2">
-            <input name="date" type='date' placeholder='Date' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
-            <input name="time" placeholder='Time' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
+    <dialog ref={modalRef} className="modal" id="specimen_modal">
+      <div className="modal-box w-11/12 max-w-5xl">
+        <h3 className="text-lg font-semibold text-[#100C53] text-center mb-4">Add New Appointments</h3>
+
+        <form method="dialog" className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            <input
+              name="date"
+              type="date"
+              placeholder="Date"
+              className="input input-bordered w-full"
+            />
+            <input
+              name="time"
+              placeholder="Time"
+              className="input input-bordered w-full"
+            />
           </div>
 
-          <div className="mb-2">
-            <input name="clinic" placeholder='Clinic' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
+          <input
+            name="clinic"
+            placeholder="Clinic"
+            className="input input-bordered w-full"
+          />
+
+          <select
+            name="doctor"
+            className="select select-bordered w-full"
+          >
+            <option value="">Doctor in Charge</option>
+            <option value="doctor1">Doctor 1</option>
+            <option value="doctor2">Doctor 2</option>
+            <option value="doctor3">Doctor 3</option>
+          </select>
+
+          <textarea
+            name="appointmentReason"
+            rows="5"
+            placeholder="Reason for appointment"
+            className="textarea textarea-bordered w-full"
+          />
+
+          <div className="flex justify-center pt-4">
+            <button type="submit" className="btn bg-customGreen text-white hover:bg-green-700">
+              Add
+            </button>
           </div>
-
-
-          <div className="mb-2">
-            <select name="disease" placeholder='Disease' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " >
-              <option value="">Doctor in Charge</option>
-              <option value="disease1">doctor 1</option>
-              <option value="disease2">doctor 2</option>
-              <option value="disease3">doctor 3</option>
-            </select>
-          </div>
-
-
-          <div className="mb-2">
-            <textarea rows="5" name="appointmentReason" placeholder='Reason of appointment' className="block w-full border bg-white border-[#DEDEDE] rounded-lg p-3 text-[#AEAEAE] leading-tight focus:outline-none " />
-          </div>
-
-          <div className='flex justify-center my-4'>
-            <button type="submit" className='px-4 py-2 rounded-lg bg-customGreen text-white'>Add</button>
-          </div>
-
         </form>
-      </Modal.Body>
-    </Modal>
-  )
-}
 
-export default SpecimenCollection
+        <div className="modal-action">
+          <button className="btn" onClick={closeModal}>Close</button>
+        </div>
+      </div>
+    </dialog>
+  );
+};
+
+export default SpecimenCollection;
