@@ -12,7 +12,6 @@ const initialState = {
 export const createVitals = createAsyncThunk(
     'vitals/create',
     async (formData, { rejectWithValue }) => {
-        console.log('successfully oinvoked');
         try {
         const response = await axios.post('/api/vitals/create', formData);
         toast.success("Vitals created successfully!");
