@@ -64,7 +64,7 @@ const DoctorsPatientView = () => {
       case "vitals":
         return <Vitals patient={patient} />;
       case "pastHistory":
-        return <PastHistory />;
+        return <PastHistory patient={patient} />;
       case "chronicDiseases":
         return <ChronicDiseases />;
       case "diagnostics":
