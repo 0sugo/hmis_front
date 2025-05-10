@@ -8,7 +8,8 @@ export const getUniversalStage = createAsyncThunk(
   async ({ page = 1, token, stage }, { rejectWithValue }) => {
     try {
       const body = stage ? { stage } : {};
-      const response = await axios.post(`/api/patients/service/billed`,
+      const response = await axios.post(`/api/patients/service/billed?page=${page}`,
+        // const response = await axios.post(`/api/patients/service/billed?page=${page}`,
          body ,
         {
         headers: {
