@@ -40,9 +40,9 @@ const NurseOpDashboard = () => {
   }, [dispatch, currentPage]);
   
 
-  useEffect(() => {
-    dispatch(getUniversalStage(currentPage));
-  }, [dispatch, currentPage]);
+  // useEffect(() => {
+  //   dispatch(getUniversalStage(currentPage));
+  // }, [dispatch, currentPage]);
   
 
   useEffect(() => {
