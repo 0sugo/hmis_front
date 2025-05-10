@@ -1,61 +1,49 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import newPatient from '../../assets/images/newPatient.svg'
-import eye from '../../assets/images/eye.svg'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import newPatient from "../../assets/images/newPatient.svg";
+import eye from "../../assets/images/eye.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getUniversalStage } from "../../redux/universal Slice/UniversalStageSlice";
+import Cookies from "js-cookie";
 
 const CashBilling = () => {
+  const dispatch = useDispatch();
+  const { loading, data, error, success } = useSelector((state) => state.bills);
+  const { universalStage, isLoading } = useSelector(
+    (state) => state.universalStage
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [list, setList] = useState([]);
 
-  const waitingReviewsData = [
-    {
-      No: 1,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
-    },
-    {
-      No: 2,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
-    },
-    {
-      No: 3,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
-    },
-    {
-      No: 4,
-      date: '12/12/2021',
-      patientName: 'Idris Miamoon',
-      insurance: 'cash',
-      scheme: 'Kilifi',
-      createdBy: 'Nemo',
-      time: '10:15 AM',
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      dispatch(
+        getUniversalStage({ page: currentPage, token, stage: "Billing" })
+      );
     }
-  ];
+  }, [dispatch, currentPage]);
 
-  const [list, setList] = useState(waitingReviewsData);
+  useEffect(() => {
+    if (universalStage?.data?.length > 0) {
+      setList(universalStage.data);
+      setLastPage(universalStage.last_page || 1);
+    }
+  }, [universalStage]);
 
   return (
-    <div className='mx-auto p-4'>
+    <div className="mx-auto p-4">
       <div className="flex flex-wrap items-center gap-2 justify-between my-4">
-        <h3><b>Cash Billing</b></h3>
+        <h3>
+          <b>Cash Billing</b>
+        </h3>
         <div>
           <label htmlFor="searchpatient">
-            <input 
+            <input
               type="search"
-              className='px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1'
-              placeholder='Search here...'
+              className="px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#0E6F1E] focus:ring-[#0E6F1E] w-full rounded-md focus:ring-1"
+              placeholder="Search here..."
             />
           </label>
         </div>
@@ -63,49 +51,95 @@ const CashBilling = () => {
 
       <section className="bg-white p-4 rounded-lg mb-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className='bg-[#FFE2E5] p-4 rounded-lg flex items-center gap-4'>
-            <div className='bg-[#DD3459] p-3 rounded-full'>
+          <div className="bg-[#FFE2E5] p-4 rounded-lg flex items-center gap-4">
+            <div className="bg-[#DD3459] p-3 rounded-full">
               <img src={newPatient} alt="patient" />
             </div>
             <div>
-              <h5 className='font-bold text-[#DD3459]'>3423</h5>
+              <h5 className="font-bold text-[#DD3459]">3423</h5>
               <p>Unreceipted Cash Bills</p>
             </div>
           </div>
-          <div className='bg-[#DBFFDE] p-4 rounded-lg flex items-center gap-4'>
-            <div className='bg-[#0E6F1E] p-3 rounded-full'>
+          <div className="bg-[#DBFFDE] p-4 rounded-lg flex items-center gap-4">
+            <div className="bg-[#0E6F1E] p-3 rounded-full">
               <img src={newPatient} alt="patient" />
             </div>
             <div>
-              <h5 className='font-bold text-[#0E6F1E]'>1623</h5>
+              <h5 className="font-bold text-[#0E6F1E]">1623</h5>
               <p>Receipted Cash Bills</p>
             </div>
           </div>
         </div>
       </section>
 
-      <div className='grid grid-cols-2 lg:grid-cols-6 gap-2 my-4'>
-        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Receipt Bill</span></Link>
-        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Refund Bill</span></Link>
-        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Edit Bill</span></Link>
-        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Split Payment</span></Link>
-        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Cancel Bill</span></Link>
-        <Link to='#' className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center'><span>Add Discout</span></Link>
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-2 my-4">
+        <Link
+          to={`/app/receiptdetails/1`}
+          className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
+        >
+          <span>Receipt Bill</span>
+        </Link>
+        <Link
+          to="#"
+          className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
+        >
+          <span>Refund Bill</span>
+        </Link>
+        <Link
+          to="#"
+          className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
+        >
+          <span>Edit Bill</span>
+        </Link>
+        <Link
+          to="#"
+          className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
+        >
+          <span>Split Payment</span>
+        </Link>
+        <Link
+          to="#"
+          className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
+        >
+          <span>Cancel Bill</span>
+        </Link>
+        <Link
+          to="#"
+          className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
+        >
+          <span>Add Discout</span>
+        </Link>
       </div>
 
       <section className="bg-white p-4 rounded-lg ">
-        <div className='overflow-x-auto rounded-lg xl:max-w-[61em] 2xl:max-w-full'>
-          <table className='w-full table-auto'>
+        <div className="overflow-x-auto rounded-lg ">
+          <table className="w-full table-auto">
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold">No.</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Invoice No</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Patient Name</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Bill Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Payment Method</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Discount</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">Action</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  No.
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Invoice No
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Patient Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Bill Amount
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Payment Method
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Discount
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -113,14 +147,18 @@ const CashBilling = () => {
                 <tr key={index}>
                   <td className="px-6 py-3 text-sm">{data.No}</td>
                   <td className="px-6 py-3 text-sm">{data.date}</td>
-                  <td className="px-6 py-3 text-sm">{data.patientName}</td>
+                  <td className="px-6 py-3 text-sm">
+                    {data.patient_firstname} {data.patient_firstname}
+                  </td>
                   <td className="px-6 py-3 text-sm">{data.insurance}</td>
                   <td className="px-6 py-3 text-sm">{data.scheme}</td>
                   <td className="px-6 py-3 text-sm">{data.createdBy}</td>
                   <td className="px-6 py-3 text-sm">{data.time}</td>
-                  <td className='py-2 px-6'>
+                  <td className="py-2 px-6">
                     <Link to={`/app/receiptdetails/${data.No}`}>
-                      <span className='bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer'><img src={eye} alt='eye' /></span>
+                      <span className="bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer">
+                        <img src={eye} alt="eye" />
+                      </span>
                     </Link>
                   </td>
                 </tr>
@@ -130,7 +168,7 @@ const CashBilling = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default CashBilling
+export default CashBilling;
