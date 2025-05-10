@@ -16,19 +16,21 @@ const LineChart = ({labels,lineChartData}) => {
       },
       options: {
         responsive: true,
+        
         scales: {
           x: {
             display: true,
             title: {
               display: true,
-              text: 'Month',
+              text: 'Last Visits',
             },
           },
           y: {
             display: true,
             title: {
               display: true,
-              text: 'Value',
+              text: 'Values',
+              align:'end'
             },
           },
         },
