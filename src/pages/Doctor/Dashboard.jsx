@@ -13,11 +13,13 @@ const Dashboard = () => {
   const [reviewslist, setReviewslist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [prevPageUrl, setPrevPageUrl] = useState(null);
   const [reviewLength, setReviewLength] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
 
   const summary = [
     {
@@ -813,32 +815,78 @@ const Dashboard = () => {
     return age;
   };
 
+  // const fetchReviewsData = async (url) => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.post(url);
+
+  //     const reviewslist = response.data;
+  //     console.log(reviewslist);
+  //     const patientsData = response.data;
+
+  //     // Transform the data to include only visits with bills
+  //     const transformedData = patientsData.flatMap((patient) =>
+  //       patient.visits
+  //         .filter((visit) => visit.bills.length > 0) // Only include visits with bills
+  //         .map((visit) => ({
+  //           visitCode:
+  //             visit.bills[0]?.bill_reference_number || visit.id.toString(), // Use bill reference or visit ID
+  //           patientName: `${patient.patient_firstname} ${patient.patient_lastname}`,
+  //           age: calculateAge(patient.dob),
+  //           id: patient.id,
+  //           gender:
+  //             patient.gender === "Nairobi" || patient.gender === "300"
+  //               ? "Unknown"
+  //               : patient.gender, // Handle invalid gender values
+  //         }))
+  //     );
+
+  //     setReviewslist(transformedData);
+  //     setReviewLength(transformedData.length);
+  //     console.log(reviewslist);
+  //     console.log("reviewslist");
+  //   } catch (error) {
+  //     setError(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchReviewsData = async (url) => {
     setLoading(true);
     try {
       const response = await axios.post(url);
+      const {
+        data: patientsData,
+        current_page,
+        last_page,
+        total,
+      } = response.data;
 
-      const patientsData = response.data;
-
-      // Transform the data to include only visits with bills
+      // Filter and map only visits with bills
       const transformedData = patientsData.flatMap((patient) =>
         patient.visits
-          .filter((visit) => visit.bills.length > 0) // Only include visits with bills
+          .filter((visit) => visit.bills?.length > 0)
           .map((visit) => ({
             visitCode:
-              visit.bills[0]?.bill_reference_number || visit.id.toString(), // Use bill reference or visit ID
+              visit.bills[0]?.bill_reference_number || visit.id.toString(),
             patientName: `${patient.patient_firstname} ${patient.patient_lastname}`,
             age: calculateAge(patient.dob),
             id: patient.id,
             gender:
               patient.gender === "Nairobi" || patient.gender === "300"
                 ? "Unknown"
-                : patient.gender, // Handle invalid gender values
+                : patient.gender,
           }))
       );
 
-      setReviewslist(transformedData);
-      setReviewLength(transformedData.length);
+      setReviewslist(patientsData);
+      setReviewLength(patientsData.length);
+      setCurrentPage(current_page);
+      setLastPage(last_page);
+      setTotalItems(total);
+
+      console.log(patientsData);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -888,7 +936,7 @@ const Dashboard = () => {
   };
 
   const handleIndividualPatient = (id) => {
-    navigate("/app/patientview",{state: {id}});
+    navigate("/app/patientview", { state: { id } });
   };
 
   return (
@@ -897,7 +945,7 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mb-6 md:mb-2">
           <div className="flex flex-col mb-4 md:mb-0">
-            <span className="text-black text-sm">Good Morningoo</span>
+            <span className="text-black text-sm">Good Morning</span>
             <span className="text-customGreen font-semibold text-xl">
               Dr.Alamini
             </span>
@@ -999,9 +1047,11 @@ const Dashboard = () => {
                   {reviewslist.length > 0 ? (
                     reviewslist.map((data, index) => (
                       <tr key={index}>
-                        <td className="px-6 py-3 text-sm">{data.visitCode}</td>
                         <td className="px-6 py-3 text-sm">
-                          {data.patientName}
+                          {data.visits > 0 ? data.visits[0].id : "N/A"}
+                        </td>
+                        <td className="px-6 py-3 text-sm">
+                          {data.patient_firstname} {data.patient_lastname}
                         </td>
                         <td className="px-6 py-3 text-sm">{data.age}</td>
                         <td className="px-6 py-3 text-sm">{data.gender}</td>
@@ -1024,10 +1074,51 @@ const Dashboard = () => {
                   )}
                 </tbody>
               </table>
+              <div className="flex justify-center items-center gap-2 mt-6">
+                <button
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+                >
+                  First
+                </button>
+
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+                >
+                  Prev
+                </button>
+
+                <span className="px-4 py-1 text-sm font-medium text-gray-700">
+                  Page {currentPage} of {lastPage}
+                </span>
+
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, lastPage))
+                  }
+                  disabled={currentPage === lastPage}
+                  className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+                >
+                  Next
+                </button>
+
+                <button
+                  onClick={() => setCurrentPage(lastPage)}
+                  disabled={currentPage === lastPage}
+                  className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+                >
+                  Last
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
+        {/* patientslist */}
         <div className="my-4">
           <span className="text-[#413D80] font-medium text-lg mb-4 md:mb-2 block">
             Patient List
