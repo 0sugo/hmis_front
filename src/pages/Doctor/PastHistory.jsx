@@ -1,68 +1,3 @@
-// import React, { useState } from 'react'
-// import TopNavbar from '../navbar/TopNavbar'
-// import Sidebar from '../navbar/Sidebar'
-// import PatientNavigation from '../navbar/PatientNavigation'
-// import { GoPlus } from 'react-icons/go'
-// import { IoIosArrowForward } from 'react-icons/io'
-// import PastVisitModal from './modals/PastVisitModal'
-// import PastSurgeriesModal from './modals/PastSurgeriesModal'
-// import PastObstetricModal from './modals/PastObstetricModal'
-// import PastAdmissionModal from './modals/PastAdmissionModal'
-// import FamilyHistoryModal from './modals/FamilyHistoryModal'
-// import SubstanceAbuseHistory from './modals/SubstanceAbuseHistory'
-// import VaccinationHistory from './modals/VaccinationHistory'
-// import { useNavigate } from 'react-router-dom'
-// import PatientNavigationBar from '../navbar/PatientNavigationBar'
-// import pic from '../../assets/images/pic.svg'
-
-// const PastHistory = () => {
-//   const relevantHistoryDetails = ['Past Visits', 'Past Admissions', 'Past Surgeries/Procedures', 'Past Obstetric History', 'Family History', 'Substances Abuse History', 'Vaccination History'];
-//   const navigate = useNavigate();
-
-//   const [showModal, setShowModal] = useState(false);
-//   const [modalType, setModalType] = useState(null);
-
-//   const handleCloseModal = () => setShowModal(false);
-//   const handleAddNewClick = (type) => {
-//     setModalType(type);
-//     setShowModal(true);
-//   };
-//   const handleViewHistory = () => {
-//     navigate('/individualpatient/view-relevant-history')
-//   }
-
-//   return (
-
-//     <div className=''>
-//       <div className='flex justify-between items-center'>
-//         <p className='text-[#192252] font-medium text-xl flex items-center gap-2'>Ajay Sharma <span className='flex items-center text-customGreen text-sm'><IoIosArrowForward />Relevant Past History</span></p>
-//       </div>
-
-//       <div className='flex flex-col gap-2'>
-//         {relevantHistoryDetails.map((value, index) => (
-//           <div key={value} className='flex justify-between border-b border-[#DAE8E3] p-4'>
-//             <p className='text-[#192252]'>{value}</p>
-//             <div className='flex items-center justify-center gap-4 text-white'>
-//               <span className='bg-customGreen py-2 px-4 rounded-lg' onClick={handleViewHistory}>View visits</span>
-//               <span className='flex items-center bg-customGreen py-2 px-4 rounded-lg cursor-pointer' onClick={() => handleAddNewClick(value)}><GoPlus />Add New</span></div>
-//           </div>
-//         ))
-//         }
-//         <div />
-//         <div />
-//       </div>
-//       {modalType === 'Past Visits' && <PastVisitModal show={showModal} handleClose={handleCloseModal} />}
-//       {modalType === 'Past Admissions' && <PastAdmissionModal show={showModal} handleClose={handleCloseModal} />}
-//       {modalType === 'Past Surgeries/Procedures' && <PastSurgeriesModal show={showModal} handleClose={handleCloseModal} />}
-//       {modalType === 'Past Obstetric History' && <PastObstetricModal show={showModal} handleClose={handleCloseModal} />}
-//       {modalType === 'Family History' && <FamilyHistoryModal show={showModal} handleClose={handleCloseModal} />}
-//       {modalType === 'Substances Abuse History' && <SubstanceAbuseHistory show={showModal} handleClose={handleCloseModal} />}
-//       {modalType === 'Vaccination History' && <VaccinationHistory show={showModal} handleClose={handleCloseModal} />}
-//     </div>
-//   )
-// }
-
-// export default PastHistory
 import React, { useState } from 'react';
 import { GoPlus } from 'react-icons/go';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -74,6 +9,7 @@ import PastAdmissionModal from './modals/PastAdmissionModal';
 import FamilyHistoryModal from './modals/FamilyHistoryModal';
 import SubstanceAbuseHistory from './modals/SubstanceAbuseHistory';
 import VaccinationHistory from './modals/VaccinationHistory';
+import PastAppointmentNotesModal from './modals/PastAppointmentNotesModal';
 
 const PastHistory = () => {
   const relevantHistoryDetails = [
@@ -83,11 +19,52 @@ const PastHistory = () => {
     'Past Obstetric History',
     'Family History',
     'Substances Abuse History',
-    'Vaccination History'
+    'Vaccination History',
   ];
+
+  const timelineData = [
+    {
+      date: "May, 2024",
+      title: "Diabetes Control Appointment",
+      description:
+        "Blood sugar management is especially important for people with diabetes, as chronically high blood sugar levels can lead.",
+      Treatment: "Check-up",
+      Duration: 3,
+      prescription: "prescription-result.pdf",
+    },
+    {
+      date: "May, 2023",
+      title: "Diabetes Control Appointment",
+      description:
+        "Blood sugar management is especially important for people with diabetes, as chronically high blood sugar levels can lead",
+      Treatment: "Check-up",
+      Duration: 3,
+      prescription: "prescription-result.pdf",
+    },
+    {
+      date: "May, 2022",
+      title: "Diabetes Control Appointment",
+      description:
+        "Blood sugar management is especially important for people with diabetes, as chronically high blood sugar levels can lead",
+      Treatment: "Check-up",
+      Duration: 3,
+      prescription: "prescription-result.pdf",
+    },
+    {
+      date: "May, 2021",
+      title: "Diabetes Control Appointment",
+      description:
+        "Blood sugar management is especially important for people with diabetes, as chronically high blood sugar levels can lead",
+      Treatment: "Check-up",
+      Duration: 3,
+      prescription: "prescription-result.pdf",
+    },
+  ];
+
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [showpastvisitModal, setpastvisitmodal] = useState(false);
   const [modalType, setModalType] = useState(null);
 
   const handleCloseModal = () => setShowModal(false);
@@ -95,9 +72,10 @@ const PastHistory = () => {
     setModalType(type);
     setShowModal(true);
   };
-  const handleViewHistory = () => {
-    navigate('/individualpatient/view-relevant-history');
-  };
+  // const handleViewHistory = () => {
+  //   navigate('/individualpatient/view-relevant-history');
+  // };
+  
 
   return (
     <div className="max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -122,7 +100,7 @@ const PastHistory = () => {
             <div className="text-gray-700">{value}</div>
             <div className="md:col-span-2 flex justify-end space-x-2">
               <button
-                className="bg-customGreen text-white px-4 py-2 rounded-md text-sm" onClick={handleViewHistory}>View visits </button>
+                className="bg-customGreen text-white px-4 py-2 rounded-md text-sm" onClick={() => setpastvisitmodal(true)}>View visits </button>
               <button
                 className="bg-customGreen text-white px-4 py-2 rounded-md text-sm flex items-center"
                 onClick={() => handleAddNewClick(value)}
@@ -133,6 +111,12 @@ const PastHistory = () => {
           </div>
         ))}
       </div>
+
+      <PastAppointmentNotesModal
+        show={showpastvisitModal}
+        handleClose={() => setpastvisitmodal(false)}
+        timelineData={timelineData}
+      />
 
       {modalType === 'Past Visits' && (
         <PastVisitModal show={showModal} handleClose={handleCloseModal} />
@@ -154,6 +138,9 @@ const PastHistory = () => {
       )}
       {modalType === 'Vaccination History' && (
         <VaccinationHistory show={showModal} handleClose={handleCloseModal} />
+      )}
+      {modalType === 'Past Appointment Notes' && (
+        <PastAppointmentNotesModal show={showModal} handleClose={handleCloseModal} />
       )}
     </div>
   );
