@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../api/api";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const getUniversalStage = createAsyncThunk(
@@ -9,7 +8,6 @@ export const getUniversalStage = createAsyncThunk(
     try {
       const body = stage ? { stage } : {};
       const response = await axios.post(`/api/patients/service/billed?page=${page}`,
-        // const response = await axios.post(`/api/patients/service/billed?page=${page}`,
          body ,
         {
         headers: {
