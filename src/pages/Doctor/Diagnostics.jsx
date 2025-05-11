@@ -4,7 +4,7 @@ import PatientNavigation from './PatientNavigation'
 import eye from '../../assets/images/eye.svg'
 import { useNavigate } from 'react-router-dom'
 
-const Diagnostics = () => {
+const Diagnostics = ({person}) => {
   const navigate = useNavigate();
 
   const tableData = [
