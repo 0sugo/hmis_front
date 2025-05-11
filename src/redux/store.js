@@ -10,6 +10,7 @@ import serviceReducer from './service/serviceSlice';
 import universalStageReducer from '../redux/universal Slice/UniversalStageSlice';
 import vitalReducer from '../redux/patient/vitalsSlice';
 import billingReducer from '../redux/billing/billingSlice';
+import consultationReducer from '../redux/Consultation/consultationSlice';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     universalStage:universalStageReducer,
     vitals:vitalReducer,
     bills:billingReducer,
+    consultation: consultationReducer,
     
     
   },
