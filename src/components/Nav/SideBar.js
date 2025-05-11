@@ -6,7 +6,7 @@ import { RiHomeOfficeFill } from "react-icons/ri";
 import { useStateContext } from '../Context/ContextProvider';
 import 'tw-elements';
 import logo from '../../assets/images/Logo.svg';
-import dashboard from '../../assets/images/doctor.svg'
+// import dashboard from '../../assets/images/doctor.svg'
 import nurse from '../../assets/images/nurse.svg';
 import lab from '../../assets/images/lab.svg';
 import imaging from '../../assets/images/imaging.svg';
@@ -81,7 +81,7 @@ const SideBar = () => {
                 <ul className='relative px-1'>
                   <li className='relative'>
                     <Link to='/app/dashboard' className='flex items-center text-sm py-4 px-6 h-12 rounded-lg overflow-hidden whitespace-nowrap text-[#7987a1] hover:bg-[#0E6F1E] hover:text-white transition duration-300 ease-in-out' data-mdb-ripple='true' data-mdb-ripple-color='primary'>
-                      <span className='w-4 h-4 mr-3'><img src={dashboard} alt="dashboard-icon" /></span>
+                      <span className='w-4 h-4 mr-3'><img src={Settings} alt="dashboard-icon" /></span>
                       <span>DashBoard</span>
                     </Link>
                   </li>
