@@ -20,11 +20,13 @@ const CashBilling = () => {
   const [selectedBill, setSelectedBill] = useState(null);
   const [activeBill, setActiveBill] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [modalMode, setModalMode] = useState("receipt");
   const [activeCard, setActiveCard] = useState("unreceipted");
 
-  const openModal = (bill) => {
+  const openModal = (bill, mode = "receipt") => {
     setActiveBill(bill);
     setSelectedBill(bill);
+    setModalMode(mode);
     setShowModal(true);
   };
 
@@ -101,6 +103,46 @@ const CashBilling = () => {
     }
   };
 
+  const handleSplitBill = async () => {
+    try {
+      const token = Cookies.get("token");
+      const payload = {
+        bill_item_details: activeBill.bill_items.map((item) => ({
+          bill_item_id: item.id,
+          initiation_time: null,
+          amount: (item.one_item_selling_price * item.quantity) - item.discount,
+          fee: null,
+        })),
+      };
+
+      const response = await axios.post(
+        "https://maimoon.hospify.co.ke/api/payments/cash/paySpecificItems",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Split bill payment successful!");
+        setShowModal(false);
+        // Refresh bills after successful payment
+        dispatch(
+          listBills({
+            payload: { page: currentPage },
+            token,
+          })
+        );
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to process split bill payment."
+      );
+    }
+  };
+
   const unreceiptedCount = Array.isArray(bills?.data)
     ? bills.data.filter(
         (data) => data.status === "PENDING" && data.balance > 0
@@ -116,7 +158,7 @@ const CashBilling = () => {
     ? bills.data.filter((data) =>
         activeCard === "unreceipted"
           ? data.status === "PENDING" && data.balance > 0
-          : data.status === "SUCCESS" && data.balance === 0
+          : data.status === "SUCCESS"
       )
     : [];
 
@@ -289,7 +331,7 @@ const CashBilling = () => {
                           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                         >
                           <li>
-                            <button onClick={() => openModal(data)}>
+                            <button onClick={() => openModal(data, "receipt")}>
                               Receipt Bill
                             </button>
                           </li>
@@ -300,7 +342,9 @@ const CashBilling = () => {
                             <button>Edit Bill</button>
                           </li>
                           <li>
-                            <button>Split Bill</button>
+                            <button onClick={() => openModal(data, "split")}>
+                              Split Bill
+                            </button>
                           </li>
                           <li>
                             <button>Cancel Bill</button>
@@ -365,28 +409,102 @@ const CashBilling = () => {
       {showModal && (
         <dialog id="receipt_modal" className="modal modal-open">
           <div className="modal-box">
-            <h3 className="font-bold text-lg">Receipt Payment</h3>
-            <p className="py-4">
-              Do you want to receipt the full amount for{" "}
-              <strong>
-                {activeBill?.patient_first_name} {activeBill?.patient_last_name}
-              </strong>{" "}
-              valued at Kshs <strong>{activeBill?.balance}</strong>/=
-            </p>
-            <div className="modal-action">
-              <form method="dialog" className="flex gap-2">
-                <div className="btn btn-success">
-                  <ReactToPrint
-                    trigger={() => <button>Confirm & Print</button>}
-                    content={() => componentRef.current}
-                    onBeforePrint={handleConfirmAndPrint}
+            {modalMode === "receipt" ? (
+              <>
+                <h3 className="font-bold text-lg">Receipt Payment</h3>
+                <p className="py-4">
+                  Do you want to receipt the full amount for{" "}
+                  <strong>
+                    {activeBill?.patient_first_name} {activeBill?.patient_last_name}
+                  </strong>{" "}
+                  valued at Kshs <strong>{activeBill?.balance}</strong>/=
+                </p>
+                <div className="modal-action">
+                  <form method="dialog" className="flex gap-2">
+                    <div className="btn btn-success">
+                      <ReactToPrint
+                        trigger={() => <button>Confirm & Print</button>}
+                        content={() => componentRef.current}
+                        onBeforePrint={handleConfirmAndPrint}
+                      />
+                    </div>
+                    <button className="btn" onClick={() => setShowModal(false)}>
+                      Cancel
+                    </button>
+                  </form>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="font-bold text-lg">Split Bill</h3>
+                <p className="py-4">
+                  Bill items for{" "}
+                  <strong>
+                    {activeBill?.patient_first_name} {activeBill?.patient_last_name}
+                  </strong>
+                </p>
+                <div className="overflow-x-auto">
+                  <table className="table w-full">
+                    <thead>
+                      <tr>
+                        <th>Item ID</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {activeBill?.bill_items?.length > 0 ? (
+                        activeBill.bill_items.map((item) => (
+                          <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.description}</td>
+                            <td>
+                              {((item.one_item_selling_price * item.quantity) - item.discount).toFixed(2)}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="3" className="text-center">
+                            No bill items found.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-4">
+                  <label className="label">
+                    <span className="label-text">Total Amount to Settle (Kshs)</span>
+                  </label>
+                  <input
+                    type="number"
+                    value={activeBill?.bill_items
+                      .reduce(
+                        (sum, item) =>
+                          sum + (item.one_item_selling_price * item.quantity - item.discount),
+                        0
+                      )
+                      .toFixed(2)}
+                    readOnly
+                    className="input input-bordered w-full"
                   />
                 </div>
-                <button className="btn" onClick={() => setShowModal(false)}>
-                  Cancel
-                </button>
-              </form>
-            </div>
+                <div className="modal-action">
+                  <form method="dialog" className="flex gap-2">
+                    <button
+                      className="btn btn-success"
+                      onClick={handleSplitBill}
+                    >
+                      Confirm Payment
+                    </button>
+                    <button className="btn" onClick={() => setShowModal(false)}>
+                      Cancel
+                    </button>
+                  </form>
+                </div>
+              </>
+            )}
           </div>
         </dialog>
       )}
