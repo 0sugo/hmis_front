@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from '../../api/api';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const intialState = {
