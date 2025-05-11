@@ -5,7 +5,7 @@ import patientReducer from './patient/patientSlice';
 import departmentReducer from './department/departmentSlice';
 import clinicReducer from './clinic/clinicSlice';
 import visitTypesReducer from './visit/visitTypesSlice';
-import bookingReducer from './visit/bookingSlice';
+// import bookingReducer from './visit/bookingSlice';
 import serviceReducer from './service/serviceSlice';
 import universalStageReducer from '../redux/universal Slice/UniversalStageSlice';
 import vitalReducer from '../redux/patient/vitalsSlice';
