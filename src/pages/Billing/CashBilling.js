@@ -1,36 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import newPatient from "../../assets/images/newPatient.svg";
 import eye from "../../assets/images/eye.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getUniversalStage } from "../../redux/universal Slice/UniversalStageSlice";
 import Cookies from "js-cookie";
+import { listBills } from "../../redux/billing/billingSlice";
+import { ReceiptPrintDownload } from "./ReceiptPrintDownload";
+import ReactToPrint from "react-to-print";
 
 const CashBilling = () => {
+  const componentRef = useRef();
   const dispatch = useDispatch();
-  const { loading, data, error, success } = useSelector((state) => state.bills);
-  const { universalStage, isLoading } = useSelector(
-    (state) => state.universalStage
-  );
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
-  const [list, setList] = useState([]);
+  const { loading, bills } = useSelector((state) => state.bills);
+  const currentPage = bills?.current_page || 1;
+  const lastPage = bills?.last_page || 1;
+  const total = bills?.total || 0;
+  const [selectedBill, setSelectedBill] = useState(null);
+  const [activeBill, setActiveBill] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = (bill) => {
+    setActiveBill(bill);
+    setSelectedBill(bill);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
       dispatch(
-        getUniversalStage({ page: currentPage, token, stage: "Billing" })
+        listBills({
+          payload: { page: currentPage },
+          token,
+        })
       );
     }
   }, [dispatch, currentPage]);
 
-  useEffect(() => {
-    if (universalStage?.data?.length > 0) {
-      setList(universalStage.data);
-      setLastPage(universalStage.last_page || 1);
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= lastPage) {
+      const token = Cookies.get("token");
+      if (token) {
+        dispatch(
+          listBills({
+            payload: { page: newPage },
+            token,
+          })
+        );
+      }
     }
-  }, [universalStage]);
+  };
+
+  const handleReceipt = (type) => {
+    console.log(
+      `${type === "full" ? "Full" : "Partial"} payment for:`,
+      activeBill
+    );
+    setSelectedBill(activeBill);
+    setShowModal(false);
+  };
+
+  const handleReceiptClick = (bill) => {
+    setSelectedBill(bill);
+  };
 
   return (
     <div className="mx-auto p-4">
@@ -123,16 +155,13 @@ const CashBilling = () => {
                   Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">
-                  Invoice No
+                  Ref. No
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">
                   Patient Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">
                   Bill Amount
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold">
-                  Payment Method
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">
                   Discount
@@ -143,30 +172,134 @@ const CashBilling = () => {
               </tr>
             </thead>
             <tbody>
-              {list.map((data, index) => (
-                <tr key={index}>
-                  <td className="px-6 py-3 text-sm">{data.No}</td>
-                  <td className="px-6 py-3 text-sm">{data.date}</td>
-                  <td className="px-6 py-3 text-sm">
-                    {data.patient_firstname} {data.patient_firstname}
-                  </td>
-                  <td className="px-6 py-3 text-sm">{data.insurance}</td>
-                  <td className="px-6 py-3 text-sm">{data.scheme}</td>
-                  <td className="px-6 py-3 text-sm">{data.createdBy}</td>
-                  <td className="px-6 py-3 text-sm">{data.time}</td>
-                  <td className="py-2 px-6">
-                    <Link to={`/app/receiptdetails/${data.No}`}>
-                      <span className="bg-[#DBFFDE] flex justify-center items-center rounded-lg w-8 h-8 cursor-pointer">
-                        <img src={eye} alt="eye" />
-                      </span>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+              {Array.isArray(bills?.data) &&
+                bills.data.map((data, index) => (
+                  <tr key={data.id || index}>
+                    <td className="px-6 py-3 text-sm">{index + 1}</td>
+                    <td className="px-6 py-3 text-sm">{data.initiated_at}</td>
+                    <td className="px-6 py-3 text-sm">
+                      {data.bill_reference_number}
+                    </td>
+                    <td className="px-6 py-3 text-sm">
+                      {data.patient_first_name} {data.patient_last_name}
+                    </td>
+                    <td className="px-6 py-3 text-sm">{data.balance}</td>
+                    <td className="px-6 py-3 text-sm">{data.discount}</td>
+                    <td className="py-2 px-6">
+                      <div className="dropdown dropdown-end">
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className="btn btn-sm bg-[#DBFFDE]"
+                        >
+                          <img src={eye} alt="eye" />
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                        >
+                          <li>
+                            <button onClick={() => openModal(data)}>
+                              Receipt Bill
+                            </button>
+                          </li>
+                          <li>
+                            <button>Refund Bill</button>
+                          </li>
+                          <li>
+                            <button>Edit Bill</button>
+                          </li>
+                          <li>
+                            <button>Split Bill</button>
+                          </li>
+                          <li>
+                            <button>Cancel Bill</button>
+                          </li>
+                          <li>
+                            <button>Add Discount</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          {total > 0 && (
+            <div className="flex justify-center items-center gap-2 mt-6">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+              >
+                First
+              </button>
+
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+              >
+                Prev
+              </button>
+
+              <span className="px-4 py-1 text-sm font-medium text-gray-700">
+                Page {currentPage} of {lastPage}
+              </span>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === lastPage}
+                className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+              >
+                Next
+              </button>
+
+              <button
+                onClick={() => handlePageChange(lastPage)}
+                disabled={currentPage === lastPage}
+                className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"
+              >
+                Last
+              </button>
+            </div>
+          )}
         </div>
       </section>
+
+      {showModal && (
+        <dialog id="receipt_modal" className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Receipt Payment</h3>
+            <p className="py-4">
+              Do you want to receipt the full amount for{" "}
+              <strong>
+                {activeBill?.patient_first_name} {activeBill?.patient_last_name}
+              </strong>
+              {" "}valued at  Kshs {" "}
+              <strong>{activeBill?.balance}</strong>
+              /= 
+            </p>
+
+            <div className="modal-action">
+              <form method="dialog" className="flex gap-2">
+                <div className="btn btn-success">
+                  <ReactToPrint
+                    trigger={() => <button>Confirm & Print</button>}
+                    content={() => componentRef.current}
+                  />
+                </div>
+                <button className="btn" onClick={() => setShowModal(false)}>
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      )}
+      <div className="hidden">
+        <ReceiptPrintDownload ref={componentRef} bill={selectedBill} />
+      </div>
     </div>
   );
 };
