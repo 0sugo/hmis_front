@@ -64,6 +64,8 @@ const NurseTriageInfo = () => {
     currentComplaints: "",
     pulse: "",
     visitType: "",
+    nursing_remarks: "",
+    blood_glucose: "",
   });
 
   const handleSubmit = (e) => {
@@ -84,39 +86,37 @@ const NurseTriageInfo = () => {
       bmi: formData.bmi || null,
       food_allergy: formData.foodAllergy || null,
       drug_allergy: formData.drugAllergy || null,
-      nursing_remarks: formData.currentComplaints || null,
-
-      // drug: formData.drug || null,
-      // visit_type: formData.visitType || null,
-      pulse: formData.pulse || null,
+      nursing_remarks: formData.nursing_remarks || null,
+      blood_glucose: formData.blood_glucose || null,
+      temperature: formData.temperature || null,
     };
     setSubmitLoading(true);
     dispatch(createVitals(payload))
-    .unwrap()
-    .then(() => {
-      toast.success("Vitals submitted successfully!");
-      setFormData({
-        weight: "",
-        height: "",
-        temperature: "",
-        pulse: "",
-        systolic: "",
-        diastolic: "",
-        respiratoryRate: "",
-        bmi:"",
+      .unwrap()
+      .then(() => {
+        toast.success("Vitals submitted successfully!");
+        setFormData({
+          weight: "",
+          height: "",
+          temperature: "",
+          systolic: "",
+          diastolic: "",
+          respiratoryRate: "",
+          bmi: "",
+          temperature: "",
+        });
+
+        navigate("/app/nurse-opdashboard");
+      })
+      .catch((err) => {
+        const message =
+          err?.message || err?.data?.message || "Failed to submit vitals.";
+        toast.error(message);
+        console.error("Submit Error:", err);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
-      
-      navigate("/app/nurse-opdashboard");
-    })
-    .catch((err) => {
-      const message =
-        err?.message || err?.data?.message || "Failed to submit vitals.";
-      toast.error(message);
-      console.error("Submit Error:", err);
-    })
-    .finally(() => {
-      setSubmitLoading(false);
-    });
   };
 
   const handleInputChange = (e) => {
@@ -365,7 +365,7 @@ const NurseTriageInfo = () => {
                 Initial Medication given at triage
               </label>
               <input
-                type="number"
+                type="text"
                 name="initialMedication"
                 value={formData.initialMedication}
                 onChange={handleInputChange}
@@ -385,17 +385,6 @@ const NurseTriageInfo = () => {
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 readOnly
-              />
-            </div>
-
-            <div>
-              <label className="block text-[#413D80] mb-2">Drug</label>
-              <input
-                type="text"
-                name="drug"
-                value={formData.drug}
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -421,24 +410,47 @@ const NurseTriageInfo = () => {
                 className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
+            <div>
+              <label className="block text-[#413D80] mb-2">
+                Blood Glucose (mg/dL)
+              </label>
+              <input
+                type="number"
+                name="blood_glucose"
+                value={formData.blood_glucose}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Body temperature */}
+            <div className="mb-2">
+              <label className="block text-[#413D80] mb-2">
+                Body temperature
+              </label>
+              <input
+                type="number"
+                name="temperature"
+                value={formData.temperature}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
 
-          {/* Current Complaints */}
           <div className="mt-6">
-            <label className="block text-[#413D80] mb-2">
-              Current Complaints
-            </label>
-            <input
-              type="text"
-              name="currentComplaints"
-              value={formData.currentComplaints}
+            <label className="block text-[#413D80] mb-2">Nursing Remarks</label>
+            <textarea
+              name="nursing_remarks"
+              value={formData.nursing_remarks}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="4"
             />
           </div>
 
           {/* Visit Type and Pulse */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <div>
               <label className="block text-[#413D80] mb-2">Visit Type</label>
               <div className="flex gap-6">
@@ -475,17 +487,7 @@ const NurseTriageInfo = () => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-[#413D80] mb-2">Pulse(bpm)</label>
-              <input
-                type="text"
-                name="pulse"
-                value={formData.pulse}
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </div>
+          </div> */}
 
           {/* Save Button */}
           <div className="mt-8">
