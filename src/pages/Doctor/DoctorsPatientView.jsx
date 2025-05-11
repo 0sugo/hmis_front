@@ -58,7 +58,7 @@ const DoctorsPatientView = () => {
   const renderActiveSection = () => {
     switch (activeSection) {
       case "consultation":
-        return <Consultation />;
+        return <Consultation patient={patient} />;
       case "patientInformation":
         return <PatientsInfo patient={patient} />;
       case "vitals":
@@ -66,7 +66,7 @@ const DoctorsPatientView = () => {
       case "pastHistory":
         return <PastHistory patient={patient} />;
       case "chronicDiseases":
-        return <ChronicDiseases />;
+        return <ChronicDiseases patient={patient}/>;
       case "diagnostics":
         return <Diagnostics />;
       case "viewResults":
@@ -78,7 +78,7 @@ const DoctorsPatientView = () => {
       case "services":
         return <Services />;
       case "nursingOrders":
-        return <Nursingorder />;
+        return <Nursingorder patient={patient} />;
       case "medication":
         return <Medication />;
       case "followUps":
@@ -88,7 +88,7 @@ const DoctorsPatientView = () => {
       case "documents":
         return <Documents />;
       default:
-        return <Consultation />;
+        return <Consultation patient={patient} />;
     }
   };
 
