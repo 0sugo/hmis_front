@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import { listBills } from "../../redux/billing/billingSlice";
 import { ReceiptPrintDownload } from "./ReceiptPrintDownload";
 import ReactToPrint from "react-to-print";
+import axios from "axios";
+import { toast } from "sonner";
 
 const CashBilling = () => {
   const componentRef = useRef();
@@ -18,6 +20,7 @@ const CashBilling = () => {
   const [selectedBill, setSelectedBill] = useState(null);
   const [activeBill, setActiveBill] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [activeCard, setActiveCard] = useState("unreceipted");
 
   const openModal = (bill) => {
     setActiveBill(bill);
@@ -64,6 +67,59 @@ const CashBilling = () => {
     setSelectedBill(bill);
   };
 
+  const handleConfirmAndPrint = async () => {
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.post(
+        "https://maimoon.hospify.co.ke/api/payments/cash/clear",
+        {
+          bill_id: activeBill?.id,
+          amount: activeBill?.balance,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Payment cleared successfully!");
+        setShowModal(false);
+        // Refresh bills after successful payment
+        dispatch(
+          listBills({
+            payload: { page: currentPage },
+            token,
+          })
+        );
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to clear payment."
+      );
+    }
+  };
+
+  const unreceiptedCount = Array.isArray(bills?.data)
+    ? bills.data.filter(
+        (data) => data.status === "PENDING" && data.balance > 0
+      ).length
+    : 0;
+  const receiptedCount = Array.isArray(bills?.data)
+    ? bills.data.filter(
+        (data) => data.status === "SUCCESS" && data.balance === 0
+      ).length
+    : 0;
+
+  const filteredBills = Array.isArray(bills?.data)
+    ? bills.data.filter((data) =>
+        activeCard === "unreceipted"
+          ? data.status === "PENDING" && data.balance > 0
+          : data.status === "SUCCESS" && data.balance === 0
+      )
+    : [];
+
   return (
     <div className="mx-auto p-4">
       <div className="flex flex-wrap items-center gap-2 justify-between my-4">
@@ -83,21 +139,51 @@ const CashBilling = () => {
 
       <section className="bg-white p-4 rounded-lg mb-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="bg-[#FFE2E5] p-4 rounded-lg flex items-center gap-4">
-            <div className="bg-[#DD3459] p-3 rounded-full">
-              <img src={newPatient} alt="patient" />
+          <div
+            className={`p-4 rounded-lg flex items-center gap-4 cursor-pointer ${
+              activeCard === "unreceipted"
+                ? "bg-[#DD3459] text-white"
+                : "bg-[#FFE2E5] text-[#DD3459]"
+            }`}
+            onClick={() => setActiveCard("unreceipted")}
+          >
+            <div
+              className={`p-3 rounded-full ${
+                activeCard === "unreceipted" ? "bg-white" : "bg-[#DD3459]"
+              }`}
+            >
+              <img
+                src={newPatient}
+                alt="patient"
+                className={activeCard === "unreceipted" ? "filter invert" : ""}
+              />
             </div>
             <div>
-              <h5 className="font-bold text-[#DD3459]">3423</h5>
+              <h5 className="font-bold">{unreceiptedCount}</h5>
               <p>Unreceipted Cash Bills</p>
             </div>
           </div>
-          <div className="bg-[#DBFFDE] p-4 rounded-lg flex items-center gap-4">
-            <div className="bg-[#0E6F1E] p-3 rounded-full">
-              <img src={newPatient} alt="patient" />
+          <div
+            className={`p-4 rounded-lg flex items-center gap-4 cursor-pointer ${
+              activeCard === "receipted"
+                ? "bg-[#0E6F1E] text-white"
+                : "bg-[#DBFFDE] text-[#0E6F1E]"
+            }`}
+            onClick={() => setActiveCard("receipted")}
+          >
+            <div
+              className={`p-3 rounded-full ${
+                activeCard === "receipted" ? "bg-white" : "bg-[#0E6F1E]"
+              }`}
+            >
+              <img
+                src={newPatient}
+                alt="patient"
+                className={activeCard === "receipted" ? "filter invert" : ""}
+              />
             </div>
             <div>
-              <h5 className="font-bold text-[#0E6F1E]">1623</h5>
+              <h5 className="font-bold">{receiptedCount}</h5>
               <p>Receipted Cash Bills</p>
             </div>
           </div>
@@ -106,7 +192,7 @@ const CashBilling = () => {
 
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-2 my-4">
         <Link
-          to={`/app/receiptdetails/1`}
+          to="/app/receiptdetails/1"
           className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
         >
           <span>Receipt Bill</span>
@@ -139,12 +225,12 @@ const CashBilling = () => {
           to="#"
           className="bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg text-center"
         >
-          <span>Add Discout</span>
+          <span>Add Discount</span>
         </Link>
       </div>
 
-      <section className="bg-white p-4 rounded-lg ">
-        <div className="overflow-x-auto rounded-lg ">
+      <section className="bg-white p-4 rounded-lg">
+        <div className="overflow-x-auto rounded-lg">
           <table className="w-full table-auto">
             <thead>
               <tr>
@@ -167,13 +253,16 @@ const CashBilling = () => {
                   Discount
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-semibold">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold">
                   Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(bills?.data) &&
-                bills.data.map((data, index) => (
+              {filteredBills.length > 0 ? (
+                filteredBills.map((data, index) => (
                   <tr key={data.id || index}>
                     <td className="px-6 py-3 text-sm">{index + 1}</td>
                     <td className="px-6 py-3 text-sm">{data.initiated_at}</td>
@@ -185,6 +274,7 @@ const CashBilling = () => {
                     </td>
                     <td className="px-6 py-3 text-sm">{data.balance}</td>
                     <td className="px-6 py-3 text-sm">{data.discount}</td>
+                    <td className="px-6 py-3 text-sm">{data.status}</td>
                     <td className="py-2 px-6">
                       <div className="dropdown dropdown-end">
                         <div
@@ -222,7 +312,16 @@ const CashBilling = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" className="px-6 py-3 text-sm text-center">
+                    {activeCard === "unreceipted"
+                      ? "No pending bills with balance greater than zero."
+                      : "No receipted bills with zero balance."}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
           {total > 0 && (
@@ -234,7 +333,6 @@ const CashBilling = () => {
               >
                 First
               </button>
-
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -242,11 +340,9 @@ const CashBilling = () => {
               >
                 Prev
               </button>
-
               <span className="px-4 py-1 text-sm font-medium text-gray-700">
                 Page {currentPage} of {lastPage}
               </span>
-
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === lastPage}
@@ -254,7 +350,6 @@ const CashBilling = () => {
               >
                 Next
               </button>
-
               <button
                 onClick={() => handlePageChange(lastPage)}
                 disabled={currentPage === lastPage}
@@ -275,18 +370,16 @@ const CashBilling = () => {
               Do you want to receipt the full amount for{" "}
               <strong>
                 {activeBill?.patient_first_name} {activeBill?.patient_last_name}
-              </strong>
-              {" "}valued at  Kshs {" "}
-              <strong>{activeBill?.balance}</strong>
-              /= 
+              </strong>{" "}
+              valued at Kshs <strong>{activeBill?.balance}</strong>/=
             </p>
-
             <div className="modal-action">
               <form method="dialog" className="flex gap-2">
                 <div className="btn btn-success">
                   <ReactToPrint
                     trigger={() => <button>Confirm & Print</button>}
                     content={() => componentRef.current}
+                    onBeforePrint={handleConfirmAndPrint}
                   />
                 </div>
                 <button className="btn" onClick={() => setShowModal(false)}>
