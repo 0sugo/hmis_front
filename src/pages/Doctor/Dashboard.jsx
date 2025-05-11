@@ -815,43 +815,6 @@ const Dashboard = () => {
     return age;
   };
 
-  // const fetchReviewsData = async (url) => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await axios.post(url);
-
-  //     const reviewslist = response.data;
-  //     console.log(reviewslist);
-  //     const patientsData = response.data;
-
-  //     // Transform the data to include only visits with bills
-  //     const transformedData = patientsData.flatMap((patient) =>
-  //       patient.visits
-  //         .filter((visit) => visit.bills.length > 0) // Only include visits with bills
-  //         .map((visit) => ({
-  //           visitCode:
-  //             visit.bills[0]?.bill_reference_number || visit.id.toString(), // Use bill reference or visit ID
-  //           patientName: `${patient.patient_firstname} ${patient.patient_lastname}`,
-  //           age: calculateAge(patient.dob),
-  //           id: patient.id,
-  //           gender:
-  //             patient.gender === "Nairobi" || patient.gender === "300"
-  //               ? "Unknown"
-  //               : patient.gender, // Handle invalid gender values
-  //         }))
-  //     );
-
-  //     setReviewslist(transformedData);
-  //     setReviewLength(transformedData.length);
-  //     console.log(reviewslist);
-  //     console.log("reviewslist");
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const fetchReviewsData = async (url) => {
     setLoading(true);
     try {
@@ -880,13 +843,18 @@ const Dashboard = () => {
           }))
       );
 
-      setReviewslist(patientsData);
-      setReviewLength(patientsData.length);
+      // Filter patientsData to only include patients with non-empty visits and non-empty vitals
+      const filteredPatientsData = patientsData.filter(
+        (patient) =>
+          patient.visits.length > 0 &&
+          patient.visits.some((visit) => visit.vitals?.length > 0)
+      );
+
+      setReviewslist(filteredPatientsData);
+      setReviewLength(filteredPatientsData.length);
       setCurrentPage(current_page);
       setLastPage(last_page);
       setTotalItems(total);
-
-      console.log(patientsData);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -902,13 +870,6 @@ const Dashboard = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-  // const calculateAge = (dob) => {
-  //   const birthDate = new Date(dob);
-  //   const ageDiff = Date.now() - birthDate.getTime();
-  //   const ageDate = new Date(ageDiff);
-  //   return Math.abs(ageDate.getUTCFullYear() - 1970);
-  // };
 
   const showNewPatients = () => {
     setList(newPatientsData);
@@ -1074,6 +1035,7 @@ const Dashboard = () => {
                   )}
                 </tbody>
               </table>
+              {/* pagination */}
               <div className="flex justify-center items-center gap-2 mt-6">
                 <button
                   onClick={() => setCurrentPage(1)}
