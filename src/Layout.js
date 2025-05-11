@@ -221,6 +221,7 @@ import NewVisit from './pages/FrontOffice/NewVisit';
 import CreatePersonalVisit from './pages/FrontOffice/CreatePersonalVisit';
 import Appointment from './pages/FrontOffice/Appointment';
 import NurseTriageInfo from './pages/Nurse/NurseTriageInfo';
+import IPDoctorsPatientView from './pages/Doctor/InPatient/IPDoctorPatientView';
 
 const Layout = () => {
   const { activeMenu } = useStateContext();
@@ -312,6 +313,7 @@ const Layout = () => {
               <Route path='/PatientList' element={<PatientList />} />
               <Route path='/patientinfo' element={<PatientInfo />} />
               <Route path='/patientview' element={<DoctorPatientView />} />
+              <Route path='/IPpatientview' element={<IPDoctorsPatientView />} />
               <Route path='/maternity-dashboard' element={<MaternityDashboard />} />
               <Route path='/doctors-daycare' element={<DoctorDaycare />} />
               <Route path='/calculators' element={<Calculators />} />
