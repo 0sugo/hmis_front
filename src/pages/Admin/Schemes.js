@@ -1,38 +1,36 @@
-import React, { useState, useEffect, } from 'react'
-import { Link } from 'react-router-dom'
-import axios from '../../api/api'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from '../../api/api';
 import { MdOutlineBlock, MdModeEdit } from 'react-icons/md';
 import { FaRegEye } from 'react-icons/fa';
 import Loader from '../Loader';
-import CreateScheme from './CreateScheme'
-import Brand from './Brand/Brand'
-import ChronicDisease from './ChronicDisease/ChronicDisease'
-import Diagnosis from './Diagnosis/Diagnosis'
-import ImageTest from './ImageTest/ImageTest'
-import LabTest from './LabTest/LabTest'
-import ImageClass from './ImageClass/ImageClass'
-import LabClass from './LabClass/LabClass'
-import ImageRequest from './ImageRequest/ImageRequest'
-import LabRequest from './LabRequest/LabRequest'
-import Drug from './Drugs/Drugs'
-import DrugFormula from './DrugFormulas/DrugFormula'
-import PhysicalExamination from './PhysicalExamination/PhysicalExamination'
-import Symptoms from './Symptoms/Symptoms'
+import CreateScheme from './CreateScheme';
+import Brand from './Brand/Brand';
+import ChronicDisease from './ChronicDisease/ChronicDisease';
+import ImageTest from './ImageTest/ImageTest';
+import LabTest from './LabTest/LabTest';
+import ImageClass from './ImageClass/ImageClass';
+import LabClass from './LabClass/LabClass';
+import ImageRequest from './ImageRequest/ImageRequest';
+import LabRequest from './LabRequest/LabRequest';
+import Drug from './Drugs/Drugs';
+import DrugFormula from './DrugFormulas/DrugFormula';
+import PhysicalExamination from './PhysicalExamination/PhysicalExamination';
+import Symptoms from './Symptoms/Symptoms';
 
 const Schemes = () => {
-
-  const [scheme, setSheme] = useState([]);
+  const [scheme, setScheme] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const getSchemes = async () => {
     try {
-      const response = await axios.get('/api/schemes')
-      setSheme(response.data)
+      const response = await axios.get('/api/schemes');
+      setScheme(response.data);
       setLoading(false);
       setError(null);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setLoading(false);
       if (!error.response) {
         setError('Network error! Check your connection.');
@@ -42,13 +40,11 @@ const Schemes = () => {
         setError('An unexpected error occurred.');
       }
     }
-  }
+  };
 
   useEffect(() => {
-    getSchemes()
-  }, [])
-
-  
+    getSchemes();
+  }, []);
 
   // Modal to create scheme
   const openModal = () => {
@@ -59,120 +55,199 @@ const Schemes = () => {
   };
 
   return (
-    <div className='mx-auto p-4'>
-      <div className='flex items-center justify-between'>
-        <h4 className='font-semibold'><span className='text-[#0E6F1E]'>Schemes</span></h4>
-        <button className='bg-[#0E6F1E] text-[#DBFFDE] hover:bg-[#35a147] px-5 py-2 rounded-lg' onClick={() => openModal()}>Create Schemes</button>
-        {/* create scheme modal */}
-        <dialog id="my_modal_3" className="modal">
-          <div className="modal-box">
+    <div className="container mx-auto p-6">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">
+          <span className="text-primary">Schemes</span> Management
+        </h1>
+        <button
+          className="btn btn-primary btn-md text-white"
+          onClick={() => openModal()}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          Create Scheme
+        </button>
+        {/* Create Scheme Modal */}
+        <dialog id="my_modal_3" className="modal modal-bottom sm:modal-middle">
+          <div className="modal-box bg-white">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                ✕
+              </button>
             </form>
-            {/* create scheme section */}
-            <CreateScheme/>
+            <h3 className="font-bold text-lg mb-4">Create New Scheme</h3>
+            <CreateScheme />
           </div>
         </dialog>
       </div>
 
-      <section className='bg-white p-4 my-4 rounded-lg'>
-        {loading ? (
-          <div className='flex items-center justify-center bg-[#f2ecfc]'>
-            <Loader />
-          </div>
+      {/* Schemes Table Section */}
+      <div className="card bg-base-100 shadow-xl mb-8">
+        <div className="card-body">
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader />
+            </div>
           ) : error ? (
-            <div className='bg-[#f2ecfc] grid place-items-center'>
-              <div className='grid place-items-center text-red-600 p-4'>
-                <h3><MdOutlineBlock /></h3>
+            <div className="alert alert-error shadow-lg">
+              <div>
+                <MdOutlineBlock className="w-6 h-6" />
                 <span>{error}</span>
               </div>
             </div>
           ) : (
-            <div className='overflow-x-auto rounded-lg'>
+            <div className="overflow-x-auto">
               {scheme.length > 0 ? (
-                <table className='w-full text-justify table-auto'>
+                <table className="table w-full table-zebra">
                   <thead>
-                    <tr className='border-b border-slate-500'>
-                      <th className='py-3 px-6'>No</th>
-                      <th className='py-3 px-6'>Name</th>
-                      <th className='py-3 px-6'>Account</th>
-                      <th className='py-3 px-6'>Created By</th>
-                      <th className='py-3 px-6'>Created At</th>
-                      <th className='py-3 px-6'>Action</th>
+                    <tr>
+                      <th className="text-sm">No</th>
+                      <th className="text-sm">Name</th>
+                      <th className="text-sm">Account</th>
+                      <th className="text-sm">Created By</th>
+                      <th className="text-sm">Created At</th>
+                      <th className="text-sm">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {scheme.map((data) => (
                       <tr key={data.id}>
-                        <td className='py-2 px-6'>{data.id}</td>
-                        <td className='py-2 px-6'>{data.name}</td>
-                        <td className='py-2 px-6'>{data.account}</td>
-                        <td className='py-2 px-6'>{data.created_by}</td>
-                        <td className='py-2 px-6'>{new Date(data.created_at).toISOString().replace('T', ' ').slice(0, 19)}</td>
-                        <td className='py-2 px-6'>
-                          <div className='flex space-x-3'>
-                            <span className='text-blue-600 text-xl'><Link to={`/app/viewscheme/${data.id}`}><FaRegEye /></Link></span>
-                            <span className='text-green-600 text-xl'><Link to={`/app/updatescheme/${data.id}`}><MdModeEdit /></Link></span>
+                        <td>{data.id}</td>
+                        <td className="font-medium">{data.name}</td>
+                        <td>{data.account}</td>
+                        <td>{data.created_by}</td>
+                        <td>
+                          {new Date(data.created_at)
+                            .toISOString()
+                            .replace('T', ' ')
+                            .slice(0, 19)}
+                        </td>
+                        <td>
+                          <div className="flex space-x-2">
+                            <Link
+                              to={`/app/viewscheme/${data.id}`}
+                              className="btn btn-ghost btn-sm"
+                              title="View"
+                            >
+                              <FaRegEye className="text-blue-500 w-5 h-5" />
+                            </Link>
+                            <Link
+                              to={`/app/updatescheme/${data.id}`}
+                              className="btn btn-ghost btn-sm"
+                              title="Edit"
+                            >
+                              <MdModeEdit className="text-green-500 w-5 h-5" />
+                            </Link>
                           </div>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                ) : (
-                <div className='bg-[#f2ecfc] text-[#8144E5] grid place-items-center'>
-                  <div className='grid place-items-center p-4'>
-                    <h3><MdOutlineBlock /></h3>
-                    <h4>No Data</h4>
+              ) : (
+                <div className="alert alert-info shadow-lg">
+                  <div>
+                    <MdOutlineBlock className="w-6 h-6" />
+                    <span>No schemes available.</span>
                   </div>
                 </div>
               )}
             </div>
-          )
-        }
-      </section>
+          )}
+        </div>
+      </div>
 
-      {/* brand */}
-      <Brand/>
-
-      {/* chronic disease */}
-      <ChronicDisease/>
-
-      {/* Diagnosis */}
-      {/* <Diagnosis/> */}
-
-      {/* ImageTest */}
-      <ImageTest/>
-
-      {/* LabTest */}
-      <LabTest/>
-
-      {/* ImageClass */}
-      <ImageClass/>
-
-      {/* LabClass */}
-      <LabClass/>
-
-      {/* ImageRequest */}
-      <ImageRequest/>
-
-      {/* LabRequest */}
-      <LabRequest/>
-
-      {/* Drug */}
-      <Drug/>
-
-      {/* DrugFormula */}
-      <DrugFormula/>
-
-      {/* PhysicalExamination */}
-      <PhysicalExamination/>
-
-      {/* Symptoms */}
-      <Symptoms/>
+      {/* Other Components */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Brands</h2>
+            <Brand />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Chronic Diseases</h2>
+            <ChronicDisease />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Image Tests</h2>
+            <ImageTest />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Lab Tests</h2>
+            <LabTest />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Image Classes</h2>
+            <ImageClass />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Lab Classes</h2>
+            <LabClass />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Image Requests</h2>
+            <ImageRequest />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Lab Requests</h2>
+            <LabRequest />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Drugs</h2>
+            <Drug />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Drug Formulas</h2>
+            <DrugFormula />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Physical Examinations</h2>
+            <PhysicalExamination />
+          </div>
+        </div>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Symptoms</h2>
+            <Symptoms />
+          </div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Schemes
+export default Schemes;
