@@ -4,8 +4,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import LineChart from "../../components/Graphs/LineChart";
 
 const Vitals = ({ patient }) => {
-
-
   const visit = patient?.visits?.[0];
   const allVitals = visit?.vitals || [];
 
@@ -13,22 +11,22 @@ const Vitals = ({ patient }) => {
   const pastVitals = allVitals.slice(0, 9);
   const [bpData, setBpData] = useState([]);
   const [spo2Data, setSpo2Data] = useState([]);
-  
 
-  useEffect(()=>{
-      if (!pastVitals || pastVitals.length === 0) return;
+  useEffect(() => {
+    if (!pastVitals || pastVitals.length === 0) return;
     const bps = pastVitals.map((v) => `${v.systole_bp}/${v.diastole_bp}`);
-    const spo2 = pastVitals.map((v) => Number(v.spo2_percentage))
-    
+    const spo2 = pastVitals.map((v) => Number(v.spo2_percentage));
+
     setBpData(bps);
     setSpo2Data(spo2);
-  },[])
+  }, [pastVitals]);
 
-  const lineChartLabels = ["visit 1", "visit 2", "visit 3", "visit 4", "visit 5", "visit 6", "visit 7", "visit 8"];
+  const lineChartLabels = ["Baseline", "visit 1", "visit 2", "visit 3", "visit 4", "visit 5", "visit 6", "visit 7", "visit 8"];
+
   const lineChartData = [
     {
       label: "Blood Pressure",
-      data: pastVitals.map((v) => Number(v.systole_bp)),
+      data: [0, ...pastVitals.map((v) => Number(v.systole_bp))],
       borderColor: "#7CCCBE",
       backgroundColor: "#ffffff",
       fill: false,
@@ -38,7 +36,8 @@ const Vitals = ({ patient }) => {
   const lineChartData2 = [
     {
       label: "SPO2",
-      data: [90, 83, 93.5, 84, 91, 94, 96, 95, 96],
+      // Prepend 0 to the data array to start at zero
+      data: [0, ...pastVitals.map((v) => Number(v.spo2_percentage))],
       borderColor: "#7CCCBE",
       backgroundColor: "#ffffff",
       fill: false,
