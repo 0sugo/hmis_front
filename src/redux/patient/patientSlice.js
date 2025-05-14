@@ -18,6 +18,9 @@ export const createPatient = createAsyncThunk(
             const dataObject = {
                 firstname: formData.firstname || null,
                 lastname: formData.lastname || null,
+                gender:formData.gender || null,
+                marital_status:formData.marital_status || null,
+                occupation:formData.occupation || null,
                 phonenumber1: formData.phonenumber1 || null,
                 phonenumber2: formData.phonenumber2 || null,
                 email: formData.email || null,
