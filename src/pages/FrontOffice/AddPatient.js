@@ -24,6 +24,7 @@ const AddPatient = () => {
           firstname: "",
           lastname: "",
           phonenumber1: "",
+          gender:"",
           phonenumber2: "",
           email: "",
           dob: "",
@@ -247,6 +248,7 @@ const AddPatient = () => {
 
       const dataObject = {
         firstname: formData.firstname || null,
+        gender: "male",
         lastname: formData.lastname || null,
         phonenumber1: formData.phonenumber1 || null,
         phonenumber2: formData.phonenumber2 || null,
@@ -416,6 +418,7 @@ const AddPatient = () => {
       firstname: "",
       lastname: "",
       phonenumber1: "",
+      gender:"",
       phonenumber2: "",
       email: "",
       dob: "",
@@ -515,6 +518,7 @@ const AddPatient = () => {
   );
 };
 
+
 const PatientDetails = ({ formData, setFormData, handleInputChange }) => {
   const inputStyles =
     "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent";
@@ -566,6 +570,76 @@ const PatientDetails = ({ formData, setFormData, handleInputChange }) => {
 
         <div>
           <label className={labelStyles}>
+            Gender <span className="text-red-500">*</span>
+          </label>
+          <div className="flex gap-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={formData.gender === "male"}
+                onChange={handleInputChange}
+                className="mr-2"
+              />
+              Male
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={formData.gender === "female"}
+                onChange={handleInputChange}
+                className="mr-2"
+              />
+              Female
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="other"
+                checked={formData.gender === "other"}
+                onChange={handleInputChange}
+                className="mr-2"
+              />
+              Other
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label className={labelStyles}>
+            Occupation <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="occupation"
+            value={formData.occupation}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter Occupation"
+          />
+        </div>
+
+        <div>
+          <label className={labelStyles}>
+          marital status <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="marital_status"
+            value={formData.marital_status}
+            onChange={handleInputChange}
+            className={inputStyles}
+            placeholder="Enter Occupation"
+          />
+        </div>
+        
+
+        <div>
+          <label className={labelStyles}>
             Identification Type <span className="text-red-500">*</span>
           </label>
           <select
@@ -585,7 +659,7 @@ const PatientDetails = ({ formData, setFormData, handleInputChange }) => {
             Identification Number <span className="text-red-500">*</span>
           </label>
           <input
-            type="text"
+            type="number"
             name="id_no"
             value={formData.id_no}
             onChange={handleInputChange}
@@ -701,6 +775,7 @@ const PatientDetails = ({ formData, setFormData, handleInputChange }) => {
     </>
   );
 };
+
 
 const EmergencyInformation = ({
   formData,
