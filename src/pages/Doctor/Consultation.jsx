@@ -10,6 +10,16 @@ import {
 import { toast } from "sonner";
 
 const Consultation = ({ patient }) => {
+  const [visitId, setVisitId] = useState("");
+    useEffect(() => {
+    setVisitId(patient?.visits?.[0]?.id);
+    getphysicalExamination();
+    getConsultation();
+    getchiefComplaints();
+    getDiagnosis();
+  }, []);
+
+
   const barChartLabels = [
     "Headache",
     "Chest pains",
@@ -43,22 +53,23 @@ const Consultation = ({ patient }) => {
   const [customDiagnosis, setCustomDiagnosis] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [admissionForm, setAdmissionForm] = useState({
-    chiefComplaints: "",
-    historyOfPresentingIllness: "",
-    pastIllness: "",
-    pastMedicalHistory: "",
-    expectedLengthOfStay: "",
-    reasonForAdmission: "",
+    chief_complains: "",
+    present_illness_history: "",
+    // pastIllness: "",
+    past_medical_history: "",
+    expected_length_of_stay: "",
+    reason_for_admission: "",
   });
   const dispatch = useDispatch();
   const { loading, error, success } = useSelector(
     (state) => state.consultation
   );
-  const [visitId, setVisitId] = useState("");
 
   const handleAddComplaint = () => {
     const complaintToAdd =
-      selectedComplaint === "custom" ? customComplaint.trim() : selectedComplaint;
+      selectedComplaint === "custom"
+        ? customComplaint.trim()
+        : selectedComplaint;
 
     if (complaintToAdd) {
       if (chiefComplaints.includes(complaintToAdd)) {
@@ -84,7 +95,9 @@ const Consultation = ({ patient }) => {
 
   const handleAddDiagnosis = () => {
     const diagnosisToAdd =
-      selectedDiagnosis === "custom" ? customDiagnosis.trim() : selectedDiagnosis;
+      selectedDiagnosis === "custom"
+        ? customDiagnosis.trim()
+        : selectedDiagnosis;
 
     if (diagnosisToAdd) {
       if (diagnosesList.includes(diagnosisToAdd)) {
@@ -145,13 +158,6 @@ const Consultation = ({ patient }) => {
     }
   };
 
-  useEffect(() => {
-    setVisitId(patient?.visits?.[0]?.id);
-    getphysicalExamination();
-    getConsultation();
-    getchiefComplaints();
-    getDiagnosis();
-  }, []);
 
   useEffect(() => {
     if (success) {
@@ -173,6 +179,15 @@ const Consultation = ({ patient }) => {
       dispatch(resetConsultationState());
     }
   }, [success, error, dispatch]);
+
+  useEffect(() => {
+    if (visitId) {
+        setAdmissionForm((prev) => ({
+            ...prev,
+            visit_id: visitId,
+        }));
+    }
+}, [visitId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -233,24 +248,36 @@ const Consultation = ({ patient }) => {
 
   const handleAdmissionSubmit = async (e) => {
     e.preventDefault();
+
+    console.log(admissionForm);
     try {
-      await axios.post("/api/admissions", {
+      await axios.post("/api/admissions/create", {
         ...admissionForm,
-        visit_id: visitId,
       });
       toast.success("Admission request submitted successfully!");
       setIsModalOpen(false);
       setAdmissionForm({
-        chiefComplaints: "",
-        historyOfPresentingIllness: "",
+        chief_complains: "",
+        present_illness_history: "",
         pastIllness: "",
-        pastMedicalHistory: "",
-        expectedLengthOfStay: "",
-        reasonForAdmission: "",
+        past_medical_history: "",
+        expected_length_of_stay: "",
+        reason_for_admission: "",
       });
     } catch (error) {
-      toast.error("Failed to submit admission request.");
-      console.error("Error submitting admission:", error);
+       if (error.response && error.response.data.errors) {
+            const visitIdErrors = error.response.data.errors.visit_id;
+            if (visitIdErrors && visitIdErrors.length > 0) {
+                // Get the first error message for visit_id
+                const errorMessage = visitIdErrors[0];
+                toast.error(errorMessage); // Display the error message
+            } else {
+                toast.error("Failed to submit admission request.");
+            }
+        } else {
+            toast.error("Failed to submit admission request.");
+        }
+        console.error("Error submitting admission:", error);
     }
   };
 
@@ -299,15 +326,15 @@ const Consultation = ({ patient }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
-                  htmlFor="chiefComplaints"
+                  htmlFor="chief_complains"
                   className="block text-sm font-medium text-[#192252] mb-1"
                 >
                   Chief Complaints
                 </label>
                 <textarea
-                  id="chiefComplaints"
-                  name="chiefComplaints"
-                  value={admissionForm.chiefComplaints}
+                  id="chief_complains"
+                  name="chief_complains"
+                  value={admissionForm.chief_complains}
                   onChange={handleAdmissionFormChange}
                   className="textarea textarea-bordered w-full h-24"
                   placeholder="Enter chief complaints..."
@@ -316,15 +343,15 @@ const Consultation = ({ patient }) => {
               </div>
               <div>
                 <label
-                  htmlFor="historyOfPresentingIllness"
+                  htmlFor="present_illness_history"
                   className="block text-sm font-medium text-[#192252] mb-1"
                 >
                   History of Presenting Illness
                 </label>
                 <textarea
-                  id="historyOfPresentingIllness"
-                  name="historyOfPresentingIllness"
-                  value={admissionForm.historyOfPresentingIllness}
+                  id="present_illness_history"
+                  name="present_illness_history"
+                  value={admissionForm.present_illness_history}
                   onChange={handleAdmissionFormChange}
                   className="textarea textarea-bordered w-full h-24"
                   placeholder="Enter history of presenting illness..."
@@ -343,8 +370,8 @@ const Consultation = ({ patient }) => {
                 <textarea
                   id="pastIllness"
                   name="pastIllness"
-                  value={admissionForm.pastIllness}
-                  onChange={handleAdmissionFormChange}
+                  // value={admissionForm.pastIllness}
+                  // onChange={handleAdmissionFormChange}
                   className="textarea textarea-bordered w-full h-24"
                   placeholder="Enter past illness..."
                   required
@@ -352,15 +379,15 @@ const Consultation = ({ patient }) => {
               </div>
               <div>
                 <label
-                  htmlFor="pastMedicalHistory"
+                  htmlFor="past_medical_history"
                   className="block text-sm font-medium text-[#192252] mb-1"
                 >
                   Past Medical History
                 </label>
                 <textarea
-                  id="pastMedicalHistory"
-                  name="pastMedicalHistory"
-                  value={admissionForm.pastMedicalHistory}
+                  id="past_medical_history"
+                  name="past_medical_history"
+                  value={admissionForm.past_medical_history}
                   onChange={handleAdmissionFormChange}
                   className="textarea textarea-bordered w-full h-24"
                   placeholder="Enter past medical history..."
@@ -371,16 +398,16 @@ const Consultation = ({ patient }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
-                  htmlFor="expectedLengthOfStay"
+                  htmlFor="expected_length_of_stay"
                   className="block text-sm font-medium text-[#192252] mb-1"
                 >
                   Expected Length of Stay
                 </label>
                 <input
                   type="text"
-                  id="expectedLengthOfStay"
-                  name="expectedLengthOfStay"
-                  value={admissionForm.expectedLengthOfStay}
+                  id="expected_length_of_stay"
+                  name="expected_length_of_stay"
+                  value={admissionForm.expected_length_of_stay}
                   onChange={handleAdmissionFormChange}
                   className="input input-bordered w-full"
                   placeholder="e.g., 3 days"
@@ -389,15 +416,15 @@ const Consultation = ({ patient }) => {
               </div>
               <div>
                 <label
-                  htmlFor="reasonForAdmission"
+                  htmlFor="reason_for_admission"
                   className="block text-sm font-medium text-[#192252] mb-1"
                 >
                   Reason for Admission
                 </label>
                 <textarea
-                  id="reasonForAdmission"
-                  name="reasonForAdmission"
-                  value={admissionForm.reasonForAdmission}
+                  id="reason_for_admission"
+                  name="reason_for_admission"
+                  value={admissionForm.reason_for_admission}
                   onChange={handleAdmissionFormChange}
                   className="textarea textarea-bordered w-full h-24"
                   placeholder="Enter reason for admission..."
@@ -484,7 +511,8 @@ const Consultation = ({ patient }) => {
                     onClick={handleAddComplaint}
                     disabled={
                       !selectedComplaint ||
-                      (selectedComplaint === "custom" && !customComplaint.trim())
+                      (selectedComplaint === "custom" &&
+                        !customComplaint.trim())
                     }
                   >
                     Add
