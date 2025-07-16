@@ -74,7 +74,7 @@ const DoctorsPatientView = () => {
       case "prescription":
         return <Medication />;
       case "orderTests":
-        return <OrderTests />;
+        return <OrderTests  patient={patient} />;
       case "services":
         return <Services />;
       case "nursingOrders":
