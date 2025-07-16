@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
 import axios from "../../api/api"
+import { toast } from 'sonner';
 
-const OrderTests = () => {
+const OrderTests = ({ patient }) => {
+
   const tableData = [
     {
       date: '12/12/2021',
@@ -39,11 +41,27 @@ const OrderTests = () => {
       clinicalInformation: 'Clinical Information 5',
       status: 'Pending'
     },
-  ]
+  ];
+    const [visitId, setVisitId] = useState("");
+    useEffect(()=>{
+    setVisitId(patient?.visits?.[0]?.id);
+    },[]);
+  
+
+  const [formData, setFormData] = useState({
+  lab_test_type: '',
+  image_test_type: '',
+  lab_test_class: '',
+  image_test_class: '',
+  lab_test_request: '',
+  image_test_request: '',
+  clinicalInformation: '',
+})
 
   const [testType, setTestType] = useState([])
   const [testClass, setTestClass] = useState([])
   const [testRequest, setTestRequest] = useState([])
+
 
   const [imageType, setImageType] = useState([])
   const [imageClass, setImageClass] = useState([])
@@ -131,7 +149,45 @@ const OrderTests = () => {
 
   useEffect(() => {
     getImageRequest()
-  }, [])
+  }, []);
+
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({ ...prev, [name]: value }));
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    visit_id: visitId,
+    lab_test_type: formData.lab_test_type || '',
+    image_test_type: formData.image_test_type || '',
+    lab_test_class: formData.lab_test_class || '',
+    image_test_class: formData.image_test_class || '',
+    lab_test_request: formData.lab_test_request || '',
+    image_test_request: formData.image_test_request || '',
+    service_price_details: [
+      {
+        id: 31,
+        discount: 0.0,
+        description: "No description",
+        quantity: 1.0,
+        amount_to_pay: 193.0,
+      },
+    ],
+  };
+
+  try {
+    // const response = await axios.post('/lab/orderTests/create', payload);
+    toast.success('Order submitted');
+  } catch (error) {
+    console.error('Error submitting order:', error);
+  }
+};
+
+
+  
 
   return (
     <div className='container mx-auto px-4'>
@@ -143,10 +199,10 @@ const OrderTests = () => {
 
       <div className='bg-white p-4 rounded-lg shadow-md mb-4'>
         <span className='text-[#100C53] font-medium block mb-2'>Request For Lab Test</span>
-        <form className='my-2 text-xs'>
+        <form className='my-2 text-xs' onSubmit={handleSubmit}>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
             <div className="mb-2">
-              <select name="requestType" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
+              <select onChange={handleChange} name="lab_test_type" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Request Type</option>
                 {testType.map((testtype) => (
                   <option key={testtype.id} value={testtype.name}>{testtype.name} - {testtype.description}</option>
@@ -155,7 +211,7 @@ const OrderTests = () => {
             </div>
 
             <div className="mb-2">
-              <select name="class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
+              <select onChange={handleChange} name="lab_test_class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">class</option>
                 {testClass.map((testclass) => (
                   <option key={testclass.id} value={testclass.name}>{testclass.name} - {testclass.description}</option>
@@ -164,7 +220,7 @@ const OrderTests = () => {
             </div>
 
             <div className="mb-2">
-              <select name="labTestRequest" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
+              <select onChange={handleChange} name="lab_test_request" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Lab test to be request</option>
                 {testRequest.map((testrequest) => (
                   <option key={testrequest.id} value={testrequest.name}>{testrequest.name} - {testrequest.description}</option>
@@ -177,7 +233,7 @@ const OrderTests = () => {
             </div>
 
             <div className="mb-2 col-span-1 sm:col-span-3">
-              <textarea rows="2" name="clinicalInformation" placeholder='Clinical information' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none" />
+              <textarea onChange={handleChange} rows="2" name="clinicalInformation" placeholder='Clinical information' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none" />
             </div>
             <div className='flex justify-center'>
               <button type="submit" className='mb-2 px-4 py-2 w-full sm:w-[90%] max-h-[45px] rounded-lg bg-customGreen text-white text-xs'>Refer Out and Print</button>
@@ -224,10 +280,10 @@ const OrderTests = () => {
 
       <div className='bg-white p-4 rounded-lg shadow-md'>
         <span className='text-[#100C53] font-medium block mb-2'>Request for Imaging Test</span>
-        <form className='my-2 text-xs'>
+        <form className='my-2 text-xs' onSubmit={handleSubmit}>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
             <div className="mb-2">
-              <select name="requestType" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
+              <select onChange={handleChange} name="image_test_type" placeholder='Request Type' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Request Type</option>
                 {imageType.map((imagetype) => (
                   <option key={imagetype.id} value={imagetype.name}>{imagetype.name} - {imagetype.description}</option>
@@ -236,7 +292,7 @@ const OrderTests = () => {
             </div>
 
             <div className="mb-2">
-              <select name="class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
+              <select onChange={handleChange} name="image_test_class" placeholder='class' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">class</option>
                 {imageClass.map((imageclass) => (
                   <option key={imageclass.id} value={imageclass.name}>{imageclass.name} - {imageclass.description}</option>
@@ -245,7 +301,7 @@ const OrderTests = () => {
             </div>
 
             <div className="mb-2">
-              <select name="labTestRequest" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
+              <select onChange={handleChange} name="image_test_request" placeholder='labTestRequest' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 leading-tight focus:outline-none">
                 <option value="">Lab test to be request</option>
                 {imageRequest.map((imagerequest) => (
                   <option key={imagerequest.id} value={imagerequest.name}>{imagerequest.name} - {imagerequest.description}</option>
@@ -258,7 +314,7 @@ const OrderTests = () => {
             </div>
 
             <div className="mb-2 col-span-1 sm:col-span-3">
-              <textarea rows="2" name="clinicalInformation" placeholder='Clinical information' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none" />
+              <textarea onChange={handleChange} rows="2" name="clinicalInformation" placeholder='Clinical information' className="block w-full border bg-white border-[#DEDEDE] rounded-lg px-4 py-2 text-[#AEAEAE] leading-tight focus:outline-none" />
             </div>
             <div className='flex justify-center'>
               <button type="submit" className='mb-2 px-4 py-2 w-full sm:w-[90%] max-h-[45px] rounded-lg bg-customGreen text-white text-xs'>Refer Out and Print</button>
